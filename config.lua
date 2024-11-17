@@ -38,6 +38,11 @@ CONFIG = {
         "yellow",
         "purpleyellow",
         "white",
+        "metallurgic",
+        "electromagnetic",
+        "agricultural",
+        "cryogenic",
+        "promethium",
     },
     level_icons = {
         start = {all = {}, next = "automation-science-pack"},
@@ -48,8 +53,13 @@ CONFIG = {
         blueblack = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack"}, next="PURPLE YELLOW FIRST"},
         purple = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack"}, next = "utility-science-pack"},
         yellow = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "utility-science-pack"}, next = "production-science-pack"},
-        purpleyellow = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack"}, next = "FINAL"},
-        final = {all="FINAL", next="NONE"}
+        purpleyellow = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack"}, next = "space-science-pack"},
+        white = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack"}, next="metallurgic-science-pack"},
+        metallurgic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack"}, next="electromagnetic-science-pack"},
+        electromagnetic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "electromagnetic-science-pack"}, next="agricultural-science-pack"},
+        agricultural = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "agricultural-science-pack"}, next="cryogenic-science-pack"},
+        cryogenic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack"}, next="promethium-science-pack"},
+        promethium = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack", "promethium-science-pack"}, next="NONE"}
     },
     -- Time at which pods start demanding items requiring each tech.
     -- Takes effect at game load, for pod after next.
@@ -63,7 +73,12 @@ CONFIG = {
         purple_yellow_first = 15 * TICKS_PER_HOUR,
         purple_yellow_second = 16.5 * TICKS_PER_HOUR,
         purpleyellow = 18 * TICKS_PER_HOUR,
-        final = 20 * TICKS_PER_HOUR,
+        white = 20 * TICKS_PER_HOUR,
+        metallurgic = 24 * TICKS_PER_HOUR,
+        electromagnetic = 28 * TICKS_PER_HOUR,
+        agricultural = 34 * TICKS_PER_HOUR,
+        cryogenic = 45 * TICKS_PER_HOUR,
+        promethium = 60 * TICKS_PER_HOUR,
     },
 
     -- First pod comes sooner by this factor.
@@ -96,7 +111,29 @@ CONFIG = {
         ["stone"] = 0.7,
         ["crude-oil"] = 2,
         ["uranium-ore"] = 14,
-        ["water"] = 0.05
+        ["water"] = 0.05,
+        ["wood"] = 100,
+        ["raw-fish"] = 1000,
+        ["calcite"] = 5,
+        ["tungsten-ore"] = 25,
+        ["scrap"] = 2.5,
+        ["holmium-ore"] = 100,
+        ["yumako-seed"] = 1000,
+        ["jellynut-seed"] = 1000,
+        ["tree-seed"] = 1000,
+        ["yumako"] = 50,
+        ["jellynut"] = 50,
+        ["spoilage"] = 5,
+        ["biter-egg"] = 1000,
+        ["pentapod-egg"] = 300,
+        ["lithium-brine"] = 20,
+        ["fluorine"] = 70,
+        ["ammoniacal-solution"] = 3,
+        ["ice"] = 5,
+        ["metallic-asteroid-chunk"] = 200,
+        ["oxide-asteroid-chunk"] = 400,
+        ["carbonic-asteroid-chunk"] = 300,
+        ["promethium-asteroid-chunk"] = 100000,
     },
 
     -- Hearts per unit of conversion above.
