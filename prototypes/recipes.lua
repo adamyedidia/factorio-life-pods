@@ -4,334 +4,406 @@ data:extend({
         energy_required = 10,
         ingredients = {
             {
-                "repair-pack",
-                100
+                type = "item",
+                name = "repair-pack",
+                amount = 100
             },
             {
-                "red-wire",
-                100
+                type = "item",
+                name = "copper-wire",
+                amount = 100
             },
             {
-                "green-wire",
-                100
+                type = "item",
+                name = "water-barrel",
+                amount = 100
             },
             {
-                "medium-electric-pole",
-                100
+                type = "item",
+                name = "medium-electric-pole",
+                amount = 100
             },
             {
-                "raw-fish", -- 0 sec
-                10
+                type = "item",
+                name = "raw-fish",
+                amount = 10
             },
         },
         name = "life-pods-repair-module",
-        result = "life-pods-repair-module",
+        results = {{type="item", name="life-pods-repair-module", amount=1}},
         type = "recipe"
     },
     {
         name = "life-pods-damage-reduction-module-1",
-        result = "life-pods-damage-reduction-module-1",
+        results = {{type="item", name="life-pods-damage-reduction-module-1", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-repair-module",
-                1
+                type = "item",
+                name = "life-pods-repair-module",
+                amount = 1
             },
             {
-                "raw-fish",
-                10
+                type = "item",
+                name = "raw-fish",
+                amount = 10
             },
             {
-                "electronic-circuit",
-                20
+                type = "item",
+                name = "electronic-circuit",
+                amount = 20
             }
         }
     },
     {
         name = "life-pods-damage-reduction-module-2",
-        result = "life-pods-damage-reduction-module-2",
+        results = {{type="item", name="life-pods-damage-reduction-module-2", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-damage-reduction-module-1",
-                1
+                type = "item",
+                name = "life-pods-damage-reduction-module-1",
+                amount = 1
             },
             {
-                "raw-fish",
-                10
+                type = "item",
+                name = "raw-fish",
+                amount = 10
             },
             {
-                "advanced-circuit",
-                20
+                type = "item",
+                name = "advanced-circuit",
+                amount = 20
             },
         }
     },
     {
         name = "life-pods-damage-reduction-module-3",
-        result = "life-pods-damage-reduction-module-3",
+        results = {{type="item", name="life-pods-damage-reduction-module-3", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-damage-reduction-module-2",
-                1
+                type = "item",
+                name = "life-pods-damage-reduction-module-2",
+                amount = 1
             },
             {
-                "raw-fish",
-                10
+                type = "item",
+                name = "raw-fish",
+                amount = 10
             },
             {
-                "processing-unit",
-                20
+                type = "item",
+                name = "processing-unit",
+                amount = 20
             },
         }
     },
     {
         name = "life-pods-consumption-module-1",
-        result = "life-pods-consumption-module-1",
+        results = {{type="item", name="life-pods-consumption-module-1", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-repair-module",
-                1
+                type = "item",
+                name = "life-pods-repair-module",
+                amount = 1
             },
             {
-                "medium-electric-pole",
-                40
+                type = "item",
+                name = "medium-electric-pole",
+                amount = 40
             },
             {
-                "repair-pack",
-                40
+                type = "item",
+                name = "repair-pack",
+                amount = 40
             },
         },
     },
     {
         name = "life-pods-consumption-module-2",
-        result = "life-pods-consumption-module-2",
+        results = {{type="item", name="life-pods-consumption-module-2", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-consumption-module-1",
-                1
+                type = "item",
+                name = "life-pods-consumption-module-1",
+                amount = 1
             },
             {
-                "medium-electric-pole",
-                40
+                type = "item",
+                name = "medium-electric-pole",
+                amount = 40
             },
             {
-                "repair-pack",
-                40
+                type = "item",
+                name = "repair-pack",
+                amount = 40
             },
             {
-                "construction-robot",
-                5
+                type = "item",
+                name = "construction-robot",
+                amount = 5
             },
         },
     },
     {
         name = "life-pods-consumption-module-3",
-        result = "life-pods-consumption-module-3",
+        results = {{type="item", name="life-pods-consumption-module-3", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-consumption-module-2",
-                1
+                type = "item",
+                name = "life-pods-consumption-module-2",
+                amount = 1
             },
             {
-                "medium-electric-pole",
-                40
+                type = "item",
+                name = "medium-electric-pole",
+                amount = 40
             },
             {
-                "repair-pack",
-                40
+                type = "item",
+                name = "repair-pack",
+                amount = 40
             },
             {
-                "construction-robot",
-                5
+                type = "item",
+                name = "construction-robot",
+                amount = 5
             },
             {
-                "effectivity-module-2",
-                1
+                type = "item",
+                name = "effectivity-module-2",
+                amount = 1
             }
         },
     },
     {
         name = "life-pods-science-module-1",
-        result = "life-pods-science-module-1",
+        results = {{type="item", name="life-pods-science-module-1", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-repair-module",
-                1
+                type = "item",
+                name = "life-pods-repair-module",
+                amount = 1
             },
             {
-                "automation-science-pack",
-                5
+                type = "item",
+                name = "automation-science-pack",
+                amount = 5
             },
             {
-                "logistic-science-pack",
-                5
+                type = "item",
+                name = "logistic-science-pack",
+                amount = 5
             },
             {
-                "chemical-science-pack",
-                5
+                type = "item",
+                name = "chemical-science-pack",
+                amount = 5
             },
             {
-                "military-science-pack",
-                5
+                type = "item",
+                name = "military-science-pack",
+                amount = 5
             },
         },
     },
     {
         name = "life-pods-science-module-2",
-        result = "life-pods-science-module-2",
+        results = {{type="item", name="life-pods-science-module-2", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-science-module-1",
-                1
+                type = "item",
+                name = "life-pods-science-module-1",
+                amount = 1
             },
             {
-                "automation-science-pack",
-                5
+                type = "item",
+                name = "automation-science-pack",
+                amount = 5
             },
             {
-                "logistic-science-pack",
-                5
+                type = "item",
+                name = "logistic-science-pack",
+                amount = 5
             },
             {
-                "chemical-science-pack",
-                5
+                type = "item",
+                name = "chemical-science-pack",
+                amount = 5
             },
             {
-                "military-science-pack",
-                5
+                type = "item",
+                name = "military-science-pack",
+                amount = 5
             },
             {
-                "production-science-pack",
-                5
+                type = "item",
+                name = "production-science-pack",
+                amount = 5
+            },
+            {
+                type = "item",
+                name = "utility-science-pack",
+                amount = 5
             },
         },
     },
     {
         name = "life-pods-science-module-2-y",
-        result = "life-pods-science-module-2-y",
+        results = {{type="item", name="life-pods-science-module-2-y", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-science-module-1",
-                1
+                type = "item",
+                name = "life-pods-science-module-1",
+                amount = 1
             },
             {
-                "automation-science-pack",
-                5
+                type = "item",
+                name = "automation-science-pack",
+                amount = 5
             },
             {
-                "logistic-science-pack",
-                5
+                type = "item",
+                name = "logistic-science-pack",
+                amount = 5
             },
             {
-                "chemical-science-pack",
-                5
+                type = "item",
+                name = "chemical-science-pack",
+                amount = 5
             },
             {
-                "military-science-pack",
-                5
+                type = "item",
+                name = "military-science-pack",
+                amount = 5
             },
             {
-                "utility-science-pack",
-                5
+                type = "item",
+                name = "utility-science-pack",
+                amount = 5
             },
         },
     },
     {
         name = "life-pods-science-module-3",
-        result = "life-pods-science-module-3",
+        results = {{type="item", name="life-pods-science-module-3", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-science-module-2",
-                1
+                type = "item",
+                name = "life-pods-science-module-2",
+                amount = 1
             },
             {
-                "automation-science-pack",
-                5
+                type = "item",
+                name = "automation-science-pack",
+                amount = 5
             },
             {
-                "logistic-science-pack",
-                5
+                type = "item",
+                name = "logistic-science-pack",
+                amount = 5
             },
             {
-                "chemical-science-pack",
-                5
+                type = "item",
+                name = "chemical-science-pack",
+                amount = 5
             },
             {
-                "military-science-pack",
-                5
+                type = "item",
+                name = "military-science-pack",
+                amount = 5
             },
             {
-                "production-science-pack",
-                5
+                type = "item",
+                name = "production-science-pack",
+                amount = 5
             },
             {
-                "utility-science-pack",
-                5
+                type = "item",
+                name = "utility-science-pack",
+                amount = 5
+            },
+            {
+                type = "item",
+                name = "space-science-pack",
+                amount = 5
             },
         },
     },
     {
         name = "life-pods-science-module-3-y",
-        result = "life-pods-science-module-3",
+        results = {{type="item", name="life-pods-science-module-3-y", amount=1}},
         type = "recipe",
         enabled = false,
         energy_required = 10,
         ingredients = {
             {
-                "life-pods-science-module-2-y",
-                1
+                type = "item",
+                name = "life-pods-science-module-2-y",
+                amount = 1
             },
             {
-                "automation-science-pack",
-                5
+                type = "item",
+                name = "automation-science-pack",
+                amount = 5
             },
             {
-                "logistic-science-pack",
-                5
+                type = "item",
+                name = "logistic-science-pack",
+                amount = 5
             },
             {
-                "chemical-science-pack",
-                5
+                type = "item",
+                name = "chemical-science-pack",
+                amount = 5
             },
             {
-                "military-science-pack",
-                5
+                type = "item",
+                name = "military-science-pack",
+                amount = 5
             },
             {
-                "production-science-pack",
-                5
+                type = "item",
+                name = "production-science-pack",
+                amount = 5
             },
             {
-                "utility-science-pack",
-                5
+                type = "item",
+                name = "utility-science-pack",
+                amount = 5
+            },
+            {
+                type = "item",
+                name = "space-science-pack",
+                amount = 5
             },
         },
     },

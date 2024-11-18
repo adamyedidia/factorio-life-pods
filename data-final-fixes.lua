@@ -23,7 +23,7 @@ function makePodRecipe(itemname, value, level)
     if (scale > 5) then
         scale = 10 * math.ceil(scale / 10)
     end
-    local ingredients_list = {{itemname, scale} }
+    local ingredients_list = {{type="item", name=itemname, amount=scale} }
 
     local name = podRecipeNameFromItemName(itemname, level)
     return {
