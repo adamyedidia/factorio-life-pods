@@ -3,7 +3,34 @@ require "table-supplement"
 require "config"
 
 -- TODO make this read from CONFIG.levels
-global.lifepod_products = {start={}, red={}, green={}, greenblack={}, blue={}, blueblack={}, purple={}, yellow={}, purpleyellow={}, final={}, white={}, mystery={} }
+local default_lifepod_products = {
+    start={},
+    red={},
+    green={},
+    greenblack={},
+    blue={},
+    blueblack={},
+    purple={},
+    yellow={},
+    purpleyellow={},
+    final={},
+    white={},
+    mystery={},
+    metallurgic={},
+    electromagnetic={},
+    agricultural={},
+    cryogenic={},
+    promethium={}
+}
+
+function init_lifepod_products()
+    if not global then
+        global = {}
+    end
+    if not global.lifepod_products then
+        global.lifepod_products = table.deepcopy(default_lifepod_products)
+    end
+end
 
 local function startsWith(String, prefix)
     return string.sub(String,1,string.len(prefix))==prefix

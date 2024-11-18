@@ -9,7 +9,7 @@ require "lib-gametime.names"
 require "lib-gametime.quick-start"
 require "lib-gametime.tech-level-gametime"
 require "lib-gametime.population-monitor"
-
+require "lib-gametime.assemble-pod-epochs"
 script.on_event(defines.events.on_tick, function(event)
     if (not global.init) then
         prepareNextPod()
@@ -78,6 +78,10 @@ script.on_event(defines.events.on_tick, function(event)
             end
         end
     end
+end)
+
+script.on_init(function()
+    init_lifepod_products()
 end)
 
 function nextLifePodAfterRescue()
