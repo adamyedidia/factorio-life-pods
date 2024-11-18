@@ -81,6 +81,43 @@ script.on_event(defines.events.on_tick, function(event)
 end)
 
 script.on_init(function()
+    if not global then
+        global = {}
+    end
+    
+    global.lifePods = {}
+    global.deadPodsPopulation = 0
+    global.difficulty = {
+        name = "Normal", 
+        values = {
+            hearts_factor = 1,
+            distance_factor = 1,
+            period_factor = 1,
+            tech_rate_factor = 1
+        }
+    }
+    global.mode = "rocket"  -- Or whichever default mode you want
+    global.rescueTick = 0   -- Also initialize this since it's used in rescue mode
+
+    global.nextLifePod = {
+        arrivalTick = game.tick,
+        warningTick = game.tick,
+        tracked = {
+            time = false,
+            location = false,
+            recipe = false,
+            consumption_rate = false,
+            overflowing = false
+        },
+        warningMinimapGhosts = {}
+    }
+    
+    -- Initialize nextToNextLifePod structure
+    global.nextToNextLifePod = {
+        feedback_extra_time = 0,
+        radar_overflow = 0
+    }
+
     init_lifepod_products()
 end)
 
