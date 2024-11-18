@@ -137,7 +137,7 @@ function newPodWarning(tick)
         local seconds_per_item = podSecondsPerInput(storage.nextLifePod)
         storage.nextLifePod.tracked.consumption_rate = seconds_per_item
 
-        local localized_product = game.item_prototypes[storage.nextLifePod.product].localised_name
+        local localized_product = prototypes.item[storage.nextLifePod.product].localised_name
         local rate_string
         if seconds_per_item >= 1 then
             local time = formattimelong(seconds_per_item * TICKS_PER_SECOND)
@@ -215,8 +215,7 @@ end
 
 function landNewPod()
     local name = storage.nextLifePod.name
-    printAllPlayers({"lifepods.pod-landed", name, game.item_prototypes[storage.nextLifePod.product].localised_name})
-    -- If they haven't explored it yet (odd because it means they never got the location warning), explore it now.
+    printAllPlayers({"lifepods.pod-landed", name, prototypes.item[storage.nextLifePod.product].localised_name})    -- If they haven't explored it yet (odd because it means they never got the location warning), explore it now.
     -- This probably means the minimap_label won't work, as it seems you can't add tags the same tick you chart.
     -- TODO something like what I did for the warning one, where it checks every tick aftrward if the tag is valid.
     -- TODO Verify if above is fixed or still a bug?

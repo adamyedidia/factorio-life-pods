@@ -34,7 +34,7 @@ function debugError(text)
 end
 
 function getItem(itemName)
-    for i, item in pairs(game.item_prototypes) do
+    for i, item in pairs(prototypes.item) do
         if (item.name == itemName) then return item end
     end
     return nil

@@ -72,7 +72,7 @@ function updateRadarInfo()
     for _, player in pairs(game.players) do
         if storage.nextLifePod.tracked.recipe then
              top_ui(player).lifepods.nextLifePod.recipe.caption =
-            {'lifepods.ui-pod-needs', storage.nextLifePod.name, game.item_prototypes[storage.nextLifePod.product].localised_name}
+            {'lifepods.ui-pod-needs', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name}
         end
         if storage.nextLifePod.tracked.location then
             top_ui(player).lifepods.nextLifePod.podlocation.caption = {'lifepods.ui-pod-location', storage.nextLifePod.name}
@@ -83,7 +83,7 @@ function updateRadarInfo()
         if storage.nextLifePod.tracked.consumption_rate then
             local seconds_per_item = storage.nextLifePod.tracked.consumption_rate
 
-            local localized_product = game.item_prototypes[storage.nextLifePod.product].localised_name
+            local localized_product = prototypes.item[storage.nextLifePod.product].localised_name
             local rate_string
             if seconds_per_item > 10 then
                 rate_string = formattimelong(seconds_per_item * TICKS_PER_SECOND)
@@ -94,7 +94,7 @@ function updateRadarInfo()
                 rate_string = "x" .. num_per_sec .. "/s"
             end
             top_ui(player).lifepods.nextLifePod.recipe.caption =
-            {'lifepods.ui-pod-needs-with-rate', storage.nextLifePod.name, game.item_prototypes[storage.nextLifePod.product].localised_name, rate_string}
+            {'lifepods.ui-pod-needs-with-rate', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name, rate_string}
         end
     end
 end
@@ -119,7 +119,7 @@ local function updateModuleIcon(pod, ui)
     if ui.spacer then ui.spacer.destroy() end
     if pod.current_tech_name then
         ui.add{type="sprite-button", name="techicon", sprite="technology/"..pod.current_tech_name, style="slot_button" }
-        ui.techicon.tooltip = game.technology_prototypes[pod.current_tech_name].localised_name
+        ui.techicon.tooltip = prototypes.technology[pod.current_tech_name].localised_name
     else
         ui.add{type="flow", name="spacer" }
         ui.spacer.style.minimal_width = 38
