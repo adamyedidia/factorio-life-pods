@@ -187,7 +187,7 @@ data:extend({
             },
             {
                 type = "item",
-                name = "effectivity-module-2",
+                name = "efficiency-module-2",
                 amount = 1
             }
         },

@@ -240,7 +240,7 @@ function landNewPod()
     local radar = game.surfaces[1].create_entity{name="life-pod-radar", position=global.nextLifePod.arrivalPosition, force=pod_force }
     local beacon = game.surfaces[1].create_entity{name="life-pod-beacon", position=global.nextLifePod.arrivalPosition, force=pod_force }
     beacon.get_module_inventory(1).insert({name="speed-module-3", count=2})
-    beacon.get_module_inventory(1).insert({name="effectivity-module-3", count=3})
+    beacon.get_module_inventory(1).insert({name="efficiency-module-3", count=3})
 
     radar.destructible = false
     beacon.destructible = false
