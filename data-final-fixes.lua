@@ -29,7 +29,7 @@ function makePodRecipe(itemname, value, level)
     return {
              type = "recipe",
              name = name,
-             enabled = "true",
+             enabled = true,
              ingredients = ingredients_list,
              results =
              {
@@ -37,7 +37,7 @@ function makePodRecipe(itemname, value, level)
              },
              category = recipeCategoryFromLevel(level),
              energy_required = CONFIG.HEARTS_RECIPE_TIME,
-             hidden = "true"
+             hidden = true
           }
 end
 
