@@ -14,9 +14,9 @@ setupCommands = function()
     remote.add_interface("lifepods settings", {
         recalculate = setup,
         get = function ()
-            printAllPlayers("Mode: " .. global.mode)
-            printAllPlayers("Difficulty: " .. global.difficulty.overall)
-            for name, value in pairs(global.difficulty.values) do
+            printAllPlayers("Mode: " .. storage.mode)
+            printAllPlayers("Difficulty: " .. storage.difficulty.overall)
+            for name, value in pairs(storage.difficulty.values) do
                 debugPrint(name .. ": " .. value)
             end
         end,
@@ -31,13 +31,13 @@ end)
 
 setDifficulty = function()
     local difficulty_string = settings.global["life-pods-difficulty-choice"].value
-    global.difficulty.overall = CONFIG.difficulty_values[difficulty_string]
+    storage.difficulty.overall = CONFIG.difficulty_values[difficulty_string]
     if #game.connected_players > 1 and settings.global["life-pods-difficulty-scales-with-players"].value then
-        global.difficulty.overall = global.difficulty.overall + #game.connected_players
+        storage.difficulty.overall = storage.difficulty.overall + #game.connected_players
     end
-    printAllPlayers({"lifepods.setting-difficulty", global.difficulty.overall})
-    for name, _ in pairs(global.difficulty.values) do
-        global.difficulty.values[name] = CONFIG.difficulty[name]^(global.difficulty.overall)
+    printAllPlayers({"lifepods.setting-difficulty", storage.difficulty.overall})
+    for name, _ in pairs(storage.difficulty.values) do
+        storage.difficulty.values[name] = CONFIG.difficulty[name]^(storage.difficulty.overall)
     end
 
 end
@@ -45,7 +45,7 @@ script.on_event(defines.events.on_player_joined_game, function(event) setDifficu
 script.on_event(defines.events.on_player_left_game, function(event) setDifficulty() end)
 
 local tweakDifficulty = function(type, value)
-    global.difficulty.values[type] = value
+    storage.difficulty.values[type] = value
 end
 
 setMode = function()
@@ -68,13 +68,13 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
     end
 end)
 setRescue = function(hours)
-    global.mode = "rescue"
-    global.rescueTick = hours * TICKS_PER_HOUR
+    storage.mode = "rescue"
+    storage.rescueTick = hours * TICKS_PER_HOUR
     displayGlobalPop()
 end
 setRocketMode = function()
-    global.rescueTick = nil
-    global.mode = "rocket"
+    storage.rescueTick = nil
+    storage.mode = "rocket"
     for _, player in pairs(game.players) do
         if top_ui(player).rescue then
             top_ui(player).rescue.caption = ""
@@ -83,8 +83,8 @@ setRocketMode = function()
     displayGlobalPop()
 end
 setInfinityMode = function()
-    global.rescueTick = nil
-    global.mode = "infinity"
+    storage.rescueTick = nil
+    storage.mode = "infinity"
     for _, player in pairs(game.players) do
         if top_ui(player).rescue then
             top_ui(player).rescue.caption = ""

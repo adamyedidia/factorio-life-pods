@@ -24,7 +24,7 @@ function getTechLevel(tech)
 end
 
 function techAdjustedTime(unadjustedTime)
-    return (effectiveTime(unadjustedTime) - (summarizePop().dead * CONFIG.dead_pop_feedback.tech_times)) / global.difficulty.values.tech_rate_factor
+    return (effectiveTime(unadjustedTime) - (summarizePop().dead * CONFIG.dead_pop_feedback.tech_times)) / storage.difficulty.values.tech_rate_factor
 end
 function getTechEra(unadjustedTime)
     local adjustedTime = techAdjustedTime(unadjustedTime)
@@ -42,9 +42,9 @@ function getTechEra(unadjustedTime)
     elseif (adjustedTime < CONFIG.tech_times.purple_yellow_first) then
         return "blueblack", CONFIG.tech_times.purple_yellow_first - adjustedTime
     elseif (adjustedTime < CONFIG.tech_times.purple_yellow_second) then
-        return global.yellow_purple_order[1], CONFIG.tech_times.purple_yellow_second - adjustedTime
+        return storage.yellow_purple_order[1], CONFIG.tech_times.purple_yellow_second - adjustedTime
     elseif (adjustedTime < CONFIG.tech_times.purpleyellow) then
-        return global.yellow_purple_order[2], CONFIG.tech_times.purpleyellow - adjustedTime
+        return storage.yellow_purple_order[2], CONFIG.tech_times.purpleyellow - adjustedTime
     elseif (adjustedTime < CONFIG.tech_times.final) then
         return "purpleyellow", CONFIG.tech_times.final - adjustedTime
     else

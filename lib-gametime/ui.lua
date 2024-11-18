@@ -33,10 +33,10 @@ end)
 script.on_event(defines.events.on_player_created, function(event)
     initPlayerGUI(event.player_index)
     displayGlobalPop() -- This does it for everyone, but whatever.
-    if global.nextLifePod and global.nextLifePod.tracked and global.nextLifePod.tracked.recipe then
+    if storage.nextLifePod and storage.nextLifePod.tracked and storage.nextLifePod.tracked.recipe then
         updateRadarInfo()
     end
-    if global.mode == "rescue" and global.rescueTick and global.rescueTick - global.nextLifePod.arrivalTick < CONFIG.RESCUE_SPEEDUP_WARNING_TIME then
+    if storage.mode == "rescue" and storage.rescueTick and storage.rescueTick - storage.nextLifePod.arrivalTick < CONFIG.RESCUE_SPEEDUP_WARNING_TIME then
         local player = game.players[event.player_index]
         player.print({"lifepods.rescue-speedup-at-start"})
     end
@@ -70,20 +70,20 @@ function initTopDialog(player)
 end
 function updateRadarInfo()
     for _, player in pairs(game.players) do
-        if global.nextLifePod.tracked.recipe then
+        if storage.nextLifePod.tracked.recipe then
              top_ui(player).lifepods.nextLifePod.recipe.caption =
-            {'lifepods.ui-pod-needs', global.nextLifePod.name, game.item_prototypes[global.nextLifePod.product].localised_name}
+            {'lifepods.ui-pod-needs', storage.nextLifePod.name, game.item_prototypes[storage.nextLifePod.product].localised_name}
         end
-        if global.nextLifePod.tracked.location then
-            top_ui(player).lifepods.nextLifePod.podlocation.caption = {'lifepods.ui-pod-location', global.nextLifePod.name}
+        if storage.nextLifePod.tracked.location then
+            top_ui(player).lifepods.nextLifePod.podlocation.caption = {'lifepods.ui-pod-location', storage.nextLifePod.name}
         end
-        if global.nextLifePod.tracked.time then
+        if storage.nextLifePod.tracked.time then
             -- Time is updated every second in on_tick.
         end
-        if global.nextLifePod.tracked.consumption_rate then
-            local seconds_per_item = global.nextLifePod.tracked.consumption_rate
+        if storage.nextLifePod.tracked.consumption_rate then
+            local seconds_per_item = storage.nextLifePod.tracked.consumption_rate
 
-            local localized_product = game.item_prototypes[global.nextLifePod.product].localised_name
+            local localized_product = game.item_prototypes[storage.nextLifePod.product].localised_name
             local rate_string
             if seconds_per_item > 10 then
                 rate_string = formattimelong(seconds_per_item * TICKS_PER_SECOND)
@@ -94,7 +94,7 @@ function updateRadarInfo()
                 rate_string = "x" .. num_per_sec .. "/s"
             end
             top_ui(player).lifepods.nextLifePod.recipe.caption =
-            {'lifepods.ui-pod-needs-with-rate', global.nextLifePod.name, game.item_prototypes[global.nextLifePod.product].localised_name, rate_string}
+            {'lifepods.ui-pod-needs-with-rate', storage.nextLifePod.name, game.item_prototypes[storage.nextLifePod.product].localised_name, rate_string}
         end
     end
 end
@@ -305,7 +305,7 @@ end
 function updateHumanInterface(player)
     local actives = player.gui.center.humaninterface.main.active.table
     local stables = player.gui.center.humaninterface.main.stable.table
-    for _, pod in pairs(global.lifePods) do
+    for _, pod in pairs(storage.lifePods) do
         if pod.stabilized and stables[podKey(pod)] then
             -- Pod is still stable; update it.
             updateUIStabilized(pod, stables[podKey(pod)])
@@ -353,7 +353,7 @@ function displayHumanInterface(player)
     elseif CONFIG.level_icons[era].next ~= "NONE" then
         local next_icon = CONFIG.level_icons[era].next
         if CONFIG.level_icons[era].next == "PURPLE YELLOW FIRST" then
-            if global.yellow_purple_order[1] == 'purple' then
+            if storage.yellow_purple_order[1] == 'purple' then
                 next_icon = 'production-science-pack'
             else
                 next_icon = 'utility-science-pack'
@@ -371,7 +371,7 @@ function displayHumanInterface(player)
     activescrollpane.add{type="table", name="table", column_count=4 }
     activescrollpane.style.maximal_height=250
     stablescrollpane.style.maximal_height=250
-    for _, pod in pairs(global.lifePods) do
+    for _, pod in pairs(storage.lifePods) do
         if pod.stabilized then
             -- Add more space.
             titlebar.spacer.style.maximal_width = 464
@@ -401,9 +401,9 @@ end)
 
 function displaySinglePodMouseover(player)
     top_ui(player).selectedpod.clear()
-    if player.selected and global.lifePods[player.selected.unit_number] then
+    if player.selected and storage.lifePods[player.selected.unit_number] then
         addToGUI(
-            global.lifePods[player.selected.unit_number],
+            storage.lifePods[player.selected.unit_number],
             top_ui(player).selectedpod
         )
     else

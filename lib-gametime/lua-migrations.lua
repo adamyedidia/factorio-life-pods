@@ -14,7 +14,7 @@ script.on_configuration_changed(function(data)
         end
         if change_passes(data, "1.1.0") then
             printAllPlayers("Updating Life Pods to version " .. "1.1.0")
-            for index, pod in pairs(global.lifePods) do
+            for index, pod in pairs(storage.lifePods) do
                 pod.consumption = pod.consumption / 10
             end
         end
@@ -30,15 +30,15 @@ script.on_configuration_changed(function(data)
         if change_passes(data, "1.4.0") then
             printAllPlayers("Updating Life Pods to version " .. "1.4.0")
             initNames()
-            global.nextLifePod["name"] = "PLACEHOLDER"
-            for _, pod in pairs(global.lifePods) do
+            storage.nextLifePod["name"] = "PLACEHOLDER"
+            for _, pod in pairs(storage.lifePods) do
                 getNextPodName()
-                pod.name = global.nextLifePod.name
+                pod.name = storage.nextLifePod.name
                 pod["tag"] = game.forces.player.add_chart_tag(game.surfaces[1],
                     {
                         position=pod.repair.position,
                         text = pod.name,
-                        icon = {type="item", name="life-pod-icon"} -- consider global.nextLifePod.product.name instead?
+                        icon = {type="item", name="life-pod-icon"} -- consider storage.nextLifePod.product.name instead?
                     }
                 )
 
@@ -52,32 +52,32 @@ script.on_configuration_changed(function(data)
         end
         if change_passes(data, "1.4.7") then
             printAllPlayers("Updating Life Pods to version " .. "1.4.7")
-            global.quickStartTimeBonus = 0
+            storage.quickStartTimeBonus = 0
         end
         if change_passes(data, "1.5.0") then
             printAllPlayers("Updating Life Pods to version " .. "1.5.0")
-            global.podEpoch = 1
-            for _, pod in pairs(global.lifePods) do
+            storage.podEpoch = 1
+            for _, pod in pairs(storage.lifePods) do
                 if not pod.endgame_speedup then pod.endgame_speedup = 1 end
                 if not pod.percent_stabilized then pod.percent_stabilized = 0 end
             end
-            if global.nextLifePod.warningMinimapGhosts then
-                for _, entity in pairs(global.nextLifePod.warningMinimapGhosts) do
+            if storage.nextLifePod.warningMinimapGhosts then
+                for _, entity in pairs(storage.nextLifePod.warningMinimapGhosts) do
                     if entity.valid then entity.destroy() end
                 end
             end
             local minimap_label = game.forces.player.add_chart_tag(game.surfaces[1],
                 {
-                    position=global.nextLifePod.arrivalPosition,
-                    text = global.nextLifePod.nam,
+                    position=storage.nextLifePod.arrivalPosition,
+                    text = storage.nextLifePod.nam,
                     icon = {type="item", name="life-pod-warning-icon"}
                 }
             )
-            global.nextLifePod.warningMinimapGhosts = minimap_label
+            storage.nextLifePod.warningMinimapGhosts = minimap_label
         end
         if change_passes(data, "1.5.7") then
             printAllPlayers("Updating Life Pods to version " .. "1.5.7")
-            for _, pod in pairs(global.lifePods) do
+            for _, pod in pairs(storage.lifePods) do
                 if type(pod.product) == "table" then pod.product = pod.product.name end
                 if pod.recipe and not pod.stabilized then
                     if pod.product == nil then error(table.tostring(pod)) end
@@ -88,7 +88,7 @@ script.on_configuration_changed(function(data)
                     pod.repair.fluidbox[1] = hearts_box
                 end
             end
-            for level, products in pairs(global.lifepod_products) do
+            for level, products in pairs(storage.lifepod_products) do
                 for i, product_table in pairs(products) do
                     products[i] = product_table.name
                 end
@@ -96,22 +96,22 @@ script.on_configuration_changed(function(data)
         end
         if change_passes(data, "1.5.9") then
             printAllPlayers("Updating Life Pods to version " .. "1.5.11")
-            if not global.nextLifePod.recipe then
-                global.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(global.nextLifePod.product.name, getTechEra(global.nextLifePod.arrivalTick))]
+            if not storage.nextLifePod.recipe then
+                storage.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(storage.nextLifePod.product.name, getTechEra(storage.nextLifePod.arrivalTick))]
             end
-            if not global.nextLifePod.consumption then
-                global.nextLifePod.consumption = heartsPerPop(effectiveTime(global.nextLifePod.arrivalTick))
-                global.nextLifePod.endgame_speedup = 1
-                if global.mode == "rescue" and global.rescueTick and global.rescueTick - global.nextLifePod.arrivalTick < CONFIG.RESCUE_SPEEDUP_WARNING_TIME then
-                    global.nextLifePod.endgame_speedup = CONFIG.RESCUE_SPEEDUP_WARNING_TIME / (global.rescueTick - global.nextLifePod.arrivalTick)
+            if not storage.nextLifePod.consumption then
+                storage.nextLifePod.consumption = heartsPerPop(effectiveTime(storage.nextLifePod.arrivalTick))
+                storage.nextLifePod.endgame_speedup = 1
+                if storage.mode == "rescue" and storage.rescueTick and storage.rescueTick - storage.nextLifePod.arrivalTick < CONFIG.RESCUE_SPEEDUP_WARNING_TIME then
+                    storage.nextLifePod.endgame_speedup = CONFIG.RESCUE_SPEEDUP_WARNING_TIME / (storage.rescueTick - storage.nextLifePod.arrivalTick)
                 end
             end
-            global.nextLifePod.alivePop = CONFIG.POD_STARTING_POP
-            if global.nextLifePod.product.name then global.nextLifePod.product = global.nextLifePod.product.name end
+            storage.nextLifePod.alivePop = CONFIG.POD_STARTING_POP
+            if storage.nextLifePod.product.name then storage.nextLifePod.product = storage.nextLifePod.product.name end
         end
         if change_passes(data, "1.6.6") then
             printAllPlayers("Updating Life Pods to version " .. "1.6.6")
-            for _, pod in pairs(global.lifePods) do
+            for _, pod in pairs(storage.lifePods) do
                 if pod.stabilized then
                     local new_recipe_name = podRecipeNameFromItemName(pod.product, "final")
                     pod.repair.recipe = new_recipe_name
@@ -122,7 +122,7 @@ script.on_configuration_changed(function(data)
         end
         if change_passes(data, "1.8.2") then
             printAllPlayers("Updating Life Pods to version " .. "1.8.2")
-            for _, pod in pairs(global.lifePods) do
+            for _, pod in pairs(storage.lifePods) do
                 if pod.science_force == nil then
                     pod.science_force = table.choice(all_human_forces())
                 end
@@ -131,20 +131,20 @@ script.on_configuration_changed(function(data)
                     for force_name, force in pairs(all_human_forces()) do
                         pod.minimap_labels[force_name] = force.add_chart_tag(game.surfaces[1],
                             {
-                                position=global.nextLifePod.arrivalPosition,
+                                position=storage.nextLifePod.arrivalPosition,
                                 text = pod.name,
-                                icon = {type="item", name="life-pod-icon"} -- consider global.nextLifePod.product instead?
+                                icon = {type="item", name="life-pod-icon"} -- consider storage.nextLifePod.product instead?
                             }
                         )
                     end
                 end
             end
-            global.nextLifePod.warningMinimapGhosts = {}
+            storage.nextLifePod.warningMinimapGhosts = {}
             for force_name, force in pairs(all_human_forces()) do
-                global.nextLifePod.warningMinimapGhosts[force_name] = force.add_chart_tag(game.surfaces[1],
+                storage.nextLifePod.warningMinimapGhosts[force_name] = force.add_chart_tag(game.surfaces[1],
                     {
-                    position=global.nextLifePod.arrivalPosition,
-                    text = global.nextLifePod.name  .. " INCOMING",
+                    position=storage.nextLifePod.arrivalPosition,
+                    text = storage.nextLifePod.name  .. " INCOMING",
                     icon = {type="item", name="life-pod-warning-icon"}
                     }
                 )

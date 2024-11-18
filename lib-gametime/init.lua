@@ -9,10 +9,10 @@ require "config"
 
 function initMod()
 
-    if (global.init == nil) then global.init = false end -- Tells it to set up the first pod.
+    if (storage.init == nil) then storage.init = false end -- Tells it to set up the first pod.
 
-    if (global.nextLifePod == nil) then
-        global.nextLifePod = {
+    if (storage.nextLifePod == nil) then
+        storage.nextLifePod = {
 
             name = "",
             warningTick = 0,  -- Filled in at init
@@ -25,8 +25,8 @@ function initMod()
         }
     end
 
-    if (global.nextToNextLifePod == nil) then
-        global.nextToNextLifePod = {
+    if (storage.nextToNextLifePod == nil) then
+        storage.nextToNextLifePod = {
             feedback_extra_time = 0,
             radar_overflow = 0,
         }
@@ -36,15 +36,15 @@ function initMod()
         debugError("Config Error: LIFE_POD_PERIOD or WARNING_TIME interval is invalid")
     end
 
-    if (global.deadPodsPopulation == nil) then
-        global.deadPodsPopulation = 0
+    if (storage.deadPodsPopulation == nil) then
+        storage.deadPodsPopulation = 0
     end
 
-    if (global.lifePods == nil) then
-        global.lifePods = {}
+    if (storage.lifePods == nil) then
+        storage.lifePods = {}
     end
 
-    global.Xoffsets = {
+    storage.Xoffsets = {
         {x=3,y=-3},
         {x=-2,y=-3},
 
@@ -74,7 +74,7 @@ function initMod()
         {x=3,y=3},
         {x=-2,y=3},
     }
-    global.difficulty = {
+    storage.difficulty = {
         values = {
             period_factor = 1,
             hearts_factor = 1,
@@ -83,13 +83,13 @@ function initMod()
         },
         overall = 1
     }
-    global.mode = nil
+    storage.mode = nil
 
-    if (global.yellow_purple_order == nil) then
+    if (storage.yellow_purple_order == nil) then
         if math.random() < 0.5 then
-            global.yellow_purple_order = {"purple", "yellow"}
+            storage.yellow_purple_order = {"purple", "yellow"}
         else
-            global.yellow_purple_order = {"yellow", "purple"}
+            storage.yellow_purple_order = {"yellow", "purple"}
         end
     end
 

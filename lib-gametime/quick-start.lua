@@ -2,16 +2,16 @@ require "config"
 require "lifepods-utils"
 
 function effectiveTime(tick)
-    return tick + global.quickStartTimeBonus
+    return tick + storage.quickStartTimeBonus
 end
 
 function initQuickStart()
     local chest_force = game.forces.player
     if not settings.global["life-pods-quick-start"].value then
-        global.quickStartTimeBonus = 0
+        storage.quickStartTimeBonus = 0
         return
     end
-    global.quickStartTimeBonus = 60 * TICKS_PER_MINUTE
+    storage.quickStartTimeBonus = 60 * TICKS_PER_MINUTE
     local position = {-2,-3}
     local crushed_entities = game.surfaces[1].find_entities({{-3,-3}, {-1,-1}})
     for _, entity in pairs(crushed_entities) do

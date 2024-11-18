@@ -51,17 +51,17 @@ local function suffixFromEpoch(epoch)
 end
 
 function initNames()
-    global.podNames = shuffle(ALL_NAMES)
-    global.podEpoch = 1
+    storage.podNames = shuffle(ALL_NAMES)
+    storage.podEpoch = 1
 end
 
 function getNextPodName()
-    global.nextLifePod.name = global.podNames[#global.podNames] .. suffixFromEpoch(global.podEpoch)
-    global.podNames[#global.podNames] = nil
-    if #global.podNames == 0 then
+    storage.nextLifePod.name = storage.podNames[#storage.podNames] .. suffixFromEpoch(storage.podEpoch)
+    storage.podNames[#storage.podNames] = nil
+    if #storage.podNames == 0 then
         --debugPrint("Recycling names")
-        global.podNames = shuffle(ALL_NAMES)
-        global.podEpoch = global.podEpoch + 1
+        storage.podNames = shuffle(ALL_NAMES)
+        storage.podEpoch = storage.podEpoch + 1
     end
 end
 

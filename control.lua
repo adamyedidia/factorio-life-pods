@@ -11,35 +11,35 @@ require "lib-gametime.tech-level-gametime"
 require "lib-gametime.population-monitor"
 
 script.on_event(defines.events.on_tick, function(event)
-    if (not global.init) then
+    if (not storage.init) then
         prepareNextPod()
-        global.nextLifePod.arrivalTick = event.tick + math.floor(global.nextLifePod.arrivalTick * CONFIG.FIRST_POD_FACTOR)
-        global.nextLifePod.warningTick = event.tick + math.floor(global.nextLifePod.warningTick * CONFIG.FIRST_POD_FACTOR)
+        storage.nextLifePod.arrivalTick = event.tick + math.floor(storage.nextLifePod.arrivalTick * CONFIG.FIRST_POD_FACTOR)
+        storage.nextLifePod.warningTick = event.tick + math.floor(storage.nextLifePod.warningTick * CONFIG.FIRST_POD_FACTOR)
 
-        global.init = true
+        storage.init = true
         return
     end
 
     -- Check for rescue
-    if ((global.mode == "rescue") and global.rescueTick and (event.tick >= global.rescueTick)) then
+    if ((storage.mode == "rescue") and storage.rescueTick and (event.tick >= storage.rescueTick)) then
         rescueArrives()
         -- Rescue already came; user pressed "Continue" on victory screen.
         printAllPlayers({"lifepods.changing-to-rocket-mode"})
         setRocketMode()
     end
     -- Check for rescue speedup warning
-    if ((global.mode == "rescue") and global.rescueTick and (event.tick == global.rescueTick - CONFIG.RESCUE_SPEEDUP_WARNING_TIME)) then
+    if ((storage.mode == "rescue") and storage.rescueTick and (event.tick == storage.rescueTick - CONFIG.RESCUE_SPEEDUP_WARNING_TIME)) then
         rescueSpeedupWarning()
     end
     -- Update Rescue Counter
-    if ((global.mode == "rescue") and global.rescueTick and (event.tick % TICKS_PER_SECOND == 0)) then
+    if ((storage.mode == "rescue") and storage.rescueTick and (event.tick % TICKS_PER_SECOND == 0)) then
         for _, player in pairs(game.players) do
-            top_ui(player).rescue.caption = {"lifepods.rescue-time", formattimelong(global.rescueTick - event.tick)}
+            top_ui(player).rescue.caption = {"lifepods.rescue-time", formattimelong(storage.rescueTick - event.tick)}
         end
     end
 
     -- Maintenance on existing pods.
-    for i, pod in pairs(global.lifePods) do
+    for i, pod in pairs(storage.lifePods) do
         if (i % TICKS_PER_SECOND == event.tick % TICKS_PER_SECOND) then
             secondTickForPodUniversal(pod)
             if not(pod.stabilized) then
@@ -51,18 +51,18 @@ script.on_event(defines.events.on_tick, function(event)
         end
     end
 
-    if (global.nextLifePod.tracked.time and not nextLifePodAfterRescue()) then
-        if ((global.nextLifePod.arrivalTick - event.tick) % TICKS_PER_SECOND == 0) then
+    if (storage.nextLifePod.tracked.time and not nextLifePodAfterRescue()) then
+        if ((storage.nextLifePod.arrivalTick - event.tick) % TICKS_PER_SECOND == 0) then
             tickLifePod(event.tick)
         end
     end
-    if (global.nextLifePod.tracked.location and not nextLifePodAfterRescue()) then
+    if (storage.nextLifePod.tracked.location and not nextLifePodAfterRescue()) then
         makeSureLocationMarked()
     end
-    if (event.tick >= global.nextLifePod.arrivalTick) then
+    if (event.tick >= storage.nextLifePod.arrivalTick) then
         landNewPod()
     end
-    if (event.tick >= global.nextLifePod.warningTick and not nextLifePodAfterRescue()) then
+    if (event.tick >= storage.nextLifePod.warningTick and not nextLifePodAfterRescue()) then
         newPodWarning(event.tick)
     end
 
@@ -81,12 +81,12 @@ script.on_event(defines.events.on_tick, function(event)
 end)
 
 function nextLifePodAfterRescue()
-    return (global.mode == "rescue") and global.rescueTick and (global.nextLifePod.arrivalTick > global.rescueTick)
+    return (storage.mode == "rescue") and storage.rescueTick and (storage.nextLifePod.arrivalTick > storage.rescueTick)
 end
 
 script.on_event(defines.events.on_entity_died, function(event)
     if (not (event.entity.name == "life-pod-repair")) then return end
-    local deadPod = global.lifePods[event.entity.unit_number]
+    local deadPod = storage.lifePods[event.entity.unit_number]
     printAllPlayers({"lifepods.pod-died", deadPod.name})
     deadPod.radar.destroy()
     deadPod.beacon.destroy()
@@ -99,74 +99,74 @@ script.on_event(defines.events.on_entity_died, function(event)
         label.destroy()
     end
     removePodFromUI(deadPod)
-    global.deadPodsPopulation = global.deadPodsPopulation + deadPod.startingPop
-    global.lifePods[deadPod.id] = nil
+    storage.deadPodsPopulation = storage.deadPodsPopulation + deadPod.startingPop
+    storage.lifePods[deadPod.id] = nil
 end)
 
 script.on_event(defines.events.on_sector_scanned, function(event)
-    if (not global.nextLifePod.tracked.overflowing) then
-        global.nextLifePod.warningTick = global.nextLifePod.warningTick - CONFIG.RADAR_SCAN_TICKS
+    if (not storage.nextLifePod.tracked.overflowing) then
+        storage.nextLifePod.warningTick = storage.nextLifePod.warningTick - CONFIG.RADAR_SCAN_TICKS
     else
-        global.nextToNextLifePod.radar_overflow = global.nextToNextLifePod.radar_overflow + CONFIG.RADAR_SCAN_TICKS
+        storage.nextToNextLifePod.radar_overflow = storage.nextToNextLifePod.radar_overflow + CONFIG.RADAR_SCAN_TICKS
     end
 end)
 
 function newPodWarning(tick)
-    if CONFIG.TOO_SHORT_WARNING > global.nextLifePod.arrivalTick - tick then
-        global.nextLifePod.tracked.overflowing = true
-        global.nextToNextLifePod.radar_overflow = global.nextLifePod.arrivalTick - tick
+    if CONFIG.TOO_SHORT_WARNING > storage.nextLifePod.arrivalTick - tick then
+        storage.nextLifePod.tracked.overflowing = true
+        storage.nextToNextLifePod.radar_overflow = storage.nextLifePod.arrivalTick - tick
         return
     end
-    if (not global.nextLifePod.tracked.recipe) then
-        printAllPlayers({"lifepods.warning-item", global.nextLifePod.name})
-        global.nextLifePod.tracked.recipe = true
-    elseif (not global.nextLifePod.tracked.location) then
-        printAllPlayers({"lifepods.warning-location", global.nextLifePod.name})
-        local distanceToCenter = math.floor(util.distance(global.nextLifePod.arrivalPosition, {x=0,y=0}))
+    if (not storage.nextLifePod.tracked.recipe) then
+        printAllPlayers({"lifepods.warning-item", storage.nextLifePod.name})
+        storage.nextLifePod.tracked.recipe = true
+    elseif (not storage.nextLifePod.tracked.location) then
+        printAllPlayers({"lifepods.warning-location", storage.nextLifePod.name})
+        local distanceToCenter = math.floor(util.distance(storage.nextLifePod.arrivalPosition, {x=0,y=0}))
         -- for _, player in pairs(game.players) do
-        --     local distanceToMe = math.floor(util.distance(global.nextLifePod.arrivalPosition, player.position))
+        --     local distanceToMe = math.floor(util.distance(storage.nextLifePod.arrivalPosition, player.position))
         --     player.print("Distance " .. distanceToCenter .. " from center; " .. distanceToMe .. " from you.")
         -- end
-        global.nextLifePod.tracked.location = true
-        markLocation(global.nextLifePod.arrivalPosition, global.nextLifePod.name .. " INCOMING")
-    elseif (not global.nextLifePod.tracked.time) then
-        printAllPlayers({"lifepods.warning-time", global.nextLifePod.name})
-        global.nextLifePod.tracked.time = true
-    elseif (not global.nextLifePod.tracked.consumption_rate) then
+        storage.nextLifePod.tracked.location = true
+        markLocation(storage.nextLifePod.arrivalPosition, storage.nextLifePod.name .. " INCOMING")
+    elseif (not storage.nextLifePod.tracked.time) then
+        printAllPlayers({"lifepods.warning-time", storage.nextLifePod.name})
+        storage.nextLifePod.tracked.time = true
+    elseif (not storage.nextLifePod.tracked.consumption_rate) then
 
-        local seconds_per_item = podSecondsPerInput(global.nextLifePod)
-        global.nextLifePod.tracked.consumption_rate = seconds_per_item
+        local seconds_per_item = podSecondsPerInput(storage.nextLifePod)
+        storage.nextLifePod.tracked.consumption_rate = seconds_per_item
 
-        local localized_product = game.item_prototypes[global.nextLifePod.product].localised_name
+        local localized_product = game.item_prototypes[storage.nextLifePod.product].localised_name
         local rate_string
         if seconds_per_item >= 1 then
             local time = formattimelong(seconds_per_item * TICKS_PER_SECOND)
-            printAllPlayers({"lifepods.warning-consumption_rate-gt1", global.nextLifePod.name, localized_product, time})
+            printAllPlayers({"lifepods.warning-consumption_rate-gt1", storage.nextLifePod.name, localized_product, time})
         else
             local num_per_sec = math.ceil(1 / seconds_per_item)
-            printAllPlayers({"lifepods.warning-consumption_rate-lt1", global.nextLifePod.name, localized_product, num_per_sec})
+            printAllPlayers({"lifepods.warning-consumption_rate-lt1", storage.nextLifePod.name, localized_product, num_per_sec})
         end
 
         -- Set next warning tick to arrivaltick, so it doesn't trigger again.
         -- We'll later set overflowing (a few lines down), so this won't get changed until next pod arrives.
-        global.nextLifePod.warningTick = global.nextLifePod.arrivalTick + 1
+        storage.nextLifePod.warningTick = storage.nextLifePod.arrivalTick + 1
     end
 
 
     updateRadarInfo()
 
     -- If last warning is done, send further radar scans to next pod.
-    if global.nextLifePod.tracked.consumption_rate then
-        global.nextLifePod.tracked.overflowing = true
+    if storage.nextLifePod.tracked.consumption_rate then
+        storage.nextLifePod.tracked.overflowing = true
         return
     end
     -- Otherwise, send extra radar oomph to next detection.
-    if (tick < global.nextLifePod.arrivalTick) then
-        local overflow = tick - global.nextLifePod.warningTick
-        global.nextLifePod.warningTick = global.nextLifePod.arrivalTick + 1 - overflow * CONFIG.RADAR_OVERFLOW_FACTOR
+    if (tick < storage.nextLifePod.arrivalTick) then
+        local overflow = tick - storage.nextLifePod.warningTick
+        storage.nextLifePod.warningTick = storage.nextLifePod.arrivalTick + 1 - overflow * CONFIG.RADAR_OVERFLOW_FACTOR
     else
-        debugPrint("Something weird happened with the next warning tick: " .. (global.nextLifePod.arrivalTick + tick)/2 .. ", " .. global.nextLifePod.arrivalTick .. ", " .. game.tick, true)
-        global.nextLifePod.arrivalTick = tick + TICKS_PER_MINUTE
+        debugPrint("Something weird happened with the next warning tick: " .. (storage.nextLifePod.arrivalTick + tick)/2 .. ", " .. storage.nextLifePod.arrivalTick .. ", " .. game.tick, true)
+        storage.nextLifePod.arrivalTick = tick + TICKS_PER_MINUTE
     end
 end
 function markLocation(position, name)
@@ -177,14 +177,14 @@ function markLocation(position, name)
 end
 function makeSureLocationMarked()
     for force_name, force in pairs(all_human_forces()) do
-        if global.nextLifePod.warningMinimapGhosts == nil or
-                global.nextLifePod.warningMinimapGhosts[force_name] == nil or
-                not global.nextLifePod.warningMinimapGhosts[force_name].valid then
+        if storage.nextLifePod.warningMinimapGhosts == nil or
+                storage.nextLifePod.warningMinimapGhosts[force_name] == nil or
+                not storage.nextLifePod.warningMinimapGhosts[force_name].valid then
         debugPrint("Marking Location for force " .. force_name)
-            global.nextLifePod.warningMinimapGhosts[force_name] = force.add_chart_tag(game.surfaces[1],
+            storage.nextLifePod.warningMinimapGhosts[force_name] = force.add_chart_tag(game.surfaces[1],
                 {
-                position=global.nextLifePod.arrivalPosition,
-                text = global.nextLifePod.name  .. " INCOMING",
+                position=storage.nextLifePod.arrivalPosition,
+                text = storage.nextLifePod.name  .. " INCOMING",
                 icon = {type="item", name="life-pod-warning-icon"}
                 }
             )
@@ -193,15 +193,15 @@ function makeSureLocationMarked()
 end
 function clearMarkLocation()
     for force_name, force in pairs(all_human_forces()) do
-        if global.nextLifePod.warningMinimapGhosts[force_name] and global.nextLifePod.warningMinimapGhosts[force_name].valid then
-            global.nextLifePod.warningMinimapGhosts[force_name].destroy()
+        if storage.nextLifePod.warningMinimapGhosts[force_name] and storage.nextLifePod.warningMinimapGhosts[force_name].valid then
+            storage.nextLifePod.warningMinimapGhosts[force_name].destroy()
         end
     end
 end
 
 function tickLifePod(tick)
     for _, player in pairs(game.players) do
-        top_ui(player).lifepods.nextLifePod.time.caption = {"lifepods.ui-pod-time", global.nextLifePod.name, util.formattime(global.nextLifePod.arrivalTick - tick)}
+        top_ui(player).lifepods.nextLifePod.time.caption = {"lifepods.ui-pod-time", storage.nextLifePod.name, util.formattime(storage.nextLifePod.arrivalTick - tick)}
     end
 end
 function clearNextPodUI()
@@ -214,21 +214,21 @@ function clearNextPodUI()
 end
 
 function landNewPod()
-    local name = global.nextLifePod.name
-    printAllPlayers({"lifepods.pod-landed", name, game.item_prototypes[global.nextLifePod.product].localised_name})
+    local name = storage.nextLifePod.name
+    printAllPlayers({"lifepods.pod-landed", name, game.item_prototypes[storage.nextLifePod.product].localised_name})
     -- If they haven't explored it yet (odd because it means they never got the location warning), explore it now.
     -- This probably means the minimap_label won't work, as it seems you can't add tags the same tick you chart.
     -- TODO something like what I did for the warning one, where it checks every tick aftrward if the tag is valid.
     -- TODO Verify if above is fixed or still a bug?
-    if not global.nextLifePod.tracked.recipe then
+    if not storage.nextLifePod.tracked.recipe then
         printAllPlayers({"lifepods.scold-no-radars"})
     end
     for _, force in pairs(all_human_forces()) do
-        force.chart(game.surfaces[1], {lefttop = global.nextLifePod.arrivalPosition, rightbottom = global.nextLifePod.arrivalPosition})
+        force.chart(game.surfaces[1], {lefttop = storage.nextLifePod.arrivalPosition, rightbottom = storage.nextLifePod.arrivalPosition})
     end
 
 
-    local crushed_entities = game.surfaces[1].find_entities({vector2Add(global.nextLifePod.arrivalPosition, {x=-5,y=-5}), vector2Add(global.nextLifePod.arrivalPosition, {x=5,y=5})})
+    local crushed_entities = game.surfaces[1].find_entities({vector2Add(storage.nextLifePod.arrivalPosition, {x=-5,y=-5}), vector2Add(storage.nextLifePod.arrivalPosition, {x=5,y=5})})
     for _, entity in pairs(crushed_entities) do
         if (entity and entity.valid and entity.health and entity.health > 0) then
             entity.die()
@@ -236,9 +236,9 @@ function landNewPod()
     end
 
     local pod_force = game.forces.player
-    local repair = game.surfaces[1].create_entity{name="life-pod-repair", position=global.nextLifePod.arrivalPosition, force=pod_force}
-    local radar = game.surfaces[1].create_entity{name="life-pod-radar", position=global.nextLifePod.arrivalPosition, force=pod_force }
-    local beacon = game.surfaces[1].create_entity{name="life-pod-beacon", position=global.nextLifePod.arrivalPosition, force=pod_force }
+    local repair = game.surfaces[1].create_entity{name="life-pod-repair", position=storage.nextLifePod.arrivalPosition, force=pod_force}
+    local radar = game.surfaces[1].create_entity{name="life-pod-radar", position=storage.nextLifePod.arrivalPosition, force=pod_force }
+    local beacon = game.surfaces[1].create_entity{name="life-pod-beacon", position=storage.nextLifePod.arrivalPosition, force=pod_force }
     beacon.get_module_inventory(1).insert({name="speed-module-3", count=2})
     beacon.get_module_inventory(1).insert({name="efficiency-module-3", count=3})
 
@@ -257,25 +257,25 @@ function landNewPod()
     for force_name, force in pairs(all_human_forces()) do
         minimap_labels[force_name] = force.add_chart_tag(game.surfaces[1],
             {
-                position=global.nextLifePod.arrivalPosition,
+                position=storage.nextLifePod.arrivalPosition,
                 text = name,
-                icon = {type="item", name="life-pod-icon"} -- consider global.nextLifePod.product instead?
+                icon = {type="item", name="life-pod-icon"} -- consider storage.nextLifePod.product instead?
             }
         )
     end
-    repair.set_recipe(global.nextLifePod.recipe)
+    repair.set_recipe(storage.nextLifePod.recipe)
 
     local pod = {
-        id = repair.unit_number, name=name, endgame_speedup = global.nextLifePod.endgame_speedup,
+        id = repair.unit_number, name=name, endgame_speedup = storage.nextLifePod.endgame_speedup,
         repair = repair, radar = radar, label = label, beacon = beacon,
-        alivePop = global.nextLifePod.alivePop, startingPop = global.nextLifePod.alivePop,
-        recipe = global.nextLifePod.recipe, product = global.nextLifePod.product, minimap_labels = minimap_labels,
-        consumption = global.nextLifePod.consumption, percent_stabilized = 0, stabilized = false,
+        alivePop = storage.nextLifePod.alivePop, startingPop = storage.nextLifePod.alivePop,
+        recipe = storage.nextLifePod.recipe, product = storage.nextLifePod.product, minimap_labels = minimap_labels,
+        consumption = storage.nextLifePod.consumption, percent_stabilized = 0, stabilized = false,
         science_force = table.choice(all_human_forces()),
         label = label_id
     }
 
-    global.lifePods[pod.id] = pod
+    storage.lifePods[pod.id] = pod
 
     clearNextPodUI()
     clearMarkLocation()
@@ -286,27 +286,27 @@ function landNewPod()
 end
 
 function getNextPodRecipe()
-    local era = getTechEra(global.nextLifePod.arrivalTick)
-    global.nextLifePod.product = getRandomLifePodRecipe(era)
-    global.nextLifePod.era = era
-    global.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(global.nextLifePod.product, era)]
+    local era = getTechEra(storage.nextLifePod.arrivalTick)
+    storage.nextLifePod.product = getRandomLifePodRecipe(era)
+    storage.nextLifePod.era = era
+    storage.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(storage.nextLifePod.product, era)]
 end
 function getRandomLifePodRecipe(era)
-    local product = global.lifepod_products[era][math.random(#global.lifepod_products[era])]
+    local product = storage.lifepod_products[era][math.random(#storage.lifepod_products[era])]
     if product == nil then
         debugPrint("Error selecting next pod item; trying again.", true)
         return getRandomLifePodRecipe(era)
     end
-    local needed_hearts_per_sec = podHeartsConsumptionPerSec(global.nextLifePod)
+    local needed_hearts_per_sec = podHeartsConsumptionPerSec(storage.nextLifePod)
     local recipe = game.forces.player.recipes[podRecipeNameFromItemName(product, era)]
     if recipe == nil then
         debugPrint("Error with next pod recipe for item " .. product .."; trying again.", true)
         return getRandomLifePodRecipe(era)
     end
     -- hearts per sec / hearts per object = objects per sec
-    global.nextLifePod.items_per_sec = needed_hearts_per_sec / (recipe.products[1].amount/recipe.ingredients[1].amount)
-    if global.nextLifePod.items_per_sec > CONFIG.MAX_ITEMS_PER_SECOND then
-        debugPrint("Cannot demand item " .. product .. "; would require " .. global.nextLifePod.items_per_sec .. " per sec.", true)
+    storage.nextLifePod.items_per_sec = needed_hearts_per_sec / (recipe.products[1].amount/recipe.ingredients[1].amount)
+    if storage.nextLifePod.items_per_sec > CONFIG.MAX_ITEMS_PER_SECOND then
+        debugPrint("Cannot demand item " .. product .. "; would require " .. storage.nextLifePod.items_per_sec .. " per sec.", true)
         return getRandomLifePodRecipe(era)
     end
     return product
@@ -314,16 +314,16 @@ end
 
 function prepareNextPod()
     nextLifePodTime()
-    global.nextLifePod.consumption = heartsPerPop(effectiveTime(global.nextLifePod.arrivalTick))
+    storage.nextLifePod.consumption = heartsPerPop(effectiveTime(storage.nextLifePod.arrivalTick))
     -- endgame_speedup gets applied to consumption, damage taken, and stabilization rate.
-    global.nextLifePod.endgame_speedup = 1
-    if global.mode == "rescue" and
-            global.rescueTick and
-            global.rescueTick - global.nextLifePod.arrivalTick < CONFIG.RESCUE_SPEEDUP_WARNING_TIME and
-            global.rescueTick > global.nextLifePod.arrivalTick then
-        global.nextLifePod.endgame_speedup = CONFIG.RESCUE_SPEEDUP_WARNING_TIME / (global.rescueTick - global.nextLifePod.arrivalTick)
+    storage.nextLifePod.endgame_speedup = 1
+    if storage.mode == "rescue" and
+            storage.rescueTick and
+            storage.rescueTick - storage.nextLifePod.arrivalTick < CONFIG.RESCUE_SPEEDUP_WARNING_TIME and
+            storage.rescueTick > storage.nextLifePod.arrivalTick then
+        storage.nextLifePod.endgame_speedup = CONFIG.RESCUE_SPEEDUP_WARNING_TIME / (storage.rescueTick - storage.nextLifePod.arrivalTick)
     end
-    global.nextLifePod.alivePop = CONFIG.POD_STARTING_POP
+    storage.nextLifePod.alivePop = CONFIG.POD_STARTING_POP
 
 
     findLifePodLandingSite()
@@ -333,13 +333,13 @@ function prepareNextPod()
 
 
 
-    global.nextLifePod.tracked = {time = false, location = false, recipe = false, consumption_rate = false, overflowing=false}
+    storage.nextLifePod.tracked = {time = false, location = false, recipe = false, consumption_rate = false, overflowing=false}
 end
 function findLifePodLandingSite()
     -- Only subtelty is to ensure that we don't land on a previous pod.
     -- Do this by moving in a constant directon until we find a valid spot.
     local candidate
-    candidate = vector2Add(vector2Half(global.nextLifePod.arrivalPosition), nextVectorJump())
+    candidate = vector2Add(vector2Half(storage.nextLifePod.arrivalPosition), nextVectorJump())
     local verified = false
     while (not verified) do
         local crushed_entities = game.surfaces[1].find_entities({vector2Add(candidate, {x=-5,y=-5}), vector2Add(candidate, {x=5,y=5})})
@@ -351,31 +351,31 @@ function findLifePodLandingSite()
             end
         end
     end
-    global.nextLifePod.arrivalPosition = candidate
+    storage.nextLifePod.arrivalPosition = candidate
 end
 function nextLifePodTime()
-    local nextTime = math.floor(global.nextLifePod.arrivalTick
-            + (math.random(CONFIG.LIFE_POD_PERIOD_MIN, CONFIG.LIFE_POD_PERIOD_MAX) * global.difficulty.values.period_factor)
-            + global.nextToNextLifePod.feedback_extra_time)
+    local nextTime = math.floor(storage.nextLifePod.arrivalTick
+            + (math.random(CONFIG.LIFE_POD_PERIOD_MIN, CONFIG.LIFE_POD_PERIOD_MAX) * storage.difficulty.values.period_factor)
+            + storage.nextToNextLifePod.feedback_extra_time)
     --debugPrint("Next Pod arrives at: " .. formattimelong(nextTime) .. "; currently " .. formattimelong(game.tick))
-    global.nextToNextLifePod.feedback_extra_time = 0
-    if global.mode == "rescue" and global.rescueTick and global.rescueTick > nextTime then
-        nextTime = math.min(nextTime, global.rescueTick - CONFIG.MIN_POD_TIME_BEFORE_RESCUE)
+    storage.nextToNextLifePod.feedback_extra_time = 0
+    if storage.mode == "rescue" and storage.rescueTick and storage.rescueTick > nextTime then
+        nextTime = math.min(nextTime, storage.rescueTick - CONFIG.MIN_POD_TIME_BEFORE_RESCUE)
     end
-    global.nextLifePod.arrivalTick = nextTime
-    global.nextLifePod.warningTick = math.floor(global.nextLifePod.arrivalTick
-            - global.nextToNextLifePod.radar_overflow * CONFIG.RADAR_OVERFLOW_FACTOR) -- Radar overflow is half effective.
-    global.nextToNextLifePod.radar_overflow = 0
+    storage.nextLifePod.arrivalTick = nextTime
+    storage.nextLifePod.warningTick = math.floor(storage.nextLifePod.arrivalTick
+            - storage.nextToNextLifePod.radar_overflow * CONFIG.RADAR_OVERFLOW_FACTOR) -- Radar overflow is half effective.
+    storage.nextToNextLifePod.radar_overflow = 0
 end
 
 function nextVectorJump()
-    local expectedDistance = lifePodDistance(effectiveTime(global.nextLifePod.arrivalTick))
+    local expectedDistance = lifePodDistance(effectiveTime(storage.nextLifePod.arrivalTick))
     local distance = math.random(0.85 * expectedDistance, 1.15 * expectedDistance)
     local angle = math.random() * TWO_PI
     return {x=math.floor(distance * math.cos(angle)), y=math.floor(distance * math.sin(angle))}
 end
 function lifePodDistance(tick)
-    return CONFIG.LIFE_POD_INITIAL_DISTANCE * math.power(CONFIG.LIFE_POD_DISTANCE_SCALE_PER_HOUR, math.min(tick, CONFIG.DISTANCE_MAX_TICK) / TICKS_PER_HOUR) / global.difficulty.values.distance_factor
+    return CONFIG.LIFE_POD_INITIAL_DISTANCE * math.power(CONFIG.LIFE_POD_DISTANCE_SCALE_PER_HOUR, math.min(tick, CONFIG.DISTANCE_MAX_TICK) / TICKS_PER_HOUR) / storage.difficulty.values.distance_factor
 end
 
 function secondTickForPodUniversal(pod)
@@ -383,7 +383,7 @@ function secondTickForPodUniversal(pod)
     if pod.stabilized and pod.repair.health < CONFIG.POD_HEALTH_PER_POP * pod.alivePop then
         pod.repair.health = math.min(CONFIG.POD_HEALTH_PER_POP * pod.alivePop, pod.repair.health + CONFIG.POD_HEALTH_PER_SEC)
     end
-    if math.random() < CONFIG.TECH_CHANCE_PER_SECOND * global.difficulty.values.tech_rate_factor then
+    if math.random() < CONFIG.TECH_CHANCE_PER_SECOND * storage.difficulty.values.tech_rate_factor then
         if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-1") > 0) then
             podScienceBoost(pod, 'blue')
         end
@@ -476,7 +476,7 @@ function tenSecondTickForPod(pod)
 end
 
 function heartsPerPop(tick)
-    return (CONFIG.HEARTS_PER_POP.base + (CONFIG.HEARTS_PER_POP.derivative * tick)) / global.difficulty.values.hearts_factor
+    return (CONFIG.HEARTS_PER_POP.base + (CONFIG.HEARTS_PER_POP.derivative * tick)) / storage.difficulty.values.hearts_factor
 end
 
 function stabilizePod(pod)
@@ -494,11 +494,11 @@ function damagePod(pod)
     displayPodStats(pod)
     displayGlobalPop()
     -- Negative Feedback
-    global.nextToNextLifePod.feedback_extra_time = global.nextToNextLifePod.feedback_extra_time + CONFIG.dead_pop_feedback.next_pod_time
+    storage.nextToNextLifePod.feedback_extra_time = storage.nextToNextLifePod.feedback_extra_time + CONFIG.dead_pop_feedback.next_pod_time
 end
 
 function rescueArrives()
-    global.rescueArrived = true
+    storage.rescueArrived = true
     local summary = summarizePop()
     local alive = summary.active + summary.stable
     printAllPlayers({"lifepods.final-score", alive, alive + summary.dead})
@@ -572,7 +572,7 @@ end
 function findBoostableTech(moduleLevel, force)
     -- Maybe copy an existing pod
     if math.random() < 0.5 then
-        for i, pod in pairs(shuffle(global.lifePods)) do
+        for i, pod in pairs(shuffle(storage.lifePods)) do
             if pod.current_tech_name and isBoostableTech(force.technologies[pod.current_tech_name], moduleLevel) then
                 return force.technologies[pod.current_tech_name]
             end
