@@ -4,9 +4,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -25,9 +23,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -46,9 +42,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -67,9 +61,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -88,9 +80,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -109,9 +99,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -130,9 +118,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -151,9 +137,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -172,9 +156,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -193,9 +175,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
@@ -214,9 +194,7 @@ data:extend({
       category = "productivity",
       default_request_amount = 1,
       effect = {
-        productivity = {
-          bonus = 0.001
-        },
+        productivity = 0.001
       },
       flags = {},
       icon_size = 32,
