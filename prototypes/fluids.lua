@@ -8,7 +8,7 @@ data:extend({
     flags = {"hidden"},
     stack_size= 600,
     default_temperature = 25,
-    heat_capacity = "1KJ",
+    heat_capacity = "1kJ",
     base_color = {r=1, g=0, b=0},
     flow_color = {r=1, g=0, b=0},
     max_temperature = 100,
