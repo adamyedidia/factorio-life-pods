@@ -238,14 +238,17 @@ data:extend({
     },
   },
   -- Text for label above pod.
-  {
-    type = "flying-text",
-    name = "life-pod-flying-text",
-    flags = {"not-on-map"},
-    time_to_live = 1000000,
-    speed = 0.00
-  },
+  -- flying-text is now deprecated -adamy
+  -- {
+  --   type = "flying-text",
+  --   name = "life-pod-flying-text",
+  --   flags = {"not-on-map"},
+  --   time_to_live = 1000000,
+  --   speed = 0.00
+  -- },
   -- Invisible beacon for projecting speed modules
+  -- Removed life-pod-beacon for now because of this lua error:
+  -- Failed to load mods: Error while loading entity prototype "life-pod-beacon" (beacon): Key "module_slots" not found in property tree at ROOT.beacon.life-pod-beacon
   -- {
   --   type = "beacon",
   --   name = "life-pod-beacon",

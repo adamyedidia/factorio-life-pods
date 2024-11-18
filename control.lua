@@ -91,7 +91,7 @@ script.on_event(defines.events.on_entity_died, function(event)
     deadPod.radar.destroy()
     deadPod.beacon.destroy()
     if deadPod.label.valid then
-        deadPod.label.destroy()
+        rendering.destroy(deadPod.label)
     else
         debugPrint("Invalid Label on pod ".. deadPod.name .. "; " .. deadPod.id, true)
     end
@@ -244,7 +244,15 @@ function landNewPod()
 
     radar.destructible = false
     beacon.destructible = false
-    local label = game.surfaces[1].create_entity({name = "life-pod-flying-text", position = vector2Add(repair.position,{x=-0.5,y=0.2}), text = "", color = {r=0, g=1, b=0}})
+    local label_id = rendering.draw_text{
+        text = "",
+        surface = game.surfaces[1],
+        target = repair,
+        target_offset = {-0.5, 0.2},
+        color = {r=0, g=1, b=0},
+        scale = 1,
+        alignment = "center"
+    }
     local minimap_labels = {}
     for force_name, force in pairs(all_human_forces()) do
         minimap_labels[force_name] = force.add_chart_tag(game.surfaces[1],
@@ -263,7 +271,8 @@ function landNewPod()
         alivePop = global.nextLifePod.alivePop, startingPop = global.nextLifePod.alivePop,
         recipe = global.nextLifePod.recipe, product = global.nextLifePod.product, minimap_labels = minimap_labels,
         consumption = global.nextLifePod.consumption, percent_stabilized = 0, stabilized = false,
-        science_force = table.choice(all_human_forces())
+        science_force = table.choice(all_human_forces()),
+        label = label_id
     }
 
     global.lifePods[pod.id] = pod
@@ -511,14 +520,16 @@ function displayPodStats(pod)
     else
         color = {r=0.5, g=0.5, b=0.5 }
     end
-    pod.label.destroy()
-    pod.label = game.surfaces[1].create_entity({
-        name = "life-pod-flying-text",
-        position = vector2Add(
-            pod.repair.position,
-            {x=-1,y=-2}),
-        text = pod.name.." ("..pod.alivePop .. "/" .. pod.startingPop..")",
-        color = color})
+    -- pod.label.destroy()
+    -- pod.label = game.surfaces[1].create_entity({
+    --     name = "life-pod-flying-text",
+    --     position = vector2Add(
+    --         pod.repair.position,
+    --         {x=-1,y=-2}),
+    --     text = pod.name.." ("..pod.alivePop .. "/" .. pod.startingPop..")",
+    --     color = color})
+    rendering.set_text(pod.label, pod.name.." ("..pod.alivePop .. "/" .. pod.startingPop..")")
+    rendering.set_color(pod.label, color)
 end
 
 function podScienceBoost(pod, moduleLevel)
