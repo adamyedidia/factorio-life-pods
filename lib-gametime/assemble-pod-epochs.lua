@@ -20,16 +20,16 @@ function initTechDictionary()
         end
     end
 
-    game.write_file("life-pods-products.log", "Life Pods Products List\n\n", false)
+    helpers.write_file("life-pods-products.log", "Life Pods Products List\n\n", false)
     for level, products in pairs(storage.lifepod_products) do
-        game.write_file("life-pods-products.log", "Products at level " .. level .. ": " .. #products .. "\n", true)
+        helpers.write_file("life-pods-products.log", "Products at level " .. level .. ": " .. #products .. "\n", true)
         for i, itemname in pairs(products) do
             if type(itemname) == "table" then error("Got table for 'itemname': " .. table.tostring(itemname)) end
 
             local recipe = game.forces.player.recipes[podRecipeNameFromItemName(itemname, level)]
             local input_num = recipe.ingredients[1].amount
             local input = itemname
-            game.write_file("life-pods-products.log", "  " .. i .. ". " .. input .. ": " .. (recipe.products[1].amount/input_num) .. "\n", true)
+            helpers.write_file("life-pods-products.log", "  " .. i .. ". " .. input .. ": " .. (recipe.products[1].amount/input_num) .. "\n", true)
         end
     end
 end
