@@ -89,7 +89,7 @@ script.on_event(defines.events.on_entity_died, function(event)
     local deadPod = storage.lifePods[event.entity.unit_number]
     printAllPlayers({"lifepods.pod-died", deadPod.name})
     deadPod.radar.destroy()
-    deadPod.beacon.destroy()
+    -- deadPod.beacon.destroy()
     if deadPod.label.valid then
         rendering.destroy(deadPod.label)
     else
@@ -237,12 +237,7 @@ function landNewPod()
     local pod_force = game.forces.player
     local repair = game.surfaces[1].create_entity{name="life-pod-repair", position=storage.nextLifePod.arrivalPosition, force=pod_force}
     local radar = game.surfaces[1].create_entity{name="life-pod-radar", position=storage.nextLifePod.arrivalPosition, force=pod_force }
-    local beacon = game.surfaces[1].create_entity{name="life-pod-beacon", position=storage.nextLifePod.arrivalPosition, force=pod_force }
-    beacon.get_module_inventory(1).insert({name="speed-module-3", count=2})
-    beacon.get_module_inventory(1).insert({name="efficiency-module-3", count=3})
-
     radar.destructible = false
-    beacon.destructible = false
     local label_id = rendering.draw_text{
         text = "",
         surface = game.surfaces[1],
@@ -266,7 +261,7 @@ function landNewPod()
 
     local pod = {
         id = repair.unit_number, name=name, endgame_speedup = storage.nextLifePod.endgame_speedup,
-        repair = repair, radar = radar, label = label, beacon = beacon,
+        repair = repair, radar = radar, label = label,
         alivePop = storage.nextLifePod.alivePop, startingPop = storage.nextLifePod.alivePop,
         recipe = storage.nextLifePod.recipe, product = storage.nextLifePod.product, minimap_labels = minimap_labels,
         consumption = storage.nextLifePod.consumption, percent_stabilized = 0, stabilized = false,
