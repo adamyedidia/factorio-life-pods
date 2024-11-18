@@ -2,6 +2,11 @@ function summarizePop()
     local active = 0
     local stable = 0
     local dead = global.deadPodsPopulation
+
+    if not global.lifePods then
+        global.lifePods = {}
+    end
+
     for _, pod in pairs (global.lifePods) do
         dead = dead + pod.startingPop - pod.alivePop
         if pod.stabilized then
