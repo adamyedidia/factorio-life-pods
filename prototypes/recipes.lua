@@ -10,7 +10,7 @@ data:extend({
             },
             {
                 type = "item",
-                name = "copper-wire",
+                name = "copper-cable",
                 amount = 100
             },
             {
