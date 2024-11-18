@@ -3,14 +3,29 @@ require "lib-datatime.global-lookup-datatime"
 
 local techPrototypeImpl = {
     getIngredients = function(tech)
+        if tech == nil then
+            return {}
+        end
+        if tech.unit == nil then
+            return {}
+        end
         local ingredients = tech.unit.ingredients
         ingredients = table.mapField(ingredients, 1)
         return ingredients
     end,
     getUnitCount = function(tech)
+        if tech == nil then
+            return 0
+        end
+        if tech.unit == nil then
+            return 0
+        end
         return tech.unit.count
     end,
     getPrereqs = function(tech)
+        if tech == nil then
+            return {}
+        end
         if tech.prerequisites == nil then
             if settings.startup["life-pods-mod-compatibility-mode"].value == "strict" then
                 error("Tech " .. tech.name .. " has no prerequisites.")
