@@ -37,6 +37,9 @@ local recipeImpl = {
            recipe = original_recipe.normal
        end
        local ingredients = {}
+       if recipe.ingredients == nil then
+           return ingredients
+       end
        for i,ingredient in pairs(recipe.ingredients) do
           if (ingredient.name and ingredient.amount) then
              ingredients[ingredient.name] = ingredient.amount
