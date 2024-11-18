@@ -106,7 +106,7 @@ data:extend({
     name = "life-pod-icon",
     icon_size = 32,
     icon = "__life-pods__/graphics/lifepod-icon.png",
-    flags = {"hidden"}, --don't show in lists of all items.
+    hidden = true, --don't show in lists of all items.
     stack_size = 1,  --required but irrelevant.
   },
   -- Warning Icon for Minimap
@@ -115,7 +115,7 @@ data:extend({
     name = "life-pod-warning-icon",
     icon_size = 32,
     icon = "__life-pods__/graphics/warning.png",
-    flags = {"hidden"}, --don't show in lists of all items.
+    hidden = true, --don't show in lists of all items.
     stack_size = 1,  --required but irrelevant.
   },
   {
