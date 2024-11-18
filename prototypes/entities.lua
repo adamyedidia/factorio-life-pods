@@ -246,32 +246,32 @@ data:extend({
     speed = 0.00
   },
   -- Invisible beacon for projecting speed modules
-  {
-    type = "beacon",
-    name = "life-pod-beacon",
-    flags = {"not-repairable", "not-blueprintable", "not-deconstructable"},
-    max_health = 1,
-    corpse = "big-remnants",
-    selection_box = nil,
-    allowed_effects = {"consumption", "speed", "pollution", "productivity"},
-    base_picture = invisible,
-    animation = invisible_animation,
-    animation_shadow = invisible_animation,
-    radius_visualisation_picture =
-    {
-      filename = "__base__/graphics/entity/beacon/beacon-radius-visualization.png",
-      width = 10,
-      height = 10,
-    },
-    supply_area_distance = 20,
-    energy_source = {type = "void",},
-    energy_usage = "10kW",
-    distribution_effectivity = 1,
-    module_specification =
-    {
-      module_slots = 5,
-      module_info_icon_shift = {0, 0.5},
-      module_info_multi_row_initial_height_modifier = -0.3
-    }
-  },
+  -- {
+  --   type = "beacon",
+  --   name = "life-pod-beacon",
+  --   flags = {"not-repairable", "not-blueprintable", "not-deconstructable"},
+  --   max_health = 1,
+  --   corpse = "big-remnants",
+  --   selection_box = nil,
+  --   allowed_effects = {"consumption", "speed", "pollution", "productivity"},
+  --   base_picture = invisible,
+  --   animation = invisible_animation,
+  --   animation_shadow = invisible_animation,
+  --   radius_visualisation_picture =
+  --   {
+  --     filename = "__base__/graphics/entity/beacon/beacon-radius-visualization.png",
+  --     width = 10,
+  --     height = 10,
+  --   },
+  --   supply_area_distance = 20,
+  --   energy_source = {type = "void",},
+  --   energy_usage = "10kW",
+  --   distribution_effectivity = 1,
+  --   module_specification =
+  --   {
+  --     module_slots = 5,
+  --     module_info_icon_shift = {0, 0.5},
+  --     module_info_multi_row_initial_height_modifier = -0.3
+  --   }
+  -- },
 })
