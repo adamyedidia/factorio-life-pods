@@ -359,7 +359,17 @@ end
 
 function prepareNextPod()
     nextLifePodTime()
-    storage.nextLifePod.consumption = heartsPerPop(effectiveTime(storage.nextLifePod.arrivalTick))
+    -- TODO dedupe this somehow
+    local consumption_multiplier_as_a_function_of_quality = function(quality)
+        if quality == "normal" then return 1.0 end
+        if quality == "uncommon" then return 0.2 end
+        if quality == "rare" then return 0.2 * 0.25 end
+        if quality == "epic" then return 0.2 * 0.25 * 0.33 end
+        return 0.2 * 0.25 * 0.33 * 0.5
+    end
+    
+
+    storage.nextLifePod.consumption = heartsPerPop(effectiveTime(storage.nextLifePod.arrivalTick)) * consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality)
     -- endgame_speedup gets applied to consumption, damage taken, and stabilization rate.
     storage.nextLifePod.endgame_speedup = 1
     if storage.mode == "rescue" and
