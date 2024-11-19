@@ -258,12 +258,20 @@ function landNewPod()
     end
     repair.set_recipe(storage.nextLifePod.recipe, storage.nextLifePod.recipe_quality)
 
+    local consumption_multiplier_as_a_function_of_quality = function(quality)
+        if quality == "normal" then return 1.0 end
+        if quality == "uncommon" then return 0.2 end
+        if quality == "rare" then return 0.2 * 0.25 end
+        if quality == "epic" then return 0.2 * 0.25 * 0.33 end
+        return 0.2 * 0.25 * 0.33 * 0.5
+    end
+
     local pod = {
         id = repair.unit_number, name=name, endgame_speedup = storage.nextLifePod.endgame_speedup,
         repair = repair, radar = radar, label = label,
         alivePop = storage.nextLifePod.alivePop, startingPop = storage.nextLifePod.alivePop,
         recipe = storage.nextLifePod.recipe, product = storage.nextLifePod.product, minimap_labels = minimap_labels,
-        consumption = storage.nextLifePod.consumption, percent_stabilized = 0, stabilized = false,
+        consumption = storage.nextLifePod.consumption * consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality), percent_stabilized = 0, stabilized = false,
         science_force = table.choice(all_human_forces()),
         label = label_id, recipe_quality = storage.nextLifePod.recipe_quality
     }
