@@ -455,7 +455,9 @@ function tenSecondTickForPod(pod)
 
     -- Increase Total Repair Progress
     if (pod.repair.get_module_inventory().get_item_count() > 0) then
-        local progress_increase = 10 * TICKS_PER_SECOND / CONFIG.POD_TICKS_TO_FULL_REPAIR * pod.endgame_speedup
+        local module_quality = pod.repair.get_module_inventory()[1].quality        
+        local progress_increase = 10 * TICKS_PER_SECOND / CONFIG.POD_TICKS_TO_FULL_REPAIR * pod.endgame_speedup * (1 + 0.2 * module_quality.level)
+
         local module = pod.repair.get_module_inventory()[1]
         if module.health > progress_increase then
             module.health = module.health - progress_increase
