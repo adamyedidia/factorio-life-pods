@@ -89,12 +89,11 @@ script.on_event(defines.events.on_entity_died, function(event)
     local deadPod = storage.lifePods[event.entity.unit_number]
     printAllPlayers({"lifepods.pod-died", deadPod.name})
     deadPod.radar.destroy()
-    -- deadPod.beacon.destroy()
-    if deadPod.label.valid then
-        rendering.destroy(deadPod.label)
-    else
-        debugPrint("Invalid Label on pod ".. deadPod.name .. "; " .. deadPod.id, true)
-    end
+    -- if deadPod.label.valid then
+    --     rendering.destroy(deadPod.label)
+    -- else
+    --     debugPrint("Invalid Label on pod ".. deadPod.name .. "; " .. deadPod.id, true)
+    -- end
     for _, label in pairs(deadPod.minimap_labels) do
         label.destroy()
     end
@@ -438,12 +437,21 @@ function tenSecondTickForPod(pod)
     end
     -- Display floating time till damage
     local time = podSecsTillDeath(pod)
-    game.surfaces[1].create_entity({
-        name = "flying-text",
-        position = vector2Add(
-            pod.repair.position,
-            {x=-1,y=-3}),
-        text = formattimelong(time * TICKS_PER_SECOND)})
+    -- game.surfaces[1].create_entity({
+    --     name = "flying-text",
+    --     position = vector2Add(
+    --         pod.repair.position,
+    --         {x=-1,y=-3}),
+    --     text = formattimelong(time * TICKS_PER_SECOND)})
+    rendering.draw_text({
+        text = formattimelong(time * TICKS_PER_SECOND),
+        surface = game.surfaces[1],
+        target = vector2Add(pod.repair.position, {x=-1,y=-3}),
+        color = {r=1, g=1, b=1},  -- white color for visibility
+        time_to_live = 60,        -- disappear after 1 second
+        scale = 1.0,
+        alignment = "center"
+    })
 
     -- Increase Total Repair Progress
     if (pod.repair.get_module_inventory().get_item_count() > 0) then
@@ -522,8 +530,19 @@ function displayPodStats(pod)
     --         {x=-1,y=-2}),
     --     text = pod.name.." ("..pod.alivePop .. "/" .. pod.startingPop..")",
     --     color = color})
-    rendering.set_text(pod.label, pod.name.." ("..pod.alivePop .. "/" .. pod.startingPop..")")
-    rendering.set_color(pod.label, color)
+    -- if pod.label then
+    --     rendering.destroy(pod.label)
+    -- end
+    
+    -- Create new label
+    pod.label = rendering.draw_text({
+        text = pod.name.." ("..pod.alivePop .. "/" .. pod.startingPop..")",
+        surface = game.surfaces[1],
+        target = vector2Add(pod.repair.position, {x=-1,y=-2}),
+        color = color,
+        scale = 1.5,  -- Adjust scale as needed
+        alignment = "center"
+    })
 end
 
 function podScienceBoost(pod, moduleLevel)

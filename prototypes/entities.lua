@@ -198,9 +198,10 @@ data:extend({
       shift = {0, 0}
     },
     working_visualisations = {},
-    module_specification = {
-      module_slots = 1
-    },
+    -- module_specification = {
+    --   module_slots = 1
+    -- },
+    module_slots = 1,
     allowed_effects={"productivity"},
   },
   -- Invisible radar is to give vision of the area. Might be a better way.
