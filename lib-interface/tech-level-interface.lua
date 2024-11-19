@@ -26,6 +26,11 @@ function getTechLevelInterface(tech, techInterface)
     for _, ingredient in pairs(ingredient_names) do
         ingredient_set[ingredient] = true
     end
+    if ingredient_set["metallurgic-science-pack"] then return "metallurgic" end
+    if ingredient_set["electromagnetic-science-pack"] then return "electromagnetic" end
+    if ingredient_set["agricultural-science-pack"] then return "agricultural" end
+    if ingredient_set["cryogenic-science-pack"] then return "cryogenic" end
+    if ingredient_set["promethium-science-pack"] then return "promethium" end
     if ingredient_set["space-science-pack"] or ingredient_count > 3000 then return "white" end
     if ingredient_set["utility-science-pack"] then
         if ingredient_set["production-science-pack"] or ingredient_count > 1000 then return "purpleyellow"

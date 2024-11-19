@@ -59,7 +59,8 @@ CONFIG = {
         electromagnetic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "electromagnetic-science-pack"}, next="agricultural-science-pack"},
         agricultural = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "agricultural-science-pack"}, next="cryogenic-science-pack"},
         cryogenic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack"}, next="promethium-science-pack"},
-        promethium = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack", "promethium-science-pack"}, next="NONE"}
+        promethium = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack", "promethium-science-pack"}, next="FINAL"},
+        final = {all="FINAL", next="NONE"}
     },
     -- Time at which pods start demanding items requiring each tech.
     -- Takes effect at game load, for pod after next.
@@ -77,8 +78,9 @@ CONFIG = {
         metallurgic = 24 * TICKS_PER_HOUR,
         electromagnetic = 28 * TICKS_PER_HOUR,
         agricultural = 34 * TICKS_PER_HOUR,
-        cryogenic = 45 * TICKS_PER_HOUR,
-        promethium = 60 * TICKS_PER_HOUR,
+        cryogenic = 40 * TICKS_PER_HOUR,
+        promethium = 45 * TICKS_PER_HOUR,
+        final = 50 * TICKS_PER_HOUR
     },
 
     -- First pod comes sooner by this factor.
@@ -235,7 +237,13 @@ if (settings and settings.startup["life-pods-debug"].value) then
         purple_yellow_first = 7 * TICKS_PER_SECOND,
         purple_yellow_second = 8 * TICKS_PER_SECOND,
         purpleyellow = 10 * TICKS_PER_SECOND,
-        final = 15 * TICKS_PER_SECOND,
+        white = 15 * TICKS_PER_SECOND,
+        metallurgic = 20 * TICKS_PER_SECOND,
+        electromagnetic = 25 * TICKS_PER_SECOND,
+        agricultural = 30 * TICKS_PER_SECOND,
+        cryogenic = 35 * TICKS_PER_SECOND,
+        promethium = 40 * TICKS_PER_SECOND,
+        final = 45 * TICKS_PER_SECOND,
     }
     CONFIG.RESCUE_MAX_DEATHS_PER_HOUR = 100
 end
