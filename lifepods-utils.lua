@@ -91,6 +91,15 @@ function podHeartsConsumptionPerSec(pod)
 end
 
 function podSecondsPerInput(pod)
+    -- TODO dedupe this somehow
+    local consumption_multiplier_as_a_function_of_quality = function(quality)
+        if quality == "normal" then return 1.0 end
+        if quality == "uncommon" then return 0.2 end
+        if quality == "rare" then return 0.2 * 0.25 end
+        if quality == "epic" then return 0.2 * 0.25 * 0.33 end
+        return 0.2 * 0.25 * 0.33 * 0.5
+    end
+
     if not pod.recipe then
         debugError("Error: something bad happened with recipes....\n\n" .. table.tostring(pod))
         return 0
@@ -99,7 +108,7 @@ function podSecondsPerInput(pod)
         debugError("Error: something bad happened with recipes.products ....\n\n" .. table.tostring(pod))
         return 0
     end
-    return pod.recipe.products[1].amount / (podHeartsConsumptionPerSec(pod) * pod.recipe.ingredients[1].amount)
+    return pod.recipe.products[1].amount / (podHeartsConsumptionPerSec(pod) * pod.recipe.ingredients[1].amount * consumption_multiplier_as_a_function_of_quality(pod.recipe_quality))
 end
 
 function podSecsTillDeath(pod)
