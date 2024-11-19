@@ -17,6 +17,15 @@ function initPlayerGUI(index)
     initTopDialog(game.players[index])
     debugPrint({"lifepods.debug-mode"})
 end
+
+function recipeQualityString(recipe_quality)
+    if recipe_quality == "common" then
+        return ""
+    else
+        return recipe_quality
+    end
+end
+
 -- Print our custom intro message after the normal cutscene intro.
 script.on_event(defines.events.on_cutscene_waypoint_reached, function(event)
     if event.waypoint_index == 1 then
@@ -72,7 +81,7 @@ function updateRadarInfo()
     for _, player in pairs(game.players) do
         if storage.nextLifePod.tracked.recipe then
              top_ui(player).lifepods.nextLifePod.recipe.caption =
-            {'lifepods.ui-pod-needs', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name}
+            {'lifepods.ui-pod-needs', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name, recipeQualityString(storage.nextLifePod.recipe_quality)}
         end
         if storage.nextLifePod.tracked.location then
             top_ui(player).lifepods.nextLifePod.podlocation.caption = {'lifepods.ui-pod-location', storage.nextLifePod.name}
@@ -94,7 +103,7 @@ function updateRadarInfo()
                 rate_string = "x" .. num_per_sec .. "/s"
             end
             top_ui(player).lifepods.nextLifePod.recipe.caption =
-            {'lifepods.ui-pod-needs-with-rate', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name, rate_string}
+            {'lifepods.ui-pod-needs-with-rate', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name, rate_string, recipeQualityString(storage.nextLifePod.recipe_quality)}
         end
     end
 end

@@ -140,10 +140,10 @@ function newPodWarning(tick)
         local rate_string
         if seconds_per_item >= 1 then
             local time = formattimelong(seconds_per_item * TICKS_PER_SECOND)
-            printAllPlayers({"lifepods.warning-consumption_rate-gt1", storage.nextLifePod.name, localized_product, time})
+            printAllPlayers({"lifepods.warning-consumption_rate-gt1", storage.nextLifePod.name, localized_product, time, recipeQualityString(storage.nextLifePod.recipe_quality)})
         else
             local num_per_sec = math.ceil(1 / seconds_per_item)
-            printAllPlayers({"lifepods.warning-consumption_rate-lt1", storage.nextLifePod.name, localized_product, num_per_sec})
+            printAllPlayers({"lifepods.warning-consumption_rate-lt1", storage.nextLifePod.name, localized_product, num_per_sec, recipeQualityString(storage.nextLifePod.recipe_quality)})
         end
 
         -- Set next warning tick to arrivaltick, so it doesn't trigger again.
@@ -256,7 +256,7 @@ function landNewPod()
             }
         )
     end
-    repair.set_recipe(storage.nextLifePod.recipe)
+    repair.set_recipe(storage.nextLifePod.recipe, storage.nextLifePod.recipe_quality)
 
     local pod = {
         id = repair.unit_number, name=name, endgame_speedup = storage.nextLifePod.endgame_speedup,
@@ -265,7 +265,7 @@ function landNewPod()
         recipe = storage.nextLifePod.recipe, product = storage.nextLifePod.product, minimap_labels = minimap_labels,
         consumption = storage.nextLifePod.consumption, percent_stabilized = 0, stabilized = false,
         science_force = table.choice(all_human_forces()),
-        label = label_id
+        label = label_id, recipe_quality = storage.nextLifePod.recipe_quality
     }
 
     storage.lifePods[pod.id] = pod
@@ -283,6 +283,7 @@ function getNextPodRecipe()
     storage.nextLifePod.product = getRandomLifePodRecipe(era)
     storage.nextLifePod.era = era
     storage.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(storage.nextLifePod.product, era)]
+    storage.nextLifePod.recipe_quality = "uncommon"
 end
 function getRandomLifePodRecipe(era)
     local product = storage.lifepod_products[era][math.random(#storage.lifepod_products[era])]
@@ -372,7 +373,8 @@ function lifePodDistance(tick)
 end
 
 function secondTickForPodUniversal(pod)
-    pod.repair.set_recipe(pod.recipe)
+    -- printAllPlayers("Setting recipe at secondtickuniversal: " .. pod.recipe_quality)
+    pod.repair.set_recipe(pod.recipe, pod.recipe_quality)
     if pod.stabilized and pod.repair.health < CONFIG.POD_HEALTH_PER_POP * pod.alivePop then
         pod.repair.health = math.min(CONFIG.POD_HEALTH_PER_POP * pod.alivePop, pod.repair.health + CONFIG.POD_HEALTH_PER_SEC)
     end
@@ -456,6 +458,7 @@ function tenSecondTickForPod(pod)
     -- Increase Total Repair Progress
     if (pod.repair.get_module_inventory().get_item_count() > 0) then
         local module_quality = pod.repair.get_module_inventory()[1].quality        
+        local module_quality_name = module_quality.name
         local progress_increase = 10 * TICKS_PER_SECOND / CONFIG.POD_TICKS_TO_FULL_REPAIR * pod.endgame_speedup * (1 + 0.2 * module_quality.level)
 
         local module = pod.repair.get_module_inventory()[1]
