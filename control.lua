@@ -283,7 +283,50 @@ function getNextPodRecipe()
     storage.nextLifePod.product = getRandomLifePodRecipe(era)
     storage.nextLifePod.era = era
     storage.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(storage.nextLifePod.product, era)]
-    storage.nextLifePod.recipe_quality = "uncommon"
+    printAllPlayers("Current era is " .. era)
+    local normal_quality_chance = 0.0
+    local uncommon_quality_chance = 0.0
+    local rare_quality_chance = 0.0
+    local epic_quality_chance = 0.0
+
+    if (era == "start") or (era == "red") or (era == "green") then
+        normal_quality_chance = 1.0
+    elseif (era == "greenblack") or (era == "blue") or (era == "blueblack") then
+        normal_quality_chance = 0.8
+        uncommon_quality_chance = 0.2
+    elseif (era == "purple") or (era == "yellow") or (era == "purpleyellow") then
+        normal_quality_chance = 0.7
+        uncommon_quality_chance = 0.3
+    elseif (era == "white") or (era == "metallurgic") or (era == "electromagnetic") or (era == "agricultural") then
+        normal_quality_chance = 0.5
+        uncommon_quality_chance = 0.35
+        rare_quality_chance = 0.15
+    elseif (era == "cryogenic") or (era == "promethium") then
+        normal_quality_chance = 0.4
+        uncommon_quality_chance = 0.2
+        rare_quality_chance = 0.2
+        epic_quality_chance = 0.2
+    elseif (era == "final") then
+        normal_quality_chance = 0.2
+        uncommon_quality_chance = 0.2
+        rare_quality_chance = 0.2
+        epic_quality_chance = 0.2
+        legendary_quality_chance = 0.2
+    end
+
+    local quality_roll = math.random()
+
+    if quality_roll < normal_quality_chance then
+        storage.nextLifePod.recipe_quality = "normal"
+    elseif quality_roll < uncommon_quality_chance then
+        storage.nextLifePod.recipe_quality = "uncommon"
+    elseif quality_roll < rare_quality_chance then
+        storage.nextLifePod.recipe_quality = "rare"
+    elseif quality_roll < epic_quality_chance then
+        storage.nextLifePod.recipe_quality = "epic"
+    else
+        storage.nextLifePod.recipe_quality = "legendary"
+    end
 end
 function getRandomLifePodRecipe(era)
     local product = storage.lifepod_products[era][math.random(#storage.lifepod_products[era])]
@@ -373,7 +416,6 @@ function lifePodDistance(tick)
 end
 
 function secondTickForPodUniversal(pod)
-    -- printAllPlayers("Setting recipe at secondtickuniversal: " .. pod.recipe_quality)
     pod.repair.set_recipe(pod.recipe, pod.recipe_quality)
     if pod.stabilized and pod.repair.health < CONFIG.POD_HEALTH_PER_POP * pod.alivePop then
         pod.repair.health = math.min(CONFIG.POD_HEALTH_PER_POP * pod.alivePop, pod.repair.health + CONFIG.POD_HEALTH_PER_SEC)
@@ -461,6 +503,7 @@ function tenSecondTickForPod(pod)
         local module_quality_name = module_quality.name
         local progress_increase = 10 * TICKS_PER_SECOND / CONFIG.POD_TICKS_TO_FULL_REPAIR * pod.endgame_speedup * (1 + 0.2 * module_quality.level)
 
+        -- printAllPlayers(module_quality_name)
         local module = pod.repair.get_module_inventory()[1]
         if module.health > progress_increase then
             module.health = module.health - progress_increase

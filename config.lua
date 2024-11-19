@@ -43,6 +43,7 @@ CONFIG = {
         "agricultural",
         "cryogenic",
         "promethium",
+        "final",
     },
     level_icons = {
         start = {all = {}, next = "automation-science-pack"},

@@ -19,10 +19,10 @@ function initPlayerGUI(index)
 end
 
 function recipeQualityString(recipe_quality)
-    if recipe_quality == "common" then
+    if recipe_quality == "normal" then
         return ""
     else
-        return recipe_quality
+        return recipe_quality .. " "
     end
 end
 
