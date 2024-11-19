@@ -319,18 +319,21 @@ function getNextPodRecipe()
         uncommon_quality_chance = 0.2
         rare_quality_chance = 0.2
         epic_quality_chance = 0.2
-        legendary_quality_chance = 0.2
     end
+
+    printAllPlayers("Normal quality chance: " .. normal_quality_chance .. "; uncommon quality chance: " .. uncommon_quality_chance .. "; rare quality chance: " .. rare_quality_chance .. "; epic quality chance: " .. epic_quality_chance)
 
     local quality_roll = math.random()
 
+    printAllPlayers("Quality roll: " .. quality_roll)
+
     if quality_roll < normal_quality_chance then
         storage.nextLifePod.recipe_quality = "normal"
-    elseif quality_roll < uncommon_quality_chance then
+    elseif quality_roll < normal_quality_chance + uncommon_quality_chance then
         storage.nextLifePod.recipe_quality = "uncommon"
-    elseif quality_roll < rare_quality_chance then
+    elseif quality_roll < normal_quality_chance + uncommon_quality_chance + rare_quality_chance then
         storage.nextLifePod.recipe_quality = "rare"
-    elseif quality_roll < epic_quality_chance then
+    elseif quality_roll < normal_quality_chance + uncommon_quality_chance + rare_quality_chance + epic_quality_chance then
         storage.nextLifePod.recipe_quality = "epic"
     else
         storage.nextLifePod.recipe_quality = "legendary"
