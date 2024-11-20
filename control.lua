@@ -136,13 +136,29 @@ function newPodWarning(tick)
         local seconds_per_item = podSecondsPerInput(storage.nextLifePod)
         storage.nextLifePod.tracked.consumption_rate = seconds_per_item
 
+        printAllPlayers("next life pod quality is " .. storage.nextLifePod.recipe_quality)
+
+        -- TODO dedupe this somehow
+        local consumption_multiplier_as_a_function_of_quality = function(quality)
+            if quality == "normal" then return 1.0 end
+            if quality == "uncommon" then return 0.2 end
+            if quality == "rare" then return 0.2 * 0.25 end
+            if quality == "epic" then return 0.2 * 0.25 * 0.33 end
+            return 0.2 * 0.25 * 0.33 * 0.5
+        end
+
+        printAllPlayers("consumption multiplier is " .. consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality))
+        printAllPlayers("seconds per item is " .. seconds_per_item)
+
+        local adjusted_seconds_per_item = seconds_per_item / consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality)
+        printAllPlayers("adjusted seconds per item is " .. adjusted_seconds_per_item)
         local localized_product = prototypes.item[storage.nextLifePod.product].localised_name
         local rate_string
-        if seconds_per_item >= 1 then
-            local time = formattimelong(seconds_per_item * TICKS_PER_SECOND)
+        if adjusted_seconds_per_item >= 1 then
+            local time = formattimelong(adjusted_seconds_per_item * TICKS_PER_SECOND)
             printAllPlayers({"lifepods.warning-consumption_rate-gt1", storage.nextLifePod.name, localized_product, time, recipeQualityString(storage.nextLifePod.recipe_quality)})
         else
-            local num_per_sec = math.ceil(1 / seconds_per_item)
+            local num_per_sec = math.ceil(1 / adjusted_seconds_per_item)
             printAllPlayers({"lifepods.warning-consumption_rate-lt1", storage.nextLifePod.name, localized_product, num_per_sec, recipeQualityString(storage.nextLifePod.recipe_quality)})
         end
 
