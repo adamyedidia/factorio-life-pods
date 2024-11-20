@@ -83,10 +83,6 @@ data:extend({
           recipe = "life-pods-science-module-2",
           type = "unlock-recipe"
         },
-        {
-          recipe = "life-pods-science-module-2-y",
-          type = "unlock-recipe"
-        }
       },
       icon_size = 32,
       icon = "__life-pods__/graphics/lifepod-icon.png",
@@ -129,10 +125,6 @@ data:extend({
           recipe = "life-pods-science-module-3",
           type = "unlock-recipe"
         },
-        {
-          recipe = "life-pods-science-module-3-y",
-          type = "unlock-recipe"
-        }
       },
       icon_size = 32,
       icon = "__life-pods__/graphics/lifepod-icon.png",

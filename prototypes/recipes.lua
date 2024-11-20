@@ -268,43 +268,9 @@ data:extend({
                 name = "utility-science-pack",
                 amount = 5
             },
-        },
-    },
-    {
-        name = "life-pods-science-module-2-y",
-        results = {{type="item", name="life-pods-science-module-2-y", amount=1}},
-        type = "recipe",
-        enabled = false,
-        energy_required = 10,
-        ingredients = {
             {
                 type = "item",
-                name = "life-pods-science-module-1",
-                amount = 1
-            },
-            {
-                type = "item",
-                name = "automation-science-pack",
-                amount = 5
-            },
-            {
-                type = "item",
-                name = "logistic-science-pack",
-                amount = 5
-            },
-            {
-                type = "item",
-                name = "chemical-science-pack",
-                amount = 5
-            },
-            {
-                type = "item",
-                name = "military-science-pack",
-                amount = 5
-            },
-            {
-                type = "item",
-                name = "utility-science-pack",
+                name = "space-science-pack",
                 amount = 5
             },
         },
@@ -356,53 +322,19 @@ data:extend({
                 name = "space-science-pack",
                 amount = 5
             },
-        },
-    },
-    {
-        name = "life-pods-science-module-3-y",
-        results = {{type="item", name="life-pods-science-module-3-y", amount=1}},
-        type = "recipe",
-        enabled = false,
-        energy_required = 10,
-        ingredients = {
             {
                 type = "item",
-                name = "life-pods-science-module-2-y",
-                amount = 1
-            },
-            {
-                type = "item",
-                name = "automation-science-pack",
+                name = "metallurgic-science-pack",
                 amount = 5
             },
             {
                 type = "item",
-                name = "logistic-science-pack",
+                name = "electromagnetic-science-pack",
                 amount = 5
             },
             {
                 type = "item",
-                name = "chemical-science-pack",
-                amount = 5
-            },
-            {
-                type = "item",
-                name = "military-science-pack",
-                amount = 5
-            },
-            {
-                type = "item",
-                name = "production-science-pack",
-                amount = 5
-            },
-            {
-                type = "item",
-                name = "utility-science-pack",
-                amount = 5
-            },
-            {
-                type = "item",
-                name = "space-science-pack",
+                name = "agricultural-science-pack",
                 amount = 5
             },
         },

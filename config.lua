@@ -38,11 +38,9 @@ CONFIG = {
         "yellow",
         "purpleyellow",
         "white",
-        "metallurgic",
-        "electromagnetic",
-        "agricultural",
+        "latewhite",
+        "innerplanetstech",
         "cryogenic",
-        "promethium",
         "final",
     },
     level_icons = {
@@ -56,11 +54,9 @@ CONFIG = {
         yellow = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "utility-science-pack"}, next = "production-science-pack"},
         purpleyellow = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack"}, next = "space-science-pack"},
         white = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack"}, next="metallurgic-science-pack"},
-        metallurgic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack"}, next="electromagnetic-science-pack"},
-        electromagnetic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "electromagnetic-science-pack"}, next="agricultural-science-pack"},
-        agricultural = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "agricultural-science-pack"}, next="cryogenic-science-pack"},
-        cryogenic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack"}, next="promethium-science-pack"},
-        promethium = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack", "promethium-science-pack"}, next="FINAL"},
+        latewhite = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack"}, next="metallurgic-science-pack"},
+        innerplanetstech = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack"}, next="cryogenic-science-pack"},
+        cryogenic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack"}, next="FINAL"},
         final = {all="FINAL", next="NONE"}
     },
     -- Time at which pods start demanding items requiring each tech.
@@ -76,12 +72,10 @@ CONFIG = {
         purple_yellow_second = 16.5 * TICKS_PER_HOUR,
         purpleyellow = 18 * TICKS_PER_HOUR,
         white = 20 * TICKS_PER_HOUR,
-        metallurgic = 24 * TICKS_PER_HOUR,
-        electromagnetic = 28 * TICKS_PER_HOUR,
-        agricultural = 34 * TICKS_PER_HOUR,
+        latewhite = 25 * TICKS_PER_HOUR,
+        innerplanetstech = 32 * TICKS_PER_HOUR,
         cryogenic = 40 * TICKS_PER_HOUR,
-        promethium = 45 * TICKS_PER_HOUR,
-        final = 50 * TICKS_PER_HOUR
+        final = 45 * TICKS_PER_HOUR,
     },
 
     -- First pod comes sooner by this factor.
@@ -123,7 +117,7 @@ CONFIG = {
         ["holmium-ore"] = 100,
         ["yumako-seed"] = 1000,
         ["jellynut-seed"] = 1000,
-        ["tree-seed"] = 1000,
+        ["tree-seed"] = 200,
         ["yumako"] = 50,
         ["jellynut"] = 50,
         ["spoilage"] = 5,
@@ -239,12 +233,10 @@ if (settings and settings.startup["life-pods-debug"].value) then
         purple_yellow_second = 8 * TICKS_PER_SECOND,
         purpleyellow = 10 * TICKS_PER_SECOND,
         white = 15 * TICKS_PER_SECOND,
-        metallurgic = 20 * TICKS_PER_SECOND,
-        electromagnetic = 25 * TICKS_PER_SECOND,
-        agricultural = 30 * TICKS_PER_SECOND,
-        cryogenic = 35 * TICKS_PER_SECOND,
-        promethium = 40 * TICKS_PER_SECOND,
-        final = 45 * TICKS_PER_SECOND,
+        latewhite = 20 * TICKS_PER_SECOND,
+        innerplanetstech = 25 * TICKS_PER_SECOND,
+        cryogenic = 30 * TICKS_PER_SECOND,
+        final = 35 * TICKS_PER_SECOND,
     }
     CONFIG.RESCUE_MAX_DEATHS_PER_HOUR = 100
 end

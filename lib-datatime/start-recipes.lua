@@ -74,6 +74,24 @@ local function getResourceTechLevel(resource)
     -- Resources you don't start with can't come too early.
     if resource.name == 'crude-oil' then level = techLevelMax(level, "green") end
     if resource.name == 'uranium-ore' then level = techLevelMax(level, "blue") end
+    if resource.name == 'calcite' then level = techLevelMax(level, "latewhite") end
+    if resource.name == 'tungsten-ore' then level = techLevelMax(level, "latewhite") end
+    if resource.name == 'holmium-ore' then level = techLevelMax(level, "latewhite") end
+    if resource.name == 'promethium-asteroid-chunk' then level = "final" end
+    if resource.name == 'oxide-asteroid-chunk' then level = "white" end
+    if resource.name == 'carbonic-asteroid-chunk' then level = "white" end
+    if resource.name == 'metallic-asteroid-chunk' then level = "white" end
+    if resource.name == 'yumako-seed' then level = "latewhite" end
+    if resource.name == 'jellynut-seed' then level = "latewhite" end
+    if resource.name == 'tree-seed' then level = "latewhite" end
+    if resource.name == 'biter-egg' then level = "innerplanetstech" end
+    if resource.name == 'pentapod-egg' then level = "latewhite" end
+    if resource.name == 'scrap' then level = "latewhite" end
+    if resource.name == 'lithium-brine' then level = "cryogenic" end
+    if resource.name == 'fluorine' then level = "cryogenic" end
+    if resource.name == 'ammoniacal-solution' then level = "cryogenic" end
+    if resource.name == 'ice' then level = "white" end
+    if resource.name == 'spoilage' then level = "latewhite" end
     if level then return level end
 end
 

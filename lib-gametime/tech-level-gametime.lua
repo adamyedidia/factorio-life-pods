@@ -47,16 +47,12 @@ function getTechEra(unadjustedTime)
         return storage.yellow_purple_order[2], CONFIG.tech_times.purpleyellow - adjustedTime
     elseif (adjustedTime < CONFIG.tech_times.white) then
         return "white", CONFIG.tech_times.white - adjustedTime
-    elseif (adjustedTime < CONFIG.tech_times.metallurgic) then
-        return "metallurgic", CONFIG.tech_times.metallurgic - adjustedTime
-    elseif (adjustedTime < CONFIG.tech_times.electromagnetic) then
-        return "electromagnetic", CONFIG.tech_times.electromagnetic - adjustedTime
-    elseif (adjustedTime < CONFIG.tech_times.agricultural) then
-        return "agricultural", CONFIG.tech_times.agricultural - adjustedTime
+    elseif (adjustedTime < CONFIG.tech_times.latewhite) then
+        return "latewhite", CONFIG.tech_times.latewhite - adjustedTime
+    elseif (adjustedTime < CONFIG.tech_times.innerplanetstech) then
+        return "innerplanetstech", CONFIG.tech_times.innerplanetstech - adjustedTime
     elseif (adjustedTime < CONFIG.tech_times.cryogenic) then
         return "cryogenic", CONFIG.tech_times.cryogenic - adjustedTime
-    elseif (adjustedTime < CONFIG.tech_times.promethium) then
-        return "promethium", CONFIG.tech_times.promethium - adjustedTime
     else
         return "final"
     end

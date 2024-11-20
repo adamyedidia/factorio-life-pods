@@ -321,11 +321,11 @@ function getNextPodRecipe()
     elseif (era == "purple") or (era == "yellow") or (era == "purpleyellow") then
         normal_quality_chance = 0.7
         uncommon_quality_chance = 0.3
-    elseif (era == "white") or (era == "metallurgic") or (era == "electromagnetic") or (era == "agricultural") then
+    elseif (era == "white") or (era == "latewhite") or (era == "innerplanetstech") then
         normal_quality_chance = 0.5
         uncommon_quality_chance = 0.35
         rare_quality_chance = 0.15
-    elseif (era == "cryogenic") or (era == "promethium") then
+    elseif (era == "cryogenic") then
         normal_quality_chance = 0.4
         uncommon_quality_chance = 0.2
         rare_quality_chance = 0.2
@@ -462,13 +462,10 @@ function secondTickForPodUniversal(pod)
             podScienceBoost(pod, 'blue')
         end
         if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-2") > 0) then
-            podScienceBoost(pod, 'purple')
-        end
-        if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-2-y") > 0) then
-            podScienceBoost(pod, 'yellow')
+            podScienceBoost(pod, 'white')
         end
         if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-3") > 0) then
-            podScienceBoost(pod, 'purpleyellow')
+            podScienceBoost(pod, 'innerplanetstech')
         end
     end
 end
@@ -689,10 +686,9 @@ boostableTechLevels = {
     -- Level 1
     blue={green=true, greenblack=true, blue=true},
     -- Level 2
-    purple={blue=true, blueblack=true, purple=true},
-    yellow={blue=true, blueblack=true, yellow=true},
+    white={blue=true, blueblack=true, purple=true, yellow=true, purpleyellow=true, white=true, latewhite=true},
     -- Level 3
-    purpleyellow={purple=true, yellow=true, purpleyellow=true, white=true}
+    innerplanetstech={white=true, latewhite=true, innerplanetstech=true, cryogenic=true}
 }
 function isBoostableTech(the_tech, moduleLevel)
     -- Can't boost something we already know.

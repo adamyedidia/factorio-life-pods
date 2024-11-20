@@ -171,25 +171,6 @@ data:extend({
       type = "module"
     },
     {
-      name = "life-pods-science-module-2-y",
-      category = "productivity",
-      default_request_amount = 1,
-      effect = {
-        productivity = 0.001
-      },
-      flags = {},
-      icon_size = 32,
-      icon = "__life-pods__/graphics/life-pods-science-module-2-y.png",
-      limitation = {},
-      limitation_message_key = "life-pods-repair-module-limitation",
-      description = "life-pods-science-module-2",
-      order = "d[life-pods]-d[science]-2y",
-      stack_size = 1,
-      subgroup = "module",
-      tier = 2,
-      type = "module"
-    },
-    {
       name = "life-pods-science-module-3",
       category = "productivity",
       default_request_amount = 1,
@@ -208,23 +189,4 @@ data:extend({
       tier = 3,
       type = "module"
     },
-    {
-      name = "life-pods-science-module-3-y",
-      category = "productivity",
-      default_request_amount = 1,
-      effect = {
-        productivity = 0.001
-      },
-      flags = {},
-      icon_size = 32,
-      icon = "__life-pods__/graphics/life-pods-science-module-3-y.png",
-      limitation = {},
-      limitation_message_key = "life-pods-repair-module-limitation",
-      description = "life-pods-science-module-3-y",
-      order = "d[life-pods]-d[science]-3y",
-      stack_size = 1,
-      subgroup = "module",
-      tier = 3,
-      type = "module"
-    }
 })
