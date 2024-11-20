@@ -81,10 +81,10 @@ function updateRadarInfo()
     for _, player in pairs(game.players) do
         if storage.nextLifePod.tracked.recipe then
              top_ui(player).lifepods.nextLifePod.recipe.caption =
-            {'lifepods.ui-pod-needs', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name, recipeQualityString(storage.nextLifePod.recipe_quality)}
+            {'lifepods.ui-pod-needs', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name, recipeQualityString(storage.nextLifePod.recipe_quality), capitalize(storage.nextLifePod.planet)}
         end
         if storage.nextLifePod.tracked.location then
-            top_ui(player).lifepods.nextLifePod.podlocation.caption = {'lifepods.ui-pod-location', storage.nextLifePod.name}
+            top_ui(player).lifepods.nextLifePod.podlocation.caption = {'lifepods.ui-pod-location', storage.nextLifePod.name, capitalize(storage.nextLifePod.planet)}
         end
         if storage.nextLifePod.tracked.time then
             -- Time is updated every second in on_tick.
@@ -112,7 +112,7 @@ function updateRadarInfo()
                 rate_string = "x" .. num_per_sec .. "/s"
             end
             top_ui(player).lifepods.nextLifePod.recipe.caption =
-            {'lifepods.ui-pod-needs-with-rate', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name, rate_string, recipeQualityString(storage.nextLifePod.recipe_quality)}
+            {'lifepods.ui-pod-needs-with-rate', storage.nextLifePod.name, prototypes.item[storage.nextLifePod.product].localised_name, rate_string, recipeQualityString(storage.nextLifePod.recipe_quality), capitalize(storage.nextLifePod.planet)}
         end
     end
 end

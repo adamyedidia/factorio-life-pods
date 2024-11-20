@@ -117,17 +117,17 @@ function newPodWarning(tick)
         return
     end
     if (not storage.nextLifePod.tracked.recipe) then
-        printAllPlayers({"lifepods.warning-item", storage.nextLifePod.name})
+        printAllPlayers({"lifepods.warning-item", storage.nextLifePod.name, capitalize(storage.nextLifePod.planet)})
         storage.nextLifePod.tracked.recipe = true
     elseif (not storage.nextLifePod.tracked.location) then
-        printAllPlayers({"lifepods.warning-location", storage.nextLifePod.name})
+        printAllPlayers({"lifepods.warning-location", storage.nextLifePod.name, capitalize(storage.nextLifePod.planet)})
         local distanceToCenter = math.floor(util.distance(storage.nextLifePod.arrivalPosition, {x=0,y=0}))
         -- for _, player in pairs(game.players) do
         --     local distanceToMe = math.floor(util.distance(storage.nextLifePod.arrivalPosition, player.position))
         --     player.print("Distance " .. distanceToCenter .. " from center; " .. distanceToMe .. " from you.")
         -- end
         storage.nextLifePod.tracked.location = true
-        markLocation(storage.nextLifePod.arrivalPosition, storage.nextLifePod.name .. " INCOMING")
+        markLocation(storage.nextLifePod.arrivalPosition, storage.nextLifePod.name .. " INCOMING", storage.nextLifePod.planet)
     elseif (not storage.nextLifePod.tracked.time) then
         printAllPlayers({"lifepods.warning-time", storage.nextLifePod.name})
         storage.nextLifePod.tracked.time = true
@@ -184,9 +184,9 @@ function newPodWarning(tick)
         storage.nextLifePod.arrivalTick = tick + TICKS_PER_MINUTE
     end
 end
-function markLocation(position, name)
+function markLocation(position, name, planet)
     for _, force in pairs(all_human_forces()) do
-        force.chart(game.surfaces[1], {lefttop = position, rightbottom = position})
+        force.chart(planetToSurface(planet), {lefttop = position, rightbottom = position})
     end
     makeSureLocationMarked()
 end
@@ -196,7 +196,7 @@ function makeSureLocationMarked()
                 storage.nextLifePod.warningMinimapGhosts[force_name] == nil or
                 not storage.nextLifePod.warningMinimapGhosts[force_name].valid then
         debugPrint("Marking Location for force " .. force_name)
-            storage.nextLifePod.warningMinimapGhosts[force_name] = force.add_chart_tag(game.surfaces[1],
+            storage.nextLifePod.warningMinimapGhosts[force_name] = force.add_chart_tag(planetToSurface(storage.nextLifePod.planet),
                 {
                 position=storage.nextLifePod.arrivalPosition,
                 text = storage.nextLifePod.name  .. " INCOMING",
@@ -216,7 +216,7 @@ end
 
 function tickLifePod(tick)
     for _, player in pairs(game.players) do
-        top_ui(player).lifepods.nextLifePod.time.caption = {"lifepods.ui-pod-time", storage.nextLifePod.name, util.formattime(storage.nextLifePod.arrivalTick - tick)}
+        top_ui(player).lifepods.nextLifePod.time.caption = {"lifepods.ui-pod-time", storage.nextLifePod.name, util.formattime(storage.nextLifePod.arrivalTick - tick), capitalize(storage.nextLifePod.planet)}
     end
 end
 function clearNextPodUI()
@@ -230,6 +230,7 @@ end
 
 function landNewPod()
     local name = storage.nextLifePod.name
+    local surface = planetToSurface(storage.nextLifePod.planet)
     printAllPlayers({"lifepods.pod-landed", name, prototypes.item[storage.nextLifePod.product].localised_name})    -- If they haven't explored it yet (odd because it means they never got the location warning), explore it now.
     -- This probably means the minimap_label won't work, as it seems you can't add tags the same tick you chart.
     -- TODO something like what I did for the warning one, where it checks every tick aftrward if the tag is valid.
@@ -238,11 +239,11 @@ function landNewPod()
         printAllPlayers({"lifepods.scold-no-radars"})
     end
     for _, force in pairs(all_human_forces()) do
-        force.chart(game.surfaces[1], {lefttop = storage.nextLifePod.arrivalPosition, rightbottom = storage.nextLifePod.arrivalPosition})
+        force.chart(surface, {lefttop = storage.nextLifePod.arrivalPosition, rightbottom = storage.nextLifePod.arrivalPosition})
     end
 
 
-    local crushed_entities = game.surfaces[1].find_entities({vector2Add(storage.nextLifePod.arrivalPosition, {x=-5,y=-5}), vector2Add(storage.nextLifePod.arrivalPosition, {x=5,y=5})})
+    local crushed_entities = surface.find_entities({vector2Add(storage.nextLifePod.arrivalPosition, {x=-5,y=-5}), vector2Add(storage.nextLifePod.arrivalPosition, {x=5,y=5})})
     for _, entity in pairs(crushed_entities) do
         if (entity and entity.valid and entity.health and entity.health > 0) then
             entity.die()
@@ -250,12 +251,12 @@ function landNewPod()
     end
 
     local pod_force = game.forces.player
-    local repair = game.surfaces[1].create_entity{name="life-pod-repair", position=storage.nextLifePod.arrivalPosition, force=pod_force}
-    local radar = game.surfaces[1].create_entity{name="life-pod-radar", position=storage.nextLifePod.arrivalPosition, force=pod_force }
+    local repair = surface.create_entity{name="life-pod-repair", position=storage.nextLifePod.arrivalPosition, force=pod_force}
+    local radar = surface.create_entity{name="life-pod-radar", position=storage.nextLifePod.arrivalPosition, force=pod_force }
     radar.destructible = false
     local label_id = rendering.draw_text{
         text = "",
-        surface = game.surfaces[1],
+        surface = surface,
         target = repair,
         target_offset = {-0.5, 0.2},
         color = {r=0, g=1, b=0},
@@ -264,7 +265,7 @@ function landNewPod()
     }
     local minimap_labels = {}
     for force_name, force in pairs(all_human_forces()) do
-        minimap_labels[force_name] = force.add_chart_tag(game.surfaces[1],
+        minimap_labels[force_name] = force.add_chart_tag(surface,
             {
                 position=storage.nextLifePod.arrivalPosition,
                 text = name,
@@ -289,7 +290,7 @@ function landNewPod()
         recipe = storage.nextLifePod.recipe, product = storage.nextLifePod.product, minimap_labels = minimap_labels,
         consumption = storage.nextLifePod.consumption * consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality), percent_stabilized = 0, stabilized = false,
         science_force = table.choice(all_human_forces()),
-        label = label_id, recipe_quality = storage.nextLifePod.recipe_quality
+        label = label_id, recipe_quality = storage.nextLifePod.recipe_quality, planet = storage.nextLifePod.planet
     }
 
     storage.lifePods[pod.id] = pod
@@ -396,7 +397,50 @@ function getNextPodRecipe()
     else
         storage.nextLifePod.recipe_quality = "legendary"
     end
+
+    local planet_roll = math.random()
+
+    local nauvis_chance = 0.0
+    local vulcanus_chance = 0.0
+    local fulgora_chance = 0.0
+    local gleba_chance = 0.0
+    local aquilo_chance = 0.0
+
+    if (era == "start") or (era == "red") or (era == "green") or (era == "greenblack") or (era == "blue") or (era == "blueblack") or  (era == "purple") or (era == "yellow") or (era == "purpleyellow") or (era == "white") then
+        nauvis_chance = 1.0
+    elseif (era == "latewhite") or (era == "innerplanetstech") then
+        vulcanus_chance = 0.333
+        fulgora_chance = 0.333
+        gleba_chance = 0.334
+    elseif (era == "cryogenic") then
+        nauvis_chance = 0.1
+        vulcanus_chance = 0.1
+        fulgora_chance = 0.1
+        gleba_chance = 0.1
+        aquilo_chance = 0.6
+    elseif (era == "final") then
+        nauvis_chance = 0.2
+        vulcanus_chance = 0.2
+        fulgora_chance = 0.2
+        gleba_chance = 0.2
+        aquilo_chance = 0.2
+    end
+
+    if planet_roll < nauvis_chance then
+        storage.nextLifePod.planet = "nauvis"
+    elseif planet_roll < nauvis_chance + vulcanus_chance then
+        storage.nextLifePod.planet = "vulcanus"
+    elseif planet_roll < nauvis_chance + vulcanus_chance + fulgora_chance then
+        storage.nextLifePod.planet = "fulgora"
+    elseif planet_roll < nauvis_chance + vulcanus_chance + fulgora_chance + gleba_chance then
+        storage.nextLifePod.planet = "gleba"
+    elseif planet_roll < nauvis_chance + vulcanus_chance + fulgora_chance + gleba_chance + aquilo_chance then
+        storage.nextLifePod.planet = "aquilo"
+    else
+        storage.nextLifePod.planet = "nauvis"
+    end
 end
+
 function getRandomLifePodRecipe(era)
     local product = storage.lifepod_products[era][math.random(#storage.lifepod_products[era])]
     if product == nil then
@@ -458,7 +502,7 @@ function findLifePodLandingSite()
     candidate = vector2Add(vector2Half(storage.nextLifePod.arrivalPosition), nextVectorJump())
     local verified = false
     while (not verified) do
-        local crushed_entities = game.surfaces[1].find_entities({vector2Add(candidate, {x=-5,y=-5}), vector2Add(candidate, {x=5,y=5})})
+        local crushed_entities = planetToSurface(storage.nextLifePod.planet).find_entities({vector2Add(candidate, {x=-5,y=-5}), vector2Add(candidate, {x=5,y=5})})
         verified = true
         for _, entity in pairs(crushed_entities) do
             if entity.name == "life-pod-repair" then
@@ -557,7 +601,7 @@ function tenSecondTickForPod(pod)
     end
     -- Display floating time till damage
     local time = podSecsTillDeath(pod)
-    -- game.surfaces[1].create_entity({
+    -- planetToSurface(pod.planet).create_entity({
     --     name = "flying-text",
     --     position = vector2Add(
     --         pod.repair.position,
@@ -565,7 +609,7 @@ function tenSecondTickForPod(pod)
     --     text = formattimelong(time * TICKS_PER_SECOND)})
     rendering.draw_text({
         text = formattimelong(time * TICKS_PER_SECOND),
-        surface = game.surfaces[1],
+        surface = planetToSurface(pod.planet),
         target = vector2Add(pod.repair.position, {x=-1,y=-3}),
         color = {r=1, g=1, b=1},  -- white color for visibility
         time_to_live = 60,        -- disappear after 1 second

@@ -10,6 +10,11 @@ function initGameOptions()
 end
 
 setupCommands = function()
+    game.planets.vulcanus.create_surface()
+    game.planets.fulgora.create_surface()
+    game.planets.gleba.create_surface()
+    game.planets.aquilo.create_surface()
+
     if remote.interfaces["lifepods settings"] then return end
     remote.add_interface("lifepods settings", {
         recalculate = setup,

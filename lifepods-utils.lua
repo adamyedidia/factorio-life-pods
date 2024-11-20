@@ -20,6 +20,23 @@ function printAllPlayers(text, force)
     end
 end
 
+function planetToSurface(planet)
+    if planet == "nauvis" then
+        return game.surfaces[1]
+    elseif planet == "vulcanus" then
+        return game.surfaces[2]
+    elseif planet == "fulgora" then
+        return game.surfaces[3]
+    elseif planet == "gleba" then
+        return game.surfaces[4]
+    elseif planet == "aquilo" then
+        return game.surfaces[5]
+    end
+end
+
+function capitalize(text)
+    return text:sub(1,1):upper() .. text:sub(2):lower()
+end
 
 function debugPrint(text, even_if_not_debug_mode)
     if (settings.startup["life-pods-debug"].value or even_if_not_debug_mode) then

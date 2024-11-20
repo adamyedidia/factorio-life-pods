@@ -20,6 +20,7 @@ function initMod()
             product = nil,
             tracked = {},
             arrivalPosition = {x = 0, y = 0}, -- Filled in at init
+            planet = "nauvis", -- Filled in at init
 
             warningMinimapGhosts = {},
         }
