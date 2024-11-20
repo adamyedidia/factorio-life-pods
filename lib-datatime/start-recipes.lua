@@ -81,8 +81,6 @@ local function getResourceTechLevel(resource)
     if resource.name == 'oxide-asteroid-chunk' then level = "white" end
     if resource.name == 'carbonic-asteroid-chunk' then level = "white" end
     if resource.name == 'metallic-asteroid-chunk' then level = "white" end
-    if resource.name == 'yumako-seed' then level = "latewhite" end
-    if resource.name == 'jellynut-seed' then level = "latewhite" end
     if resource.name == 'tree-seed' then level = "latewhite" end
     if resource.name == 'biter-egg' then level = "innerplanetstech" end
     if resource.name == 'pentapod-egg' then level = "latewhite" end
@@ -92,6 +90,10 @@ local function getResourceTechLevel(resource)
     if resource.name == 'ammoniacal-solution' then level = "cryogenic" end
     if resource.name == 'ice' then level = "white" end
     if resource.name == 'spoilage' then level = "latewhite" end
+    if resource.name == 'wood' then level = "latewhite" end
+    if resource.name == 'raw-fish' then level = "innerplanetstech" end
+    if resource.name == 'yumako' then level = "latewhite" end
+    if resource.name == 'jellynut' then level = "latewhite" end
     if level then return level end
 end
 
@@ -99,8 +101,28 @@ for name, pump in pairs(data.raw["offshore-pump"]) do
     local level = getMinRecipeTechLevel({[name]=true})
     if level then
         add_base_value("water", CONFIG.RAW_ITEM_VALUES["water"], 1/ (TICKS_PER_SECOND * pump.pumping_speed), level)
+        add_base_value("ammoniacal-solution", CONFIG.RAW_ITEM_VALUES["ammoniacal-solution"], 1/ (TICKS_PER_SECOND * pump.pumping_speed), level)
     end
 end
+
+-- error(table.tostring(data.raw["resource"]))
+
+add_base_value("wood", CONFIG.RAW_ITEM_VALUES["wood"], 1, "latewhite")
+add_base_value("raw-fish", CONFIG.RAW_ITEM_VALUES["raw-fish"], 1, "innerplanetstech")
+add_base_value("yumako", CONFIG.RAW_ITEM_VALUES["yumako"], 1, "latewhite")
+add_base_value("jellynut", CONFIG.RAW_ITEM_VALUES["jellynut"], 1, "latewhite")
+add_base_value("spoilage", CONFIG.RAW_ITEM_VALUES["spoilage"], 1, "latewhite")
+add_base_value("oxide-asteroid-chunk", CONFIG.RAW_ITEM_VALUES["oxide-asteroid-chunk"], 1, "white")
+add_base_value("carbonic-asteroid-chunk", CONFIG.RAW_ITEM_VALUES["carbonic-asteroid-chunk"], 1, "white")
+add_base_value("promethium-asteroid-chunk", CONFIG.RAW_ITEM_VALUES["promethium-asteroid-chunk"], 1, "final")
+add_base_value("metallic-asteroid-chunk", CONFIG.RAW_ITEM_VALUES["metallic-asteroid-chunk"], 1, "white")
+add_base_value("biter-egg", CONFIG.RAW_ITEM_VALUES["biter-egg"], 1, "innerplanetstech")
+add_base_value("pentapod-egg", CONFIG.RAW_ITEM_VALUES["pentapod-egg"], 1, "latewhite")
+
+
+-- for name, wood in pairs(data.raw["wood"]) do
+--     add_base_value(name, 100, 1, "latewhite")
+-- end
 
 for name, resource in pairs(data.raw.resource) do
     if resource.minable and resource.autoplace then

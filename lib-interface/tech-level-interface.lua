@@ -26,11 +26,26 @@ function getTechLevelInterface(tech, techInterface)
     for _, ingredient in pairs(ingredient_names) do
         ingredient_set[ingredient] = true
     end
-    if ingredient_set["promethium-science-pack"] then return "promethium" end    
+
+    if tech.name == "steam-power" then return "start" end
+    if tech.name == "electronics" then return "start" end
+    if tech.name == "planet-discovery-fulgora" then return "latewhite" end
+    if tech.name == "planet-discovery-vulcanus" then return "latewhite" end
+    if tech.name == "planet-discovery-gleba" then return "latewhite" end
+    if tech.name == "planet-discovery-aquilo" then return "cryogenic" end
+    if tech.name == "automation-science-pack" then return "red" end
+    if tech.name == "logistic-science-pack" then return "green" end
+    if tech.name == "military-science-pack" then return "greenblack" end
+    if tech.name == "chemical-science-pack" then return "blue" end
+    if tech.name == "production-science-pack" then return "purple" end
+    if tech.name == "utility-science-pack" then return "yellow" end
+    if tech.name == "space-science-pack" then return "white" end
+
+    if ingredient_set["promethium-science-pack"] then return "final" end    
     if ingredient_set["cryogenic-science-pack"] then return "cryogenic" end
-    if ingredient_set["agricultural-science-pack"] then return "agricultural" end
-    if ingredient_set["electromagnetic-science-pack"] then return "electromagnetic" end
-    if ingredient_set["metallurgic-science-pack"] then return "metallurgic" end
+    if ingredient_set["agricultural-science-pack"] then return "innerplanetstech" end
+    if ingredient_set["electromagnetic-science-pack"] then return "innerplanetstech" end
+    if ingredient_set["metallurgic-science-pack"] then return "innerplanetstech" end
     if ingredient_set["space-science-pack"] or ingredient_count > 3000 then return "white" end
     if ingredient_set["utility-science-pack"] then
         if ingredient_set["production-science-pack"] or ingredient_count > 1000 then return "purpleyellow"
