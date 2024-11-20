@@ -96,7 +96,7 @@ CONFIG = {
     LIFE_POD_INITIAL_DISTANCE = 30,
     LIFE_POD_DISTANCE_SCALE_PER_HOUR = 1.4,
     -- Exponential growth stops at this tick
-    DISTANCE_MAX_TICK = 9 * TICKS_PER_HOUR, --30 * 1.4 ^ 9 = 630
+    DISTANCE_MAX_TICK = 4 * TICKS_PER_HOUR, --30 * 1.4 ^ 9 = 115
 
     -- Conversion between various raw materials and hearts.
     -- Arbitary units, converted to Hearts according to following setting

@@ -306,13 +306,13 @@ function getNextPodRecipe()
     local era = getTechEra(storage.nextLifePod.arrivalTick)
     local product = getRandomLifePodRecipe(era)
     local value = storage.item_values[product]
-    printAllPlayers("The recipe is for " .. product .. " which is worth " .. value .. " hearts per second.")
+    -- printAllPlayers("The recipe is for " .. product .. " which is worth " .. value .. " hearts per second.")
 
 
     storage.nextLifePod.product = product
     storage.nextLifePod.era = era
     storage.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(storage.nextLifePod.product, era)]
-    printAllPlayers("Current era is " .. era)
+    -- printAllPlayers("Current era is " .. era)
     local normal_quality_chance = 0.0
     local uncommon_quality_chance = 0.0
     local rare_quality_chance = 0.0
@@ -334,23 +334,23 @@ function getNextPodRecipe()
         difficulty = 5
     end
 
-    if value > 100000:
+    if value > 100000 then
         difficulty = difficulty - 5
     end
 
-    if value > 30000:
+    if value > 30000 then
         difficulty = difficulty - 4
     end
 
-    if value > 10000:
+    if value > 10000 then
         difficulty = difficulty - 3
     end
 
-    if value > 3000:
+    if value > 3000 then
         difficulty = difficulty - 2
     end
 
-    if value > 1000:
+    if value > 1000 then
         difficulty = difficulty - 1
     end
 
@@ -379,11 +379,11 @@ function getNextPodRecipe()
     end
 
 
-    printAllPlayers("Normal quality chance: " .. normal_quality_chance .. "; uncommon quality chance: " .. uncommon_quality_chance .. "; rare quality chance: " .. rare_quality_chance .. "; epic quality chance: " .. epic_quality_chance)
+    -- printAllPlayers("Normal quality chance: " .. normal_quality_chance .. "; uncommon quality chance: " .. uncommon_quality_chance .. "; rare quality chance: " .. rare_quality_chance .. "; epic quality chance: " .. epic_quality_chance)
 
     local quality_roll = math.random()
 
-    printAllPlayers("Quality roll: " .. quality_roll)
+    -- printAllPlayers("Quality roll: " .. quality_roll)
 
     if quality_roll < normal_quality_chance then
         storage.nextLifePod.recipe_quality = "normal"
