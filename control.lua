@@ -304,7 +304,12 @@ end
 
 function getNextPodRecipe()
     local era = getTechEra(storage.nextLifePod.arrivalTick)
-    storage.nextLifePod.product = getRandomLifePodRecipe(era)
+    local product = getRandomLifePodRecipe(era)
+    local value = storage.item_values[product]
+    printAllPlayers("The recipe is for " .. product .. " which is worth " .. value .. " hearts per second.")
+
+
+    storage.nextLifePod.product = product
     storage.nextLifePod.era = era
     storage.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(storage.nextLifePod.product, era)]
     printAllPlayers("Current era is " .. era)
@@ -313,29 +318,66 @@ function getNextPodRecipe()
     local rare_quality_chance = 0.0
     local epic_quality_chance = 0.0
 
+    local difficulty = 0
+
     if (era == "start") or (era == "red") or (era == "green") then
-        normal_quality_chance = 1.0
+        difficulty = 0
     elseif (era == "greenblack") or (era == "blue") or (era == "blueblack") then
+        difficulty = 1
+    elseif (era == "purple") or (era == "yellow") or (era == "purpleyellow") then
+        difficulty = 2
+    elseif (era == "white") or (era == "latewhite") or (era == "innerplanetstech") then
+        difficulty = 3
+    elseif (era == "cryogenic") then
+        difficulty = 4
+    elseif (era == "final") then
+        difficulty = 5
+    end
+
+    if value > 100000:
+        difficulty = difficulty - 5
+    end
+
+    if value > 30000:
+        difficulty = difficulty - 4
+    end
+
+    if value > 10000:
+        difficulty = difficulty - 3
+    end
+
+    if value > 3000:
+        difficulty = difficulty - 2
+    end
+
+    if value > 1000:
+        difficulty = difficulty - 1
+    end
+
+    if (difficulty <= 0) then
+        normal_quality_chance = 1.0
+    elseif (difficulty == 1) then
         normal_quality_chance = 0.8
         uncommon_quality_chance = 0.2
-    elseif (era == "purple") or (era == "yellow") or (era == "purpleyellow") then
+    elseif (difficulty == 2) then
         normal_quality_chance = 0.7
         uncommon_quality_chance = 0.3
-    elseif (era == "white") or (era == "latewhite") or (era == "innerplanetstech") then
+    elseif (difficulty == 3) then
         normal_quality_chance = 0.5
         uncommon_quality_chance = 0.35
         rare_quality_chance = 0.15
-    elseif (era == "cryogenic") then
+    elseif (difficulty == 4) then
         normal_quality_chance = 0.4
         uncommon_quality_chance = 0.2
         rare_quality_chance = 0.2
         epic_quality_chance = 0.2
-    elseif (era == "final") then
+    elseif (difficulty >= 5) then
         normal_quality_chance = 0.2
         uncommon_quality_chance = 0.2
         rare_quality_chance = 0.2
         epic_quality_chance = 0.2
     end
+
 
     printAllPlayers("Normal quality chance: " .. normal_quality_chance .. "; uncommon quality chance: " .. uncommon_quality_chance .. "; rare quality chance: " .. rare_quality_chance .. "; epic quality chance: " .. epic_quality_chance)
 
