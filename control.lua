@@ -358,11 +358,11 @@ function getNextPodRecipe()
     if (difficulty <= 0) then
         normal_quality_chance = 1.0
     elseif (difficulty == 1) then
-        normal_quality_chance = 0.8
-        uncommon_quality_chance = 0.2
+        normal_quality_chance = 0.75
+        uncommon_quality_chance = 0.25
     elseif (difficulty == 2) then
-        normal_quality_chance = 0.7
-        uncommon_quality_chance = 0.3
+        normal_quality_chance = 0.65
+        uncommon_quality_chance = 0.35
     elseif (difficulty == 3) then
         normal_quality_chance = 0.5
         uncommon_quality_chance = 0.35
@@ -455,7 +455,7 @@ function getRandomLifePodRecipe(era)
             -- TODO it would be nice if sometimes it asked you for promethium-science-pack, but for some reason 
             -- promethium-science-pack isn't in the list of lifepod recipes. I have no idea why it's not being 
             -- automatically added. Even adding promethium-science-pack as a base resource didn't fix it.
-            
+
             -- return "promethium-science-pack"
             return "promethium-asteroid-chunk"
         end

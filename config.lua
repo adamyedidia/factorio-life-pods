@@ -14,7 +14,7 @@ CONFIG = {
         period_factor = 0.9,
         hearts_factor = 0.9,
         distance_factor = 0.9,
-        tech_rate_factor = 0.5,
+        tech_rate_factor = 0.9,
     },
 
 
@@ -23,8 +23,8 @@ CONFIG = {
 
     -- Negative Feedback: Each dead population increases tech time and time to next pod.
     dead_pop_feedback = {
-        tech_times = 2 * TICKS_PER_MINUTE,
-        next_pod_time = 2 * TICKS_PER_MINUTE,
+        tech_times = 1 * TICKS_PER_MINUTE,
+        next_pod_time = 1 * TICKS_PER_MINUTE,
     },
 
     levels = {

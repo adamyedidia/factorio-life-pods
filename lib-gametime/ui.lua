@@ -146,22 +146,19 @@ local function updateModuleIcon(pod, ui)
 
     if pod.repair.get_module_inventory().get_item_count() > 0 then
         local module = pod.repair.get_module_inventory()[1]
-        local sprite = ui.add{type="sprite", name="moduleicon", sprite="item/"..module.name }
-        sprite.tooltip = module.prototype.localised_name
 
         -- TODO make it display the quality of the stabilization module. The below code doesn't work for some reason??
         -- Error while running event life-pods::on_tick (ID 0)
-        -- Gui element with name module_quality_sprite already present in the parent element.
 
-        -- if module.quality.name == "normal" then
-        --     local sprite = ui.add{type="sprite", name="moduleicon", sprite="item/"..module.name }
-        --     sprite.tooltip = module.prototype.localised_name
-        -- else
-        --     local quality_sprite = ui.add{type="sprite", name="module_quality_sprite", sprite="quality/"..module.quality.name }
-        --     local sprite = ui.add{type="sprite", name="moduleicon", sprite="item/"..module.name }
-        --     sprite.tooltip = module.prototype.localised_name
-        --     quality_sprite.tooltip = module.prototype.localised_name
-        -- end
+        if module.quality.name == "normal" then
+            local sprite = ui.add{type="sprite", name="moduleicon", sprite="item/"..module.name }
+            sprite.tooltip = module.prototype.localised_name
+        else
+            local quality_sprite = ui.add{type="sprite", sprite="quality/"..module.quality.name }
+            local sprite = ui.add{type="sprite", name="moduleicon", sprite="item/"..module.name }
+            sprite.tooltip = module.prototype.localised_name
+            quality_sprite.tooltip = module.prototype.localised_name
+        end
     end
 end
 
@@ -381,8 +378,29 @@ function displayHumanInterface(player)
         if table.isEmpty(CONFIG.level_icons[era].all) then
             level_beakers.add{type="label", caption={"lifepods.ui-level-start"}}
         end
-        for _, beaker in ipairs(CONFIG.level_icons[era].all) do
-            level_beakers.add{type="sprite", sprite="item/"..beaker }
+        if era == "white" then
+            level_beakers.add{type="sprite", sprite="space-location/nauvis"}
+        elseif era == "latewhite" then
+            level_beakers.add{type="sprite", sprite="space-location/vulcanus"}
+            level_beakers.add{type="sprite", sprite="space-location/fulgora"}
+            level_beakers.add{type="sprite", sprite="space-location/gleba"}
+        elseif era == "innerplanetstech" then
+            level_beakers.add{type="sprite", sprite="item/metallurgic-science-pack"}
+            level_beakers.add{type="sprite", sprite="item/electromagnetic-science-pack"}
+            level_beakers.add{type="sprite", sprite="item/agricultural-science-pack"}
+        elseif era == "cryogenic" then
+            level_beakers.add{type="sprite", sprite="space-location/aquilo"}
+        elseif era == "final" then
+            level_beakers.add{type="sprite", sprite="space-location/nauvis"}
+            level_beakers.add{type="sprite", sprite="space-location/vulcanus"}
+            level_beakers.add{type="sprite", sprite="space-location/fulgora"}
+            level_beakers.add{type="sprite", sprite="space-location/gleba"}
+            level_beakers.add{type="sprite", sprite="space-location/aquilo"}
+            level_beakers.add{type="sprite", sprite="space-location/shattered-planet"}
+        else
+            for _, beaker in ipairs(CONFIG.level_icons[era].all) do
+                level_beakers.add{type="sprite", sprite="item/"..beaker }
+            end
         end
     end
     if CONFIG.level_icons[era].next == "FINAL" then
@@ -397,7 +415,21 @@ function displayHumanInterface(player)
             end
         end
         level_beakers.add{type="label", caption="(+"}
-        level_beakers.add{type="sprite", sprite="item/".. next_icon}
+        if era == "white" then
+            level_beakers.add{type="sprite", sprite="space-location/vulcanus"}
+            level_beakers.add{type="sprite", sprite="space-location/fulgora"}
+            level_beakers.add{type="sprite", sprite="space-location/gleba"}
+        elseif era == "latewhite" then
+            level_beakers.add{type="sprite", sprite="item/metallurgic-science-pack"}
+            level_beakers.add{type="sprite", sprite="item/electromagnetic-science-pack"}
+            level_beakers.add{type="sprite", sprite="item/agricultural-science-pack"}
+        elseif era == "innerplanetstech" then
+            level_beakers.add{type="sprite", sprite="space-location/aquilo"}
+        elseif era == "cryogenic" then
+            level_beakers.add{type="sprite", sprite="space -location/shattered-planet"}
+        else
+            level_beakers.add{type="sprite", sprite="item/".. next_icon}
+        end
         level_beakers.add{type="label", caption={"lifepods.ui-level-time", math.ceil(remaining_time / TICKS_PER_HOUR)}}
     end
     titlebar.add{type="button", name="close-humaninterface", caption="x" }
