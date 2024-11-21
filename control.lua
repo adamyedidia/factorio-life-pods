@@ -408,10 +408,15 @@ function getNextPodRecipe()
 
     if (era == "start") or (era == "red") or (era == "green") or (era == "greenblack") or (era == "blue") or (era == "blueblack") or  (era == "purple") or (era == "yellow") or (era == "purpleyellow") or (era == "white") then
         nauvis_chance = 1.0
-    elseif (era == "latewhite") or (era == "innerplanetstech") then
+    elseif (era == "latewhite") then
         vulcanus_chance = 0.333
         fulgora_chance = 0.333
         gleba_chance = 0.334
+    elseif (era == "innerplanetstech") then
+        nauvis_chance = 0.25
+        vulcanus_chance = 0.25
+        fulgora_chance = 0.25
+        gleba_chance = 0.25
     elseif (era == "cryogenic") then
         nauvis_chance = 0.1
         vulcanus_chance = 0.1
@@ -498,20 +503,46 @@ end
 function findLifePodLandingSite()
     -- Only subtelty is to ensure that we don't land on a previous pod.
     -- Do this by moving in a constant directon until we find a valid spot.
-    local candidate
-    candidate = vector2Add(vector2Half(storage.nextLifePod.arrivalPosition), nextVectorJump())
-    local verified = false
-    while (not verified) do
-        local crushed_entities = planetToSurface(storage.nextLifePod.planet).find_entities({vector2Add(candidate, {x=-5,y=-5}), vector2Add(candidate, {x=5,y=5})})
-        verified = true
-        for _, entity in pairs(crushed_entities) do
-            if entity.name == "life-pod-repair" then
-                candidate = vector2Add(candidate, {x=-5,y=-5})
-                verified = false
+    if (storage.nextLifePod.planet == "nauvis") then
+        local candidate
+        candidate = vector2Add(vector2Half(storage.nextLifePod.arrivalPosition), nextVectorJump())
+        local verified = false
+        while (not verified) do
+            local crushed_entities = planetToSurface(storage.nextLifePod.planet).find_entities({vector2Add(candidate, {x=-5,y=-5}), vector2Add(candidate, {x=5,y=5})})
+            verified = true
+            for _, entity in pairs(crushed_entities) do
+                if entity.name == "life-pod-repair" then
+                    candidate = vector2Add(candidate, {x=-5,y=-5})
+                    verified = false
+                end
             end
         end
+        storage.nextLifePod.arrivalPosition = candidate
+    else
+        -- Candidate should be a random point in the square -400, -400 to 400, 400.
+        local verified = false
+        local attempts = 0
+        local candidate = {x=math.random(-400, 400), y=math.random(-400, 400)}
+        while (not verified) and (attempts < 100) do
+            local crushed_entities = planetToSurface(storage.nextLifePod.planet).find_entities({vector2Add(candidate, {x=-5,y=-5}), vector2Add(candidate, {x=5,y=5})})
+            verified = true
+            for _, entity in pairs(crushed_entities) do
+                if entity.name == "life-pod-repair" then
+                    candidate = {x=math.random(-400, 400), y=math.random(-400, 400)}
+                    verified = false
+                end
+            end
+            if storage.nextLifePod.era ~= "final" then  -- The player should have access to foundation past the cryogenic era
+                terrain = planetToSurface(storage.nextLifePod.planet).get_tile(candidate.x, candidate.y).name
+                if (terrain == "oil-ocean-deep") or (terrain == "oil-ocean-shallow") or (terrain == "lava") or (terrain == "lava-hot") then
+                    verified = false
+                    candidate = {x=math.random(-400, 400), y=math.random(-400, 400)}
+                end
+            end
+            attempts = attempts + 1
+        end
+        storage.nextLifePod.arrivalPosition = candidate
     end
-    storage.nextLifePod.arrivalPosition = candidate
 end
 function nextLifePodTime()
     local nextTime = math.floor(storage.nextLifePod.arrivalTick
