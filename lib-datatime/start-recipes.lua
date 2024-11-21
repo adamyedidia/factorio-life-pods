@@ -94,6 +94,7 @@ local function getResourceTechLevel(resource)
     if resource.name == 'raw-fish' then level = "innerplanetstech" end
     if resource.name == 'yumako' then level = "latewhite" end
     if resource.name == 'jellynut' then level = "latewhite" end
+    if resource.name == 'promethium-science-pack' then level = "final" end
     if level then return level end
 end
 

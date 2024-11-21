@@ -10,16 +10,6 @@ function initGameOptions()
 end
 
 setupCommands = function()
-    game.planets.vulcanus.create_surface()
-    game.planets.fulgora.create_surface()
-    game.planets.gleba.create_surface()
-    game.planets.aquilo.create_surface()
-
-    game.surfaces[2].request_to_generate_chunks({x=0, y=0}, 12)
-    game.surfaces[3].request_to_generate_chunks({x=0, y=0}, 12)
-    game.surfaces[4].request_to_generate_chunks({x=0, y=0}, 12)
-    game.surfaces[5].request_to_generate_chunks({x=0, y=0}, 12)
-
     if remote.interfaces["lifepods settings"] then return end
     remote.add_interface("lifepods settings", {
         recalculate = setup,

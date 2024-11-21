@@ -148,6 +148,20 @@ local function updateModuleIcon(pod, ui)
         local module = pod.repair.get_module_inventory()[1]
         local sprite = ui.add{type="sprite", name="moduleicon", sprite="item/"..module.name }
         sprite.tooltip = module.prototype.localised_name
+
+        -- TODO make it display the quality of the stabilization module. The below code doesn't work for some reason??
+        -- Error while running event life-pods::on_tick (ID 0)
+        -- Gui element with name module_quality_sprite already present in the parent element.
+
+        -- if module.quality.name == "normal" then
+        --     local sprite = ui.add{type="sprite", name="moduleicon", sprite="item/"..module.name }
+        --     sprite.tooltip = module.prototype.localised_name
+        -- else
+        --     local quality_sprite = ui.add{type="sprite", name="module_quality_sprite", sprite="quality/"..module.quality.name }
+        --     local sprite = ui.add{type="sprite", name="moduleicon", sprite="item/"..module.name }
+        --     sprite.tooltip = module.prototype.localised_name
+        --     quality_sprite.tooltip = module.prototype.localised_name
+        -- end
     end
 end
 
@@ -245,7 +259,12 @@ local function addGUIRateRow(pod, frame)
     local rate = firstrow.add{type="flow", name="rate" }
     rate.style.maximal_width = POD_UI_WIDTH - 110
     rate.style.minimal_width = POD_UI_WIDTH - 110
-    rate.add{type="sprite", name="image", sprite="item/"..pod.product }
+    if pod.recipe_quality == "normal" then
+        rate.add{type="sprite", name="image", sprite="item/"..pod.product }
+    else
+        rate.add{type="sprite", name="image", sprite="quality/"..pod.recipe_quality }
+        rate.add{type="sprite", name="image2", sprite="item/"..pod.product }
+    end
     rate.add{type="label", name="label", caption=""}
 end
 local function addToGUI(pod, gui)

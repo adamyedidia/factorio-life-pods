@@ -418,11 +418,11 @@ function getNextPodRecipe()
         fulgora_chance = 0.25
         gleba_chance = 0.25
     elseif (era == "cryogenic") then
-        nauvis_chance = 0.1
-        vulcanus_chance = 0.1
-        fulgora_chance = 0.1
-        gleba_chance = 0.1
-        aquilo_chance = 0.6
+        nauvis_chance = 0.125
+        vulcanus_chance = 0.125
+        fulgora_chance = 0.125
+        gleba_chance = 0.125
+        aquilo_chance = 0.5
     elseif (era == "final") then
         nauvis_chance = 0.2
         vulcanus_chance = 0.2
@@ -447,6 +447,20 @@ function getNextPodRecipe()
 end
 
 function getRandomLifePodRecipe(era)
+    if era == "final" and not storage.hasHadPromethiumPod then
+        storage.hasHadPromethiumPod = true
+        if math.random() < 0.5 then
+            return "promethium-asteroid-chunk"
+        else
+            -- TODO it would be nice if sometimes it asked you for promethium-science-pack, but for some reason 
+            -- promethium-science-pack isn't in the list of lifepod recipes. I have no idea why it's not being 
+            -- automatically added. Even adding promethium-science-pack as a base resource didn't fix it.
+            
+            -- return "promethium-science-pack"
+            return "promethium-asteroid-chunk"
+        end
+    end
+
     local product = storage.lifepod_products[era][math.random(#storage.lifepod_products[era])]
     if product == nil then
         debugPrint("Error selecting next pod item; trying again.", true)
@@ -532,7 +546,7 @@ function findLifePodLandingSite()
                     verified = false
                 end
             end
-            if storage.nextLifePod.era ~= "final" then  -- The player should have access to foundation past the cryogenic era
+            if (storage.nextLifePod.era ~= "final") and (storage.nextLifePod.era ~= "cryogenic") then  -- The player should have access to foundation past the cryogenic era
                 terrain = planetToSurface(storage.nextLifePod.planet).get_tile(candidate.x, candidate.y).name
                 if (terrain == "oil-ocean-deep") or (terrain == "oil-ocean-shallow") or (terrain == "lava") or (terrain == "lava-hot") then
                     verified = false

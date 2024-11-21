@@ -14,7 +14,7 @@ CONFIG = {
         period_factor = 0.9,
         hearts_factor = 0.9,
         distance_factor = 0.9,
-        tech_rate_factor = 0.9,
+        tech_rate_factor = 0.5,
     },
 
 
@@ -72,10 +72,10 @@ CONFIG = {
         purple_yellow_second = 16.5 * TICKS_PER_HOUR,
         purpleyellow = 18 * TICKS_PER_HOUR,
         white = 20 * TICKS_PER_HOUR,
-        latewhite = 25 * TICKS_PER_HOUR,
-        innerplanetstech = 32 * TICKS_PER_HOUR,
+        latewhite = 26 * TICKS_PER_HOUR,
+        innerplanetstech = 34 * TICKS_PER_HOUR,
         cryogenic = 40 * TICKS_PER_HOUR,
-        final = 45 * TICKS_PER_HOUR,
+        final = 46 * TICKS_PER_HOUR,
     },
 
     -- First pod comes sooner by this factor.
