@@ -38,10 +38,28 @@ local ALL_NAMES = {
     "Aldrin",
     "Gagarin",
 
-    -- Real Planets
-    "Earth",
+    -- -- Real Planets
+    -- "Earth", in space age Earth is too easily confused with Nauvis
     "Mars",
     "Centauri",
+    "Ceres",
+    "Europa",
+    "Triton",
+    "Io",
+    "Callisto",
+    "Firsoff",
+
+    -- SMAC cities and faction leaders
+    "Baikonur",
+    "Cosmograd",
+    "Ironholm",
+    "Yang",
+    "Godwinson",
+    "Morgan",
+    "Zakharov",
+    "Lal",
+    "Skye",
+    "Santiago",
 }
 
 local SUFFIXES = {"", " Jr", " III", " IV"}
