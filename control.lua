@@ -789,7 +789,7 @@ function podScienceBoost(pod, moduleLevel)
             printAllPlayers({"lifepods.breakthrough", pod.name, tech.localised_name}, force)
             force.research_progress = math.min(1.0, force.research_progress + boost_percent)
         else
-            local existing_progress = force.get_saved_technology_progress(tech)
+            local existing_progress = tech.saved_progress
             local new_percent
             if existing_progress then
                 new_percent = boost_percent + existing_progress
@@ -802,7 +802,7 @@ function podScienceBoost(pod, moduleLevel)
                 pod.current_tech_name = nil
             else
                 printAllPlayers({"lifepods.breakthrough", pod.name, tech.localised_name}, force)
-                force.set_saved_technology_progress(tech, new_percent)
+                tech.saved_progress = new_percent
             end
         end
 
