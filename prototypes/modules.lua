@@ -16,7 +16,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 1,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
     {
       name = "life-pods-damage-reduction-module-1",
@@ -35,7 +36,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 1,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
    {
       name = "life-pods-damage-reduction-module-2",
@@ -54,7 +56,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 2,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
     {
       name = "life-pods-damage-reduction-module-3",
@@ -73,7 +76,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 3,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
     {
       name = "life-pods-consumption-module-1",
@@ -92,7 +96,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 1,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
     {
       name = "life-pods-consumption-module-2",
@@ -111,7 +116,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 2,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
     {
       name = "life-pods-consumption-module-3",
@@ -130,7 +136,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 3,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
     {
       name = "life-pods-science-module-1",
@@ -149,7 +156,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 1,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
     {
       name = "life-pods-science-module-2",
@@ -168,7 +176,8 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 2,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
     {
       name = "life-pods-science-module-3",
@@ -187,6 +196,7 @@ data:extend({
       stack_size = 1,
       subgroup = "module",
       tier = 3,
-      type = "module"
+      type = "module",
+      weight = 20000,
     },
 })

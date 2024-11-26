@@ -626,12 +626,25 @@ function secondTickForPodActive(pod)
             debugError("Transfering more than total (" .. lostHearts .. " of " .. healSupply.amount .. ")")
             lostHearts = healSupply.amount
         end
-        healSupply.amount = healSupply.amount - lostHearts
-        if healSupply.amount == 0 then
-            pod.repair.fluidbox[1] = nil
-        else
-            pod.repair.fluidbox[1] = healSupply
+
+        local success, result = pcall(function()
+            healSupply.amount = healSupply.amount - lostHearts
+            if healSupply.amount == 0 then
+                pod.repair.fluidbox[1] = nil
+            else
+                pod.repair.fluidbox[1] = healSupply
+            end
+        end)
+        
+        if not success then
+            printAllPlayers("Error occurred: " .. tostring(result))
+            printAllPlayers("Heal supply amount: " .. healSupply.amount)
+            printAllPlayers("Heal supply amount is equal to float zero: " .. tostring(healSupply.amount == 0.0))
+            printAllPlayers("Heal supply amount is equal to int zero: " .. tostring(healSupply.amount == 0))
+            printAllPlayers("Heal supply amount is nil: " .. tostring(healSupply == nil))
+            printAllPlayers("Heal supply amount is less than zero: " .. tostring(healSupply.amount < 0))
         end
+
         pod.repair.health = pod.repair.health + gainedHP
     else
         local damage = podDamagePerSec(pod)

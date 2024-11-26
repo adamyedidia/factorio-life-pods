@@ -48,6 +48,7 @@ local ALL_NAMES = {
     "Io",
     "Callisto",
     "Firsoff",
+    "Eris",
 
     -- SMAC cities and faction leaders
     "Baikonur",

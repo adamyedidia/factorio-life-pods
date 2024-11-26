@@ -31,7 +31,7 @@ data:extend({
         },
         name = "life-pods-repair-module",
         results = {{type="item", name="life-pods-repair-module", amount=1}},
-        type = "recipe"
+        type = "recipe",
     },
     {
         name = "life-pods-damage-reduction-module-1",
@@ -55,7 +55,7 @@ data:extend({
                 name = "electronic-circuit",
                 amount = 20
             }
-        }
+        },
     },
     {
         name = "life-pods-damage-reduction-module-2",
@@ -79,7 +79,7 @@ data:extend({
                 name = "advanced-circuit",
                 amount = 20
             },
-        }
+        },
     },
     {
         name = "life-pods-damage-reduction-module-3",
@@ -103,7 +103,7 @@ data:extend({
                 name = "processing-unit",
                 amount = 20
             },
-        }
+        },
     },
     {
         name = "life-pods-consumption-module-1",
