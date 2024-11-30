@@ -6,6 +6,24 @@ techInterface = {
     getPrereqs = nil
 }
 
+
+-- TODO dedupe this
+tech_times = {
+    red = 1 * TICKS_PER_HOUR, -- Should be more than the first maximum period so the first thing is in start era.
+    green = 2 * TICKS_PER_HOUR,
+    greenblack = 5 * TICKS_PER_HOUR,
+    blue = 8 * TICKS_PER_HOUR,
+    blueblack = 11 * TICKS_PER_HOUR,
+    purple_yellow_first = 15 * TICKS_PER_HOUR,
+    purple_yellow_second = 16.5 * TICKS_PER_HOUR,
+    purpleyellow = 18 * TICKS_PER_HOUR,
+    white = 20 * TICKS_PER_HOUR,
+    latewhite = 26 * TICKS_PER_HOUR,
+    innerplanetstech = 34 * TICKS_PER_HOUR,
+    cryogenic = 40 * TICKS_PER_HOUR,
+    final = 46 * TICKS_PER_HOUR,
+}
+
 local function count_green_prereqs(the_tech, techInterface)
     local prereqs = 0
     for _, prereq in pairs(techInterface.getPrereqs(the_tech)) do
@@ -16,6 +34,20 @@ local function count_green_prereqs(the_tech, techInterface)
         end
     end
     return prereqs
+end
+
+function techLevelMax(a, b)
+    if a == nil then error("nil Level (a)") end
+    if b == nil then error("nil Level (b)") end
+    if a == "start" then return b end
+    if b == "start" then return a end
+    if tech_times[a] == nil then error("invalid level: " .. a) end
+    if tech_times[b] == nil then error("invalid level: " .. b) end
+    if (tech_times[a] < tech_times[b]) then
+        return b
+    else
+        return a
+    end
 end
 
 function getTechLevelInterface(tech, techInterface)
