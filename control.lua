@@ -305,6 +305,8 @@ end
 
 function getNextPodRecipe()
     local era = getTechEra(storage.nextLifePod.arrivalTick)
+    local timeOfTick = storage.nextLifePod.arrivalTick
+    local timeForEarlyInnerPlanetPod = (era == "white") and (timeOfTick > CONFIG.tech_times.white + 6 * TICKS_PER_HOUR)
     local product = getRandomLifePodRecipe(era)
     local value = storage.item_values[product]
     -- printAllPlayers("The recipe is for " .. product .. " which is worth " .. value .. " hearts per second.")

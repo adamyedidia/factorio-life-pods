@@ -74,6 +74,7 @@ CONFIG = {
         purple_yellow_second = 16.5 * TICKS_PER_HOUR,
         purpleyellow = 18 * TICKS_PER_HOUR,
         white = 20 * TICKS_PER_HOUR,
+        -- Life pods start landing on inner planets at 6 * TICKS_PER_HOUR after white era begins
         latewhite = 32 * TICKS_PER_HOUR,
         innerplanetstech = 42 * TICKS_PER_HOUR,
         earlycryogenic = 52 * TICKS_PER_HOUR,
