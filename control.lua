@@ -329,7 +329,7 @@ function getNextPodRecipe()
         difficulty = 2
     elseif (era == "white") or (era == "latewhite") or (era == "innerplanetstech") then
         difficulty = 3
-    elseif (era == "cryogenic") then
+    elseif (era == "earlycryogenic") or (era == "cryogenic") then
         difficulty = 4
     elseif (era == "final") then
         difficulty = 5
@@ -417,7 +417,7 @@ function getNextPodRecipe()
         vulcanus_chance = 0.25
         fulgora_chance = 0.25
         gleba_chance = 0.25
-    elseif (era == "cryogenic") then
+    elseif (era == "earlycryogenic") or (era == "cryogenic") then
         nauvis_chance = 0.125
         vulcanus_chance = 0.125
         fulgora_chance = 0.125
@@ -834,7 +834,7 @@ boostableTechLevels = {
     -- Level 2
     white={blue=true, blueblack=true, purple=true, yellow=true, purpleyellow=true, white=true, latewhite=true},
     -- Level 3
-    innerplanetstech={white=true, latewhite=true, innerplanetstech=true, cryogenic=true}
+    innerplanetstech={white=true, latewhite=true, innerplanetstech=true, earlycryogenic=true, cryogenic=true}
 }
 function isBoostableTech(the_tech, moduleLevel)
     -- Can't boost something we already know.

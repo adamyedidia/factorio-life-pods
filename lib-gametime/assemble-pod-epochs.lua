@@ -3,7 +3,7 @@ require "table-supplement"
 require "config"
 
 -- TODO make this read from CONFIG.levels
-storage.lifepod_products = {start={}, red={}, green={}, greenblack={}, blue={}, blueblack={}, purple={}, yellow={}, purpleyellow={}, white={}, latewhite={}, innerplanetstech={}, cryogenic={}, final={} }
+storage.lifepod_products = {start={}, red={}, green={}, greenblack={}, blue={}, blueblack={}, purple={}, yellow={}, purpleyellow={}, white={}, latewhite={}, innerplanetstech={}, earlycryogenic={}, cryogenic={}, final={} }
 
 local function startsWith(String, prefix)
     return string.sub(String,1,string.len(prefix))==prefix

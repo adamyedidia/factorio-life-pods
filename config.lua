@@ -40,6 +40,7 @@ CONFIG = {
         "white",
         "latewhite",
         "innerplanetstech",
+        "earlycryogenic",
         "cryogenic",
         "final",
     },
@@ -56,6 +57,7 @@ CONFIG = {
         white = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack"}, next="metallurgic-science-pack"},
         latewhite = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack"}, next="metallurgic-science-pack"},
         innerplanetstech = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack"}, next="cryogenic-science-pack"},
+        earlycryogenic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack"}, next="cryogenic-science-pack"},
         cryogenic = {all = {"automation-science-pack", "logistic-science-pack", "chemical-science-pack", "military-science-pack", "production-science-pack", "utility-science-pack", "space-science-pack", "metallurgic-science-pack", "electromagnetic-science-pack", "agricultural-science-pack", "cryogenic-science-pack"}, next="FINAL"},
         final = {all="FINAL", next="NONE"}
     },
@@ -72,10 +74,11 @@ CONFIG = {
         purple_yellow_second = 16.5 * TICKS_PER_HOUR,
         purpleyellow = 18 * TICKS_PER_HOUR,
         white = 20 * TICKS_PER_HOUR,
-        latewhite = 26 * TICKS_PER_HOUR,
-        innerplanetstech = 34 * TICKS_PER_HOUR,
-        cryogenic = 40 * TICKS_PER_HOUR,
-        final = 46 * TICKS_PER_HOUR,
+        latewhite = 32 * TICKS_PER_HOUR,
+        innerplanetstech = 42 * TICKS_PER_HOUR,
+        earlycryogenic = 52 * TICKS_PER_HOUR,
+        cryogenic = 58 * TICKS_PER_HOUR,
+        final = 66 * TICKS_PER_HOUR,
     },
 
     -- First pod comes sooner by this factor.
@@ -232,6 +235,7 @@ if (settings and settings.startup["life-pods-debug"].value) then
         white = 15 * TICKS_PER_SECOND,
         latewhite = 20 * TICKS_PER_SECOND,
         innerplanetstech = 25 * TICKS_PER_SECOND,
+        earlycryogenic = 27 * TICKS_PER_SECOND,
         cryogenic = 30 * TICKS_PER_SECOND,
         final = 35 * TICKS_PER_SECOND,
     }

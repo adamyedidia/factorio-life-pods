@@ -85,9 +85,9 @@ local function getResourceTechLevel(resource)
     if resource.name == 'biter-egg' then level = "innerplanetstech" end
     if resource.name == 'pentapod-egg' then level = "latewhite" end
     if resource.name == 'scrap' then level = "latewhite" end
-    if resource.name == 'lithium-brine' then level = "cryogenic" end
-    if resource.name == 'fluorine' then level = "cryogenic" end
-    if resource.name == 'ammoniacal-solution' then level = "cryogenic" end
+    if resource.name == 'lithium-brine' then level = "earlycryogenic" end
+    if resource.name == 'fluorine' then level = "earlycryogenic" end
+    if resource.name == 'ammoniacal-solution' then level = "earlycryogenic" end
     if resource.name == 'ice' then level = "white" end
     if resource.name == 'spoilage' then level = "latewhite" end
     if resource.name == 'wood' then level = "latewhite" end

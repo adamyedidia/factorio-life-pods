@@ -18,11 +18,12 @@ tech_times = {
     purple_yellow_second = 16.5 * TICKS_PER_HOUR,
     purpleyellow = 18 * TICKS_PER_HOUR,
     white = 20 * TICKS_PER_HOUR,
-    latewhite = 26 * TICKS_PER_HOUR,
-    innerplanetstech = 34 * TICKS_PER_HOUR,
-    cryogenic = 40 * TICKS_PER_HOUR,
-    final = 46 * TICKS_PER_HOUR,
-}
+    latewhite = 32 * TICKS_PER_HOUR,
+    innerplanetstech = 42 * TICKS_PER_HOUR,
+    earlycryogenic = 52 * TICKS_PER_HOUR,
+    cryogenic = 58 * TICKS_PER_HOUR,
+    final = 66 * TICKS_PER_HOUR,
+},
 
 local function count_green_prereqs(the_tech, techInterface)
     local prereqs = 0
@@ -64,7 +65,7 @@ function getTechLevelInterface(tech, techInterface)
     if tech.name == "planet-discovery-fulgora" then return "latewhite" end
     if tech.name == "planet-discovery-vulcanus" then return "latewhite" end
     if tech.name == "planet-discovery-gleba" then return "latewhite" end
-    if tech.name == "planet-discovery-aquilo" then return "cryogenic" end
+    if tech.name == "planet-discovery-aquilo" then return "earlycryogenic" end
     if tech.name == "automation-science-pack" then return "red" end
     if tech.name == "logistic-science-pack" then return "green" end
     if tech.name == "military-science-pack" then return "greenblack" end

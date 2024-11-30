@@ -51,6 +51,8 @@ function getTechEra(unadjustedTime)
         return "latewhite", CONFIG.tech_times.latewhite - adjustedTime
     elseif (adjustedTime < CONFIG.tech_times.innerplanetstech) then
         return "innerplanetstech", CONFIG.tech_times.innerplanetstech - adjustedTime
+    elseif (adjustedTime < CONFIG.tech_times.earlycryogenic) then
+        return "earlycryogenic", CONFIG.tech_times.earlycryogenic - adjustedTime
     elseif (adjustedTime < CONFIG.tech_times.cryogenic) then
         return "cryogenic", CONFIG.tech_times.cryogenic - adjustedTime
     else

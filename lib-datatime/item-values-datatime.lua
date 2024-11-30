@@ -102,7 +102,7 @@ local techImpl = {
     end,
 
     tweakLevel = function(level, tech, the_recipe)
-        if ((level == "yellow") or (level == "purpleyellow") or (level == "final")  or (level == "white") or (level == "mystery") or (level == "latewhite") or (level == "innerplanetstech") or (level == "cryogenic") or (level == "promethium") or (level == "final")) then return level end
+        if ((level == "yellow") or (level == "purpleyellow") or (level == "final")  or (level == "white") or (level == "mystery") or (level == "latewhite") or (level == "innerplanetstech") or (level == "earlycryogenic") or (level == "cryogenic") or (level == "promethium") or (level == "final")) then return level end
         local machine_size = table.count(recipeImpl.getIngredients(the_recipe)) - 1 -- -1 because of "time" ingredient
         if (level == "purple" or machine_size > 4.5) then return "purple" end -- Yellow factory
         if (level == "blueblack" or level == "blue" or level == "greenblack" or level == "green") then return level end

@@ -388,8 +388,10 @@ function displayHumanInterface(player)
             level_beakers.add{type="sprite", sprite="item/metallurgic-science-pack"}
             level_beakers.add{type="sprite", sprite="item/electromagnetic-science-pack"}
             level_beakers.add{type="sprite", sprite="item/agricultural-science-pack"}
-        elseif era == "cryogenic" then
+        elseif era == "earlycryogenic" then
             level_beakers.add{type="sprite", sprite="space-location/aquilo"}
+        elseif era == "cryogenic" then
+            level_beakers.add{type="sprite", sprite="item/cryogenic-science-pack"}
         elseif era == "final" then
             level_beakers.add{type="sprite", sprite="space-location/nauvis"}
             level_beakers.add{type="sprite", sprite="space-location/vulcanus"}
@@ -425,8 +427,10 @@ function displayHumanInterface(player)
             level_beakers.add{type="sprite", sprite="item/agricultural-science-pack"}
         elseif era == "innerplanetstech" then
             level_beakers.add{type="sprite", sprite="space-location/aquilo"}
+        elseif era == "earlycryogenic" then
+            level_beakers.add{type="sprite", sprite="item/cryogenic-science-pack"}
         elseif era == "cryogenic" then
-            level_beakers.add{type="sprite", sprite="space -location/shattered-planet"}
+            level_beakers.add{type="sprite", sprite="space-location/shattered-planet"}
         else
             level_beakers.add{type="sprite", sprite="item/".. next_icon}
         end
