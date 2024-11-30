@@ -93,10 +93,10 @@ function updateRadarInfo()
             -- TODO dedupe this somehow
             local consumption_multiplier_as_a_function_of_quality = function(quality)
                 if quality == "normal" then return 1.0 end
-                if quality == "uncommon" then return 0.2 end
-                if quality == "rare" then return 0.2 * 0.25 end
-                if quality == "epic" then return 0.2 * 0.25 * 0.33 end
-                return 0.2 * 0.25 * 0.33 * 0.5
+                if quality == "uncommon" then return 0.125 end
+                if quality == "rare" then return 0.125 * 0.167 end
+                if quality == "epic" then return 0.125 * 0.167 * 0.25 end
+                return 0.125 * 0.167 * 0.25 * 0.33
             end
 
             local seconds_per_item = storage.nextLifePod.tracked.consumption_rate / consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality)

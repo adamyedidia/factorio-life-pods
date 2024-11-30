@@ -23,7 +23,7 @@ tech_times = {
     earlycryogenic = 52 * TICKS_PER_HOUR,
     cryogenic = 58 * TICKS_PER_HOUR,
     final = 66 * TICKS_PER_HOUR,
-},
+}
 
 local function count_green_prereqs(the_tech, techInterface)
     local prereqs = 0

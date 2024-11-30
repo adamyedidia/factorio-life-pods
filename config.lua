@@ -7,6 +7,8 @@ TICKS_PER_MINUTE = SECONDS_PER_MINUTE * TICKS_PER_SECOND
 TICKS_PER_HOUR = MINUTES_PER_HOUR * TICKS_PER_MINUTE
 TWO_PI = 6.28
 
+local debug_factor = 0.1
+
 CONFIG = {
     -- Multiplicative effect of each difficulty point.
     -- Takes effect whenever difficulty is set.
@@ -18,8 +20,8 @@ CONFIG = {
     },
 
 
-    difficulty_names = {Chieftain = "Chieftain", Beginner = "Beginner", Easy = "Easy", Relaxed = "Relaxed", Normal = "Normal", Hard = "Hard", Punishing = "Punishing", Insane = "Insane"},
-    difficulty_values = {Chieftain = -7, Beginner = -5, Easy = -3, Relaxed = -2, Normal = -1, Hard = 0, Punishing = 1, Insane = 3},
+    difficulty_names = {Chieftain = "Chieftain", Beginner = "Beginner", Easy = "Easy", Relaxed = "Relaxed", Normal = "Normal", Hard = "Hard", Punishing = "Punishing", Insane = "Insane", DevOnlyUltraHard = "DevOnlyUltraHard"},
+    difficulty_values = {Chieftain = -7, Beginner = -5, Easy = -3, Relaxed = -2, Normal = -1, Hard = 0, Punishing = 1, Insane = 3, DevOnlyUltraHard = 6},
 
     -- Negative Feedback: Each dead population increases tech time and time to next pod.
     dead_pop_feedback = {
@@ -64,22 +66,23 @@ CONFIG = {
     -- Time at which pods start demanding items requiring each tech.
     -- Takes effect at game load, for pod after next.
     -- All scaled by difficulty.values.tech_rate_factor
+
     tech_times = {
-        red = 1 * TICKS_PER_HOUR, -- Should be more than the first maximum period so the first thing is in start era.
-        green = 2 * TICKS_PER_HOUR,
-        greenblack = 5 * TICKS_PER_HOUR,
-        blue = 8 * TICKS_PER_HOUR,
-        blueblack = 11 * TICKS_PER_HOUR,
-        purple_yellow_first = 15 * TICKS_PER_HOUR,
-        purple_yellow_second = 16.5 * TICKS_PER_HOUR,
-        purpleyellow = 18 * TICKS_PER_HOUR,
-        white = 20 * TICKS_PER_HOUR,
+        red = 1 * TICKS_PER_HOUR * debug_factor, -- Should be more than the first maximum period so the first thing is in start era.
+        green = 2 * TICKS_PER_HOUR * debug_factor,
+        greenblack = 5 * TICKS_PER_HOUR * debug_factor,
+        blue = 8 * TICKS_PER_HOUR * debug_factor,
+        blueblack = 11 * TICKS_PER_HOUR * debug_factor,
+        purple_yellow_first = 15 * TICKS_PER_HOUR * debug_factor,
+        purple_yellow_second = 16.5 * TICKS_PER_HOUR * debug_factor,
+        purpleyellow = 18 * TICKS_PER_HOUR * debug_factor,
+        white = 20 * TICKS_PER_HOUR * debug_factor,
         -- Life pods start landing on inner planets at 6 * TICKS_PER_HOUR after white era begins
-        latewhite = 32 * TICKS_PER_HOUR,
-        innerplanetstech = 42 * TICKS_PER_HOUR,
-        earlycryogenic = 52 * TICKS_PER_HOUR,
-        cryogenic = 58 * TICKS_PER_HOUR,
-        final = 66 * TICKS_PER_HOUR,
+        latewhite = 32 * TICKS_PER_HOUR * debug_factor,
+        innerplanetstech = 42 * TICKS_PER_HOUR * debug_factor,
+        earlycryogenic = 52 * TICKS_PER_HOUR * debug_factor,
+        cryogenic = 58 * TICKS_PER_HOUR * debug_factor,
+        final = 66 * TICKS_PER_HOUR * debug_factor,
     },
 
     -- First pod comes sooner by this factor.

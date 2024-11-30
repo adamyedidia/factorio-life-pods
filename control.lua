@@ -135,23 +135,16 @@ function newPodWarning(tick)
 
         local seconds_per_item = podSecondsPerInput(storage.nextLifePod)
         storage.nextLifePod.tracked.consumption_rate = seconds_per_item
-
-        printAllPlayers("next life pod quality is " .. storage.nextLifePod.recipe_quality)
-
         -- TODO dedupe this somehow
         local consumption_multiplier_as_a_function_of_quality = function(quality)
             if quality == "normal" then return 1.0 end
-            if quality == "uncommon" then return 0.2 end
-            if quality == "rare" then return 0.2 * 0.25 end
-            if quality == "epic" then return 0.2 * 0.25 * 0.33 end
-            return 0.2 * 0.25 * 0.33 * 0.5
+            if quality == "uncommon" then return 0.125 end
+            if quality == "rare" then return 0.125 * 0.167 end
+            if quality == "epic" then return 0.125 * 0.167 * 0.25 end
+            return 0.125 * 0.167 * 0.25 * 0.33
         end
 
-        printAllPlayers("consumption multiplier is " .. consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality))
-        printAllPlayers("seconds per item is " .. seconds_per_item)
-
         local adjusted_seconds_per_item = seconds_per_item / consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality)
-        printAllPlayers("adjusted seconds per item is " .. adjusted_seconds_per_item)
         local localized_product = prototypes.item[storage.nextLifePod.product].localised_name
         local rate_string
         if adjusted_seconds_per_item >= 1 then
@@ -408,17 +401,19 @@ function getNextPodRecipe()
     local gleba_chance = 0.0
     local aquilo_chance = 0.0
 
-    if (era == "start") or (era == "red") or (era == "green") or (era == "greenblack") or (era == "blue") or (era == "blueblack") or  (era == "purple") or (era == "yellow") or (era == "purpleyellow") or (era == "white") then
+    if (era == "start") or (era == "red") or (era == "green") or (era == "greenblack") or (era == "blue") or (era == "blueblack") or  (era == "purple") or (era == "yellow") or (era == "purpleyellow") or ((era == "white") and (not timeForEarlyInnerPlanetPod)) then
         nauvis_chance = 1.0
-    elseif (era == "latewhite") then
-        vulcanus_chance = 0.333
-        fulgora_chance = 0.333
-        gleba_chance = 0.334
+    elseif (era == "latewhite") or ((era == "white") and (timeForEarlyInnerPlanetPod)) then
+        -- vulcanus_chance = 0.333
+        -- fulgora_chance = 0.333
+        -- gleba_chance = 0.334
+        fulgora_chance = 1.0
     elseif (era == "innerplanetstech") then
-        nauvis_chance = 0.25
-        vulcanus_chance = 0.25
-        fulgora_chance = 0.25
-        gleba_chance = 0.25
+        -- nauvis_chance = 0.25
+        -- vulcanus_chance = 0.25
+        -- fulgora_chance = 0.25
+        -- gleba_chance = 0.25
+        fulgora_chance = 1.0
     elseif (era == "earlycryogenic") or (era == "cryogenic") then
         nauvis_chance = 0.125
         vulcanus_chance = 0.125
@@ -488,10 +483,10 @@ function prepareNextPod()
     -- TODO dedupe this somehow
     local consumption_multiplier_as_a_function_of_quality = function(quality)
         if quality == "normal" then return 1.0 end
-        if quality == "uncommon" then return 0.2 end
-        if quality == "rare" then return 0.2 * 0.25 end
-        if quality == "epic" then return 0.2 * 0.25 * 0.33 end
-        return 0.2 * 0.25 * 0.33 * 0.5
+        if quality == "uncommon" then return 0.125 end
+        if quality == "rare" then return 0.125 * 0.167 end
+        if quality == "epic" then return 0.125 * 0.167 * 0.25 end
+        return 0.125 * 0.167 * 0.25 * 0.33
     end
     
 
@@ -507,8 +502,8 @@ function prepareNextPod()
     storage.nextLifePod.alivePop = CONFIG.POD_STARTING_POP
 
 
-    findLifePodLandingSite()
     getNextPodRecipe()
+    findLifePodLandingSite()
     getNextPodName()
 
 
