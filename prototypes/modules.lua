@@ -17,7 +17,7 @@ data:extend({
       subgroup = "module",
       tier = 1,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
     {
       name = "life-pods-damage-reduction-module-1",
@@ -37,7 +37,7 @@ data:extend({
       subgroup = "module",
       tier = 1,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
    {
       name = "life-pods-damage-reduction-module-2",
@@ -57,7 +57,7 @@ data:extend({
       subgroup = "module",
       tier = 2,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
     {
       name = "life-pods-damage-reduction-module-3",
@@ -77,7 +77,7 @@ data:extend({
       subgroup = "module",
       tier = 3,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
     {
       name = "life-pods-consumption-module-1",
@@ -97,7 +97,7 @@ data:extend({
       subgroup = "module",
       tier = 1,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
     {
       name = "life-pods-consumption-module-2",
@@ -117,7 +117,7 @@ data:extend({
       subgroup = "module",
       tier = 2,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
     {
       name = "life-pods-consumption-module-3",
@@ -137,7 +137,7 @@ data:extend({
       subgroup = "module",
       tier = 3,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
     {
       name = "life-pods-science-module-1",
@@ -157,7 +157,7 @@ data:extend({
       subgroup = "module",
       tier = 1,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
     {
       name = "life-pods-science-module-2",
@@ -177,7 +177,7 @@ data:extend({
       subgroup = "module",
       tier = 2,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
     {
       name = "life-pods-science-module-3",
@@ -197,6 +197,6 @@ data:extend({
       subgroup = "module",
       tier = 3,
       type = "module",
-      weight = 20000,
+      weight = 1000000,
     },
 })
