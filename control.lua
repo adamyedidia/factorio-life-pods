@@ -760,6 +760,8 @@ function displayPodStats(pod)
     --     rendering.destroy(pod.label)
     -- end
     
+    rendering.clear()
+
     -- Create new label
     pod.label = rendering.draw_text({
         text = pod.name.." ("..pod.alivePop .. "/" .. pod.startingPop..")",
