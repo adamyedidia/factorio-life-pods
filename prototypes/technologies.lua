@@ -12,7 +12,9 @@ data:extend({
       order = "a-a-a-a",
       prerequisites = {
         "circuit-network",
-        "electric-energy-distribution-1"
+        "electric-energy-distribution-1",
+        "fluid-handling",
+        "repair-pack",
       },
       type = "technology",
       unit = {
