@@ -177,14 +177,14 @@ data:extend({
         base_level = -1,
         base_area = 600,
         volume = 600,
-        pipe_connections = {{ position = {-1.1, 0}, direction = 4 }}
+        pipe_connections = {},
       },
       {
         production_type = "input",
         pipe_covers = pipecoverspictures(),
         base_level = -1,
         volume = 600,
-        pipe_connections = {{ position = {1.1, 0}, direction = 2 }}
+        pipe_connections = {},
       },
     },
     pipe_covers = pipecoverspictures(),

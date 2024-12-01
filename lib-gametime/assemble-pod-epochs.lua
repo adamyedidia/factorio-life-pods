@@ -17,7 +17,7 @@ function initTechDictionary()
         if startsWith(recipe.category, "life-pod-") then
             local lvl = lvlFromRecipeCategory(recipe.category)
             local itemname = itemLevelFromRecipeName(name).item
-            if not startsWith(itemname, "life-pods") then  -- Exclude the stabilization modules
+            if not startsWith(itemname, "life-pods") and itemname ~= "rocket-part" then  -- Exclude the stabilization modules and rocket parts
                 if type(itemname) == "table" then error("Got table for 'itemname': " .. table.tostring(itemname)) end
                 table.insert(storage.lifepod_products[lvl], itemname)
 
