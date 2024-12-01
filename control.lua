@@ -141,7 +141,8 @@ function newPodWarning(tick)
             if quality == "uncommon" then return 0.125 end
             if quality == "rare" then return 0.125 * 0.167 end
             if quality == "epic" then return 0.125 * 0.167 * 0.25 end
-            return 0.125 * 0.167 * 0.25 * 0.33
+            if quality == "legendary" then return 0.125 * 0.167 * 0.25 * 0.33 end
+            return 1.0
         end
 
         local adjusted_seconds_per_item = seconds_per_item / consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality)
@@ -273,7 +274,8 @@ function landNewPod()
         if quality == "uncommon" then return 0.125 end
         if quality == "rare" then return 0.125 * 0.167 end
         if quality == "epic" then return 0.125 * 0.167 * 0.25 end
-        return 0.125 * 0.167 * 0.25 * 0.33
+        if quality == "legendary" then return 0.125 * 0.167 * 0.25 * 0.33 end
+        return 1.0
     end
 
     local pod = {
@@ -486,7 +488,8 @@ function prepareNextPod()
         if quality == "uncommon" then return 0.125 end
         if quality == "rare" then return 0.125 * 0.167 end
         if quality == "epic" then return 0.125 * 0.167 * 0.25 end
-        return 0.125 * 0.167 * 0.25 * 0.33
+        if quality == "legendary" then return 0.125 * 0.167 * 0.25 * 0.33 end
+        return 1.0
     end
     
 
@@ -608,27 +611,6 @@ function secondTickForPodActive(pod)
         damagePod(pod)
     end
     local total_consumption = podHeartsConsumptionPerSec(pod)
-    -- printAllPlayers(pod.recipe.ingredients[1].amount)
-    -- printAllPlayers(pod.recipe.ingredients[1].name)
-    -- printAllPlayers(pod.recipe.products[1].amount)
-    -- printAllPlayers(pod.recipe.products[1].name)
-    -- printAllPlayers("Total consumption: " .. total_consumption)
-    -- printAllPlayers(healSupply)
-    -- if (healSupply) then
-    --     printAllPlayers(healSupply.amount)
-    -- end
-    printAllPlayers(pod.repair.fluidbox[1])
-    -- printAllPlayers(pod.repair.fluid_boxes[2])
-    -- printAllPlayers(pod.repair.fluidbox[2])
-    if (pod.repair.fluidbox[1]) then
-        printAllPlayers(pod.repair.fluidbox[1].amount)
-        -- printAllPlayers(pod.repair.fluidbox[1].get_capacity())
-        -- printAllPlayers(pod.repair.fluidbox[1].get_connections())
-    end
-    -- if (pod.repair.fluidbox[2]) then
-    --     printAllPlayers(pod.repair.fluidbox[2].amount)
-    -- end
-
     if (healSupply and healSupply.amount) then
         -- Transfer min of amount available, amount to restore full health, and max restore rate
         -- max restore rate is 1 second per second if pod isn't overflowing, 2 otherwise.
@@ -639,22 +621,17 @@ function secondTickForPodActive(pod)
             ((healSupply.amount / pod.repair.get_recipe().products[1].amount) < 2) and 1 or 2)
 
         local lostHearts = transferSecondsWorth * total_consumption
-        printAllPlayers("Lost hearts: " .. lostHearts)
         local gainedHP = (transferSecondsWorth - 1) * CONFIG.POD_HEALTH_PER_SEC
         if (healSupply.amount < lostHearts) then
-            printAllPlayers("Transfering more than total (" .. lostHearts .. " of " .. healSupply.amount .. ")")
             debugError("Transfering more than total (" .. lostHearts .. " of " .. healSupply.amount .. ")")
             lostHearts = healSupply.amount
         end
 
         local success, result = pcall(function()
-            printAllPlayers("Heal supply amount before: " .. healSupply.amount)
             healSupply.amount = healSupply.amount - lostHearts
             if healSupply.amount == 0 then
-                printAllPlayers("Heal supply amount is zero, setting to nil")
                 pod.repair.fluidbox[1] = nil
             else
-                printAllPlayers("Heal supply amount after: " .. healSupply.amount)
                 pod.repair.fluidbox[1] = healSupply
             end
         end)
