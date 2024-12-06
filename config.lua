@@ -21,7 +21,7 @@ CONFIG = {
 
 
     difficulty_names = {Chieftain = "Chieftain", Beginner = "Beginner", Easy = "Easy", Relaxed = "Relaxed", Normal = "Normal", Hard = "Hard", Punishing = "Punishing", Insane = "Insane", DevOnlyUltraHard = "DevOnlyUltraHard"},
-    difficulty_values = {Chieftain = -7, Beginner = -5, Easy = -3, Relaxed = -2, Normal = -1, Hard = 0, Punishing = 1, Insane = 3, DevOnlyUltraHard = 6},
+    difficulty_values = {Chieftain = -7, Beginner = -5, Easy = -3, Relaxed = -2, Normal = -1, Hard = 0, Punishing = 1, Insane = 3, DevOnlyUltraHard = 7},
 
     -- Negative Feedback: Each dead population increases tech time and time to next pod.
     dead_pop_feedback = {

@@ -307,6 +307,8 @@ function getNextPodRecipe()
     -- printAllPlayers("The recipe is for " .. product .. " which is worth " .. value .. " hearts per second.")
 
 
+
+    printAllPlayers("Era is " .. era)
     storage.nextLifePod.product = product
     storage.nextLifePod.era = era
     storage.nextLifePod.recipe = game.forces.player.recipes[podRecipeNameFromItemName(storage.nextLifePod.product, era)]
@@ -354,26 +356,32 @@ function getNextPodRecipe()
 
     if (difficulty <= 0) then
         normal_quality_chance = 1.0
+        printAllPlayers("Normal quality chance is 1.0")
     elseif (difficulty == 1) then
         normal_quality_chance = 0.75
         uncommon_quality_chance = 0.25
+        printAllPlayers("Normal quality chance is 0.75; uncommon quality chance is 0.25")
     elseif (difficulty == 2) then
         normal_quality_chance = 0.65
         uncommon_quality_chance = 0.35
+        printAllPlayers("Normal quality chance is 0.65; uncommon quality chance is 0.35")
     elseif (difficulty == 3) then
         normal_quality_chance = 0.5
         uncommon_quality_chance = 0.35
         rare_quality_chance = 0.15
+        printAllPlayers("Normal quality chance is 0.5; uncommon quality chance is 0.35; rare quality chance is 0.15")
     elseif (difficulty == 4) then
         normal_quality_chance = 0.4
         uncommon_quality_chance = 0.2
         rare_quality_chance = 0.2
         epic_quality_chance = 0.2
+        printAllPlayers("Normal quality chance is 0.4; uncommon quality chance is 0.2; rare quality chance is 0.2; epic quality chance is 0.2")
     elseif (difficulty >= 5) then
         normal_quality_chance = 0.2
         uncommon_quality_chance = 0.2
         rare_quality_chance = 0.2
         epic_quality_chance = 0.2
+        printAllPlayers("Normal quality chance is 0.2; uncommon quality chance is 0.2; rare quality chance is 0.2; epic quality chance is 0.2")
     end
 
 
@@ -404,17 +412,20 @@ function getNextPodRecipe()
     local aquilo_chance = 0.0
 
     if (era == "start") or (era == "red") or (era == "green") or (era == "greenblack") or (era == "blue") or (era == "blueblack") or  (era == "purple") or (era == "yellow") or (era == "purpleyellow") or ((era == "white") and (not timeForEarlyInnerPlanetPod)) then
+        printAllPlayers("Nauvis chance is 1.0")
         nauvis_chance = 1.0
     elseif (era == "latewhite") or ((era == "white") and (timeForEarlyInnerPlanetPod)) then
         vulcanus_chance = 0.333
         fulgora_chance = 0.333
         gleba_chance = 0.334
+        printAllPlayers("Vulcanus chance is " .. vulcanus_chance .. "; fulgora chance is " .. fulgora_chance .. "; gleba chance is " .. gleba_chance)
         -- fulgora_chance = 1.0
     elseif (era == "innerplanetstech") then
         nauvis_chance = 0.25
         vulcanus_chance = 0.25
         fulgora_chance = 0.25
         gleba_chance = 0.25
+        printAllPlayers("Nauvis chance is " .. nauvis_chance .. "; vulcanus chance is " .. vulcanus_chance .. "; fulgora chance is " .. fulgora_chance .. "; gleba chance is " .. gleba_chance)
         -- fulgora_chance = 1.0
     elseif (era == "earlycryogenic") or (era == "cryogenic") then
         nauvis_chance = 0.125
@@ -422,12 +433,14 @@ function getNextPodRecipe()
         fulgora_chance = 0.125
         gleba_chance = 0.125
         aquilo_chance = 0.5
+        printAllPlayers("Nauvis chance is " .. nauvis_chance .. "; vulcanus chance is " .. vulcanus_chance .. "; fulgora chance is " .. fulgora_chance .. "; gleba chance is " .. gleba_chance .. "; aquilo chance is " .. aquilo_chance)
     elseif (era == "final") then
         nauvis_chance = 0.2
         vulcanus_chance = 0.2
         fulgora_chance = 0.2
         gleba_chance = 0.2
         aquilo_chance = 0.2
+        printAllPlayers("Nauvis chance is " .. nauvis_chance .. "; vulcanus chance is " .. vulcanus_chance .. "; fulgora chance is " .. fulgora_chance .. "; gleba chance is " .. gleba_chance .. "; aquilo chance is " .. aquilo_chance)
     end
 
     if planet_roll < nauvis_chance then
