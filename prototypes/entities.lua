@@ -188,10 +188,10 @@ data:extend({
       },
     },
     pipe_covers = pipecoverspictures(),
-    animation =
+    pictures =
     {
       filename = "__life-pods__/graphics/lifepod.png",
-      priority = "high",
+      priority = "extra-high",
       width = 100,
       height = 100,
       frame_count = 1,

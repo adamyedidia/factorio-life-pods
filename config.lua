@@ -7,7 +7,7 @@ TICKS_PER_MINUTE = SECONDS_PER_MINUTE * TICKS_PER_SECOND
 TICKS_PER_HOUR = MINUTES_PER_HOUR * TICKS_PER_MINUTE
 TWO_PI = 6.28
 
-local debug_factor = 0.1
+local debug_factor = 1.0
 
 CONFIG = {
     -- Multiplicative effect of each difficulty point.
