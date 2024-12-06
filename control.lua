@@ -492,6 +492,7 @@ function prepareNextPod()
         return 1.0
     end
     
+    getNextPodRecipe()
 
     storage.nextLifePod.consumption = heartsPerPop(effectiveTime(storage.nextLifePod.arrivalTick)) * consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality)
     -- endgame_speedup gets applied to consumption, damage taken, and stabilization rate.
@@ -505,7 +506,6 @@ function prepareNextPod()
     storage.nextLifePod.alivePop = CONFIG.POD_STARTING_POP
 
 
-    getNextPodRecipe()
     findLifePodLandingSite()
     getNextPodName()
 
