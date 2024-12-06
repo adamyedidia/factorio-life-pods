@@ -90,17 +90,7 @@ function updateRadarInfo()
             -- Time is updated every second in on_tick.
         end
         if storage.nextLifePod.tracked.consumption_rate then
-            -- TODO dedupe this somehow
-            local consumption_multiplier_as_a_function_of_quality = function(quality)
-                if quality == "normal" then return 1.0 end
-                if quality == "uncommon" then return 0.125 end
-                if quality == "rare" then return 0.125 * 0.167 end
-                if quality == "epic" then return 0.125 * 0.167 * 0.25 end
-                if quality == "legendary" then return 0.125 * 0.167 * 0.25 * 0.33 end
-                return 1.0
-            end
-
-            local seconds_per_item = storage.nextLifePod.tracked.consumption_rate / consumption_multiplier_as_a_function_of_quality(storage.nextLifePod.recipe_quality)
+            local seconds_per_item = storage.nextLifePod.tracked.consumption_rate
 
             local localized_product = prototypes.item[storage.nextLifePod.product].localised_name
             local rate_string
