@@ -92,7 +92,10 @@ function podDamagePerSec(pod)
 end
 
 function podHeartsConsumptionPerPopPerSec(pod)
-    local consumption = pod.consumption * pod.endgame_speedup
+    local consumption = 0
+    if pod.consumption ~= nil then
+        consumption = pod.consumption * pod.endgame_speedup
+    end
     if pod.repair then
         for tier=1,3 do
             if (pod.repair.get_module_inventory().get_item_count("life-pods-consumption-module-"..tier) > 0) then
@@ -104,6 +107,9 @@ function podHeartsConsumptionPerPopPerSec(pod)
 end
 
 function podHeartsConsumptionPerSec(pod)
+    if pod.alivePop == nil then
+        return 0
+    end
     return podHeartsConsumptionPerPopPerSec(pod) * pod.alivePop
 end
 

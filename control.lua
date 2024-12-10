@@ -20,6 +20,12 @@ script.on_event(defines.events.on_tick, function(event)
         return
     end
 
+    if storage.expectedTechProgress == nil then
+        storage.expectedTechProgress = 9490994  -- TODO get rid of this lmao
+    else
+        storage.expectedTechProgress = storage.expectedTechProgress + 1 / storage.difficulty.values.tech_rate_factor
+    end
+
     -- Check for rescue
     if ((storage.mode == "rescue") and storage.rescueTick and (event.tick >= storage.rescueTick)) then
         rescueArrives()
@@ -335,6 +341,62 @@ function getNextPodRecipe()
         difficulty = difficulty - 1
     end
 
+    local must_be_gleba_items = {
+        -- This list includes items that have a cursed combination of super short spoil times and where the game forces you to craft them on gleba.
+        ["iron-bacteria"] = true,
+        ["copper-bacteria"] = true,
+    }
+
+    quality_must_be_basic_items = {
+        -- This list includes item produced by a process that can't take quality modules, and that doesn't can't be recycled into or out of
+        -- with a different recipe. To my knowledge, these are the only items that fulfill this condition. Jelly isn't on the list because stack inserters
+        -- recycle into it.
+        ["jellynut"] = true,
+        ["yumako"] = true,
+        ["yumako-mash"] = true,
+
+        ["promethium-asteroid-chunk"] = true, -- promethium science pack does not recycle into asteroid chunks for some reason
+        ["promethium-science-pack"] = true,
+        ["scrap"] = true, -- you can get a bit of uncommon scrap by mining it, but scrap is just pretty cursed at rare because you can't even recycle it into itself
+    }
+
+    quality_not_above_rare_items = {
+        -- This list includes any item that is an "orphan", i.e. can't be recycled into or out of with a different recipe, but which can be produced with 
+        -- a process that can take quality modules. Because the set of items that recycle into themselves instead of into their components is incredibly random and arbitrary
+        -- (see https://forums.factorio.com/viewtopic.php?t=120905) this list was pretty hard to compile and I might have gotten some stuff wrong. It might be better to do this 
+        -- automatically by looking at whether a given item has auto_recycle = true, although you also need to consider asteroid reprocessing as a source of good stuff, and it's a pretty hard problem I think.
+        ["holmium-ore"] = true,
+        ["tungsten-ore"] = true, -- counterintuitively, tungsten carbide recycles into itself and not into tungsten ore
+        -- iron ore not on this list because of asteroid reprocessing, or less realistically concrete
+        -- copper ore not on this list because of asteroid reprocessing
+        -- stone not on this list because of stone furnaces (NOT landfill though??)
+        ["uranium-ore"] = true,
+        -- uranium-235 not on this list because of atomic bombs
+        -- raw-fish not on this list because of stabilization modules (and spidertrons lol)
+        -- ice not on list because of asteroid reprocessing
+        -- solid fuel not on this list because rocket fuel actually does recycle into solid fuel (nuclear fuel doesn't though lol)
+        -- calcite not on this list because of asteroid reprocessing
+        ["depleted-uranium-fuel-cell"] = true, -- In principle you can climb by making legendary fuel cell with portable fission reactors, but if this ever gets a value it will probably be an unfairly low one
+        -- yumako and jellynut seeds because of artificial soil
+        -- nutrients not on this list because of artificial soil
+        -- spoilage not on this list because you can just spoil nutrients
+        -- wood not on this list because of wooden boxes
+        -- tree seed not on this list because you can make it from wood at the end 
+        -- bioflux not on this list because capture bot rockets recycle into it
+        -- iron and copper bacteria not on this list because you should be able to make them using quality bioflux
+        -- biter egg not on this list because of prod 3s and overgrowth soil (not biolab though)
+        -- pentapod egg not on this list because of biochamber (not agricultural science pack, though?)
+        ["lithium"] = true,
+    }
+
+    if quality_not_above_rare_items[product] then
+        difficulty = math.min(difficulty, 3)
+    end
+
+    if quality_must_be_basic_items[product] then
+        difficulty = 0
+    end
+
     if (difficulty <= 0) then
         normal_quality_chance = 1.0
         printAllPlayers("Normal quality chance is 1.0")
@@ -436,6 +498,10 @@ function getNextPodRecipe()
         storage.nextLifePod.planet = "aquilo"
     else
         storage.nextLifePod.planet = "nauvis"
+    end
+
+    if must_be_gleba_items[product] then
+        storage.nextLifePod.planet = "gleba"
     end
 end
 
@@ -636,6 +702,7 @@ function secondTickForPodActive(pod)
             printAllPlayers("Heal supply amount is equal to int zero: " .. tostring(healSupply.amount == 0))
             printAllPlayers("Heal supply amount is nil: " .. tostring(healSupply == nil))
             printAllPlayers("Heal supply amount is less than zero: " .. tostring(healSupply.amount < 0))
+            pod.repair.fluidbox[1] = nil
         end
 
         pod.repair.health = pod.repair.health + gainedHP

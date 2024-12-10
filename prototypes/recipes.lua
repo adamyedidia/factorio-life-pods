@@ -32,6 +32,7 @@ data:extend({
         name = "life-pods-repair-module",
         results = {{type="item", name="life-pods-repair-module", amount=1}},
         type = "recipe",
+        auto_recycle = true,
     },
     {
         name = "life-pods-damage-reduction-module-1",
@@ -56,6 +57,7 @@ data:extend({
                 amount = 20
             }
         },
+        auto_recycle = true,
     },
     {
         name = "life-pods-damage-reduction-module-2",
@@ -80,6 +82,7 @@ data:extend({
                 amount = 20
             },
         },
+        auto_recycle = true,
     },
     {
         name = "life-pods-damage-reduction-module-3",
@@ -104,6 +107,7 @@ data:extend({
                 amount = 20
             },
         },
+        auto_recycle = true,
     },
     {
         name = "life-pods-consumption-module-1",
@@ -128,6 +132,7 @@ data:extend({
                 amount = 40
             },
         },
+        auto_recycle = true,
     },
     {
         name = "life-pods-consumption-module-2",
@@ -157,6 +162,7 @@ data:extend({
                 amount = 5
             },
         },
+        auto_recycle = true,
     },
     {
         name = "life-pods-consumption-module-3",
@@ -191,6 +197,7 @@ data:extend({
                 amount = 1
             }
         },
+        auto_recycle = true,
     },
     {
         name = "life-pods-science-module-1",
@@ -225,6 +232,7 @@ data:extend({
                 amount = 5
             },
         },
+        auto_recycle = true,
     },
     {
         name = "life-pods-science-module-2",
@@ -274,6 +282,7 @@ data:extend({
                 amount = 5
             },
         },
+        auto_recycle = true,
     },
     {
         name = "life-pods-science-module-3",
@@ -338,5 +347,6 @@ data:extend({
                 amount = 5
             },
         },
+        auto_recycle = true,
     },
 })
