@@ -315,8 +315,10 @@ function getNextPodRecipe()
         difficulty = 2
     elseif (era == "white") or (era == "latewhite") or (era == "innerplanetstech") then
         difficulty = 3
-    elseif (era == "earlycryogenic") or (era == "cryogenic") then
+    elseif (era == "earlycryogenic") then
         difficulty = 4
+    elseif (era == "cryogenic") then
+        difficulty = 5
     elseif (era == "final") then
         difficulty = 7
     end
@@ -425,6 +427,10 @@ function getNextPodRecipe()
         rare_quality_chance = 0.2
         epic_quality_chance = 0.2
         printAllPlayers("Normal quality chance is 0.2; uncommon quality chance is 0.2; rare quality chance is 0.2; epic quality chance is 0.2")
+    elseif (difficulty >= 6) then
+        rare_quality_chance = 0.15
+        epic_quality_chance = 0.35
+        printAllPlayers("Normal quality chance is 0.0; uncommon quality chance is 0.0; rare quality chance is 0.15; epic quality chance is 0.35")
     end
 
 
