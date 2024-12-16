@@ -318,7 +318,7 @@ function getNextPodRecipe()
     elseif (era == "earlycryogenic") or (era == "cryogenic") then
         difficulty = 4
     elseif (era == "final") then
-        difficulty = 5
+        difficulty = 7
     end
 
     if value > 100000 then
@@ -349,11 +349,11 @@ function getNextPodRecipe()
 
     quality_must_be_basic_items = {
         -- This list includes item produced by a process that can't take quality modules, and that doesn't can't be recycled into or out of
-        -- with a different recipe. To my knowledge, these are the only items that fulfill this condition. Jelly isn't on the list because stack inserters
-        -- recycle into it.
+        -- with a different recipe. To my knowledge, these are the only items that fulfill this condition. 
         ["jellynut"] = true,
         ["yumako"] = true,
         ["yumako-mash"] = true,
+        -- jelly is not on this list because stack inserters recycle into it
 
         ["promethium-asteroid-chunk"] = true, -- promethium science pack does not recycle into asteroid chunks for some reason
         ["promethium-science-pack"] = true,
@@ -371,7 +371,7 @@ function getNextPodRecipe()
         -- copper ore not on this list because of asteroid reprocessing
         -- stone not on this list because of stone furnaces (NOT landfill though??)
         ["uranium-ore"] = true,
-        -- uranium-235 not on this list because of atomic bombs
+        -- uranium-235 not on this list because of atomic bombs (but not nuclear fuel)
         -- raw-fish not on this list because of stabilization modules (and spidertrons lol)
         -- ice not on list because of asteroid reprocessing
         -- solid fuel not on this list because rocket fuel actually does recycle into solid fuel (nuclear fuel doesn't though lol)
@@ -386,7 +386,7 @@ function getNextPodRecipe()
         -- iron and copper bacteria not on this list because you should be able to make them using quality bioflux
         -- biter egg not on this list because of prod 3s and overgrowth soil (not biolab though)
         -- pentapod egg not on this list because of biochamber (not agricultural science pack, though?)
-        ["lithium"] = true,
+        -- lithium not on this list because you can make quality holmium plate
     }
 
     if quality_not_above_rare_items[product] then
@@ -643,20 +643,28 @@ function lifePodDistance(tick)
 end
 
 function secondTickForPodUniversal(pod)
-    pod.repair.set_recipe(pod.recipe, pod.recipe_quality)
-    if pod.stabilized and pod.repair.health < CONFIG.POD_HEALTH_PER_POP * pod.alivePop then
-        pod.repair.health = math.min(CONFIG.POD_HEALTH_PER_POP * pod.alivePop, pod.repair.health + CONFIG.POD_HEALTH_PER_SEC)
-    end
-    if math.random() < CONFIG.TECH_CHANCE_PER_SECOND * storage.difficulty.values.tech_rate_factor then
-        if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-1") > 0) then
-            podScienceBoost(pod, 'blue')
+    local success, error_message = pcall(function()
+        pod.repair.set_recipe(pod.recipe, pod.recipe_quality)
+        if pod.stabilized and pod.repair.health < CONFIG.POD_HEALTH_PER_POP * pod.alivePop then
+            pod.repair.health = math.min(CONFIG.POD_HEALTH_PER_POP * pod.alivePop, pod.repair.health + CONFIG.POD_HEALTH_PER_SEC)
         end
-        if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-2") > 0) then
-            podScienceBoost(pod, 'white')
+        if math.random() < CONFIG.TECH_CHANCE_PER_SECOND * storage.difficulty.values.tech_rate_factor then
+            if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-1") > 0) then
+                podScienceBoost(pod, 'blue')
+            end
+            if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-2") > 0) then
+                podScienceBoost(pod, 'white')
+            end
+            if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-3") > 0) then
+                podScienceBoost(pod, 'innerplanetstech')
+            end
         end
-        if (pod.repair.get_module_inventory().get_item_count("life-pods-science-module-3") > 0) then
-            podScienceBoost(pod, 'innerplanetstech')
-        end
+    end)
+
+    if not success then
+        printAllPlayers("Error in pod science processing: " .. tostring(error_message))
+        printAllPlayers("Pod name: " .. tostring(pod.name))
+        printAllPlayers("Pod repair valid: " .. tostring(pod.repair.valid))
     end
 end
 
