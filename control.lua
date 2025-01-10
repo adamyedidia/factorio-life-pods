@@ -772,7 +772,11 @@ function tenSecondTickForPod(pod)
 end
 
 function heartsPerPop(tick)
-    return (CONFIG.HEARTS_PER_POP.base + (CONFIG.HEARTS_PER_POP.derivative * tick)) / storage.difficulty.values.hearts_factor
+    if storage.expectedTechProgress then
+        return (CONFIG.HEARTS_PER_POP.base + (CONFIG.HEARTS_PER_POP.derivative * tick)) / storage.difficulty.values.hearts_factor + CONFIG.HEARTS_PER_POP.base / 4 * math.pow(2, (storage.expectedTechProgress / (12 * TICKS_PER_HOUR)))
+    else
+        return (CONFIG.HEARTS_PER_POP.base + (CONFIG.HEARTS_PER_POP.derivative * tick)) / storage.difficulty.values.hearts_factor
+    end
 end
 
 function stabilizePod(pod)
