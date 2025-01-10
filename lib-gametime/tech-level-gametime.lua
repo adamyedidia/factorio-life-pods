@@ -52,7 +52,8 @@ function getTechEra(unadjustedTime)
     elseif (expectedTechProgress < CONFIG.tech_times.purpleyellow) then
         return storage.yellow_purple_order[2], CONFIG.tech_times.purpleyellow - adjustedTime
     elseif (expectedTechProgress < CONFIG.tech_times.white) then
-        return "purpleyellow", CONFIG.tech_times.white - adjustedTime
+        -- purpleyellow has no items in it and I don't understand why not.
+        return storage.yellow_purple_order[2], CONFIG.tech_times.white - adjustedTime
     elseif (expectedTechProgress < CONFIG.tech_times.latewhite) then
         return "white", CONFIG.tech_times.latewhite - adjustedTime
     elseif (expectedTechProgress < CONFIG.tech_times.innerplanetstech) then
