@@ -747,7 +747,12 @@ function tenSecondTickForPod(pod)
     if (pod.repair.get_module_inventory().get_item_count() > 0) then
         local module_quality = pod.repair.get_module_inventory()[1].quality        
         local module_quality_name = module_quality.name
-        local progress_increase = 10 * TICKS_PER_SECOND / CONFIG.POD_TICKS_TO_FULL_REPAIR * pod.endgame_speedup * (1 + 0.2 * module_quality.level)
+        local is_legendary_quality = module_quality.name == "legendary"
+        local level_value = module_quality.level
+        if is_legendary_quality then
+            level_value = level_value + 1
+        end
+        local progress_increase = 10 * TICKS_PER_SECOND / CONFIG.POD_TICKS_TO_FULL_REPAIR * pod.endgame_speedup * (1 + 0.3 * level_value)
 
         -- printAllPlayers(module_quality_name)
         local module = pod.repair.get_module_inventory()[1]
