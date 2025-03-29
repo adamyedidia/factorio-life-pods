@@ -684,8 +684,7 @@ function secondTickForPodActive(pod)
         -- "A and B or C" is lua for "A ? B : C" (might do something odd if B or C is 0)
         local transferSecondsWorth = math.min(
             healSupply.amount / total_consumption,
-            1 + (CONFIG.POD_HEALTH_PER_POP * pod.alivePop - pod.repair.health) / CONFIG.POD_HEALTH_PER_SEC,
-            ((healSupply.amount / pod.repair.get_recipe().products[1].amount) < 2) and 1 or 2)
+            1 + (CONFIG.POD_HEALTH_PER_POP * pod.alivePop - pod.repair.health) / CONFIG.POD_HEALTH_PER_SEC)
 
         local lostHearts = transferSecondsWorth * total_consumption
         local gainedHP = (transferSecondsWorth - 1) * CONFIG.POD_HEALTH_PER_SEC
