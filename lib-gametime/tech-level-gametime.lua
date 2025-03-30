@@ -36,35 +36,35 @@ function getTechEra(unadjustedTime)
         expectedTechProgress = 0
     end
     if (expectedTechProgress < CONFIG.tech_times.red) then
-        return "start", CONFIG.tech_times.red - adjustedTime
+        return "start", CONFIG.tech_times.red - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.green ) then
-        return "red", CONFIG.tech_times.green - adjustedTime
+        return "red", CONFIG.tech_times.green - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.greenblack) then
-        return "green", CONFIG.tech_times.greenblack - adjustedTime
+        return "green", CONFIG.tech_times.greenblack - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.blue) then
-        return "greenblack", CONFIG.tech_times.blue - adjustedTime
+        return "greenblack", CONFIG.tech_times.blue - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.blueblack) then
-        return "blue", CONFIG.tech_times.blueblack - adjustedTime
+        return "blue", CONFIG.tech_times.blueblack - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.purple_yellow_first) then
-        return "blueblack", CONFIG.tech_times.purple_yellow_first - adjustedTime
+        return "blueblack", CONFIG.tech_times.purple_yellow_first - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.purple_yellow_second) then
-        return storage.yellow_purple_order[1], CONFIG.tech_times.purple_yellow_second - adjustedTime
+        return storage.yellow_purple_order[1], CONFIG.tech_times.purple_yellow_second - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.purpleyellow) then
-        return storage.yellow_purple_order[2], CONFIG.tech_times.purpleyellow - adjustedTime
+        return storage.yellow_purple_order[2], CONFIG.tech_times.purpleyellow - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.white) then
         -- purpleyellow has no items in it and I don't understand why not.
-        return storage.yellow_purple_order[2], CONFIG.tech_times.white - adjustedTime
+        return storage.yellow_purple_order[2], CONFIG.tech_times.white - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.latewhite) then
-        return "white", CONFIG.tech_times.latewhite - adjustedTime
+        return "white", CONFIG.tech_times.latewhite - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.innerplanetstech) then
-        return "latewhite", CONFIG.tech_times.innerplanetstech - adjustedTime
+        return "latewhite", CONFIG.tech_times.innerplanetstech - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.earlycryogenic) then
-        return "innerplanetstech", CONFIG.tech_times.earlycryogenic - adjustedTime
+        return "innerplanetstech", CONFIG.tech_times.earlycryogenic - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.cryogenic) then
-        return "earlycryogenic", CONFIG.tech_times.cryogenic - adjustedTime
+        return "earlycryogenic", CONFIG.tech_times.cryogenic - expectedTechProgress
     elseif (expectedTechProgress < CONFIG.tech_times.final) then
-        return "cryogenic", CONFIG.tech_times.final - adjustedTime
+        return "cryogenic", CONFIG.tech_times.final - expectedTechProgress
     else
-        return "final", CONFIG.tech_times.final - adjustedTime
+        return "final", CONFIG.tech_times.final - expectedTechProgress
     end
 end
