@@ -675,19 +675,21 @@ function secondTickForPodActive(pod)
     pod.repair.bonus_progress = pod.percent_stabilized * 0.99 -- Make sure it's always well less than 1.
     local healSupply = pod.repair.fluidbox[1]
     if (pod.repair.health <= CONFIG.POD_HEALTH_PER_POP * (pod.alivePop - 1)) then
-        damagePod(pod)
+        damagePod(pod) -- A human has died so remove a human from this pod
     end
     local total_consumption = podHeartsConsumptionPerSec(pod)
+    local recently_full_hp = CONFIG.POD_HEALTH_PER_POP * pod.alivePop - pod.repair.health < 999
+    local pod_damage_per_second = podDamagePerSec(pod)
     if (healSupply and healSupply.amount) then
         -- Transfer min of amount available, amount to restore full health, and max restore rate
         -- max restore rate is 1 second per second if pod isn't overflowing, 2 otherwise.
         -- "A and B or C" is lua for "A ? B : C" (might do something odd if B or C is 0)
         local transferSecondsWorth = math.min(
             healSupply.amount / total_consumption,
-            1 + (CONFIG.POD_HEALTH_PER_POP * pod.alivePop - pod.repair.health) / CONFIG.POD_HEALTH_PER_SEC)
+            1 + (CONFIG.POD_HEALTH_PER_POP * pod.alivePop - pod.repair.health) / pod_damage_per_second)
 
         local lostHearts = transferSecondsWorth * total_consumption
-        local gainedHP = (transferSecondsWorth - 1) * CONFIG.POD_HEALTH_PER_SEC
+        local gainedHP = (transferSecondsWorth - 1) * pod_damage_per_second
         if (healSupply.amount < lostHearts) then
             debugError("Transfering more than total (" .. lostHearts .. " of " .. healSupply.amount .. ")")
             lostHearts = healSupply.amount
@@ -714,8 +716,17 @@ function secondTickForPodActive(pod)
 
         pod.repair.health = pod.repair.health + gainedHP
     else
-        local damage = podDamagePerSec(pod)
+        local damage = pod_damage_per_second
         pod.repair.damage(damage, game.forces.neutral, "laser") -- Need to pick a damage type to make pods not immune to. "laser" shouldn't ever hit them naturally.
+    end
+
+    if pod.repair.health < CONFIG.POD_HEALTH_PER_POP * pod.alivePop then
+        for _, player in pairs(game.players) do
+            player.add_custom_alert(pod.repair, {type = "item", name = "life-pod-icon"}, "" .. pod.name .. " is taking damage ", true)
+        end
+            if recently_full_hp then
+                game.play_sound({path = "alert-2-lifepods"})
+            end
     end
 end
 function tenSecondTickForPod(pod)
